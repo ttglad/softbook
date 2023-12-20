@@ -1,0 +1,64 @@
+<?php
+
+namespace TtgladServiceNamespace;
+
+use TtgladModelNamespace\TtgladClass;
+
+/**
+ * Class TtgladClassService
+ *
+ * @package TtgladServiceNamespace
+ */
+class TtgladClassService extends BusinessService
+{
+    /**
+     * 新建TtgladTableComment
+     *
+     * @param TtgladClass $data
+     *
+     * @return TtgladModelNamespace\TtgladClass
+     */
+    public static function save(TtgladClass $data): bool
+    {
+        return $data->save();
+    }
+
+    /**
+     * 查询TtgladTableComment列表页
+     * @param TtgladClass $data
+     * @param int $page
+     * @return array
+     */
+    public static function query(TtgladClass $data, int $page = 10): array
+    {
+        $model = new TtgladClass();
+TtgladFill
+
+        $list = $model->orderByDesc('id')
+            ->paginate($pageSize ?? 10)
+            ->toArray();
+        return $list;
+    }
+
+    /**
+     * 查询TtgladTableComment单条明细
+     * @param int $id
+     * @return TtgladClass
+     */
+    public static function detail(int $id): TtgladClass
+    {
+        return TtgladClass::findOrFail($id);
+    }
+
+
+    /**
+     * 删除TtgladTableComment
+     * @param TtgladClass $model
+     * @return void
+     * @throws \Exception
+     */
+    public static function delete(TtgladClass $model): void
+    {
+        $model->delete();
+    }
+}

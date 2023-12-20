@@ -1,0 +1,141 @@
+<?php
+
+namespace TtgladControllerNamespace;
+
+use TtgladModelNamespace\TtgladClass;
+use TtgladServiceNamespace\TtgladClassService;
+use Illuminate\Http\Request;
+
+/**
+ * TtgladTableComment控制器
+ *
+ * @author SoftBook
+ */
+class TtgladClassController extends BusinessController
+{
+    /**
+     * TtgladTableComment列表页面
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
+    public function show(Request $request)
+    {
+        return view('business.TtgladView.show');
+    }
+
+    /**
+     * 新增TtgladTableComment页面
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
+    public function add(Request $request)
+    {
+
+        return view('business.TtgladView.add');
+    }
+
+    /**
+     * 新增TtgladTableComment提交
+     * @param Request $request
+     * @return array|mixed
+     */
+    public function addPost(Request $request)
+    {
+        $return = $this->ajaxReturn;
+        try {
+            $model = new TtgladClass();
+TtgladFill
+
+            TtgladClassService::save($model);
+        } catch (\Exception $e) {
+            $return['code'] = $e->getCode();
+            $return['msg'] = $e->getMessage();
+        }
+
+        return $return;
+    }
+
+
+    /**
+     * 修改TtgladTableComment页面
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\View\View
+     */
+    public function edit(Request $request, $id)
+    {
+        $data = TtgladClassService::detail($id);
+        return view('business.TtgladView.edit', [
+            'data' => $data,
+        ]);
+    }
+
+    /**
+     * 修改TtgladTableComment提交
+     * @param Request $request
+     * @return array|mixed
+     */
+    public function editPost(Request $request)
+    {
+        $return = $this->ajaxReturn;
+        try {
+            $model = TtgladClassService::detail($request->post('id'));
+TtgladFill
+
+            TtgladClassService::save($model);
+        } catch (\Exception $e) {
+            $return['code'] = $e->getCode();
+            $return['msg'] = $e->getMessage();
+        }
+
+        return $return;
+    }
+
+    /**
+     * 列表TtgladTableComment数据
+     * @param Request $request
+     * @return array|mixed
+     */
+    public function lists(Request $request)
+    {
+        $return = $this->ajaxReturnWithPage;
+
+        try {
+            $model = new TtgladClass();
+TtgladFill
+
+            $list = TtgladClassService::query($model, $request->post('pageSize'));
+
+            $return['rows'] = $list['data'];
+            $return['total'] = $list['total'];
+        } catch (\Exception $e) {
+            $return['code'] = $e->getCode();
+            $return['msg'] = $e->getMessage();
+        }
+
+        return $return;
+    }
+
+    /**
+     * 删除TtgladTableComment数据
+     * @return void
+     */
+    public function remove(Request $request)
+    {
+        $return = $this->ajaxReturn;
+        try {
+            $ids = explode(',', trim($request->post('ids')));
+            if (empty($ids)) {
+                throw new \Exception('选中的记录不能为空', 1001);
+            }
+            foreach ($ids as $id) {
+                $model = TtgladClassService::detail($id);
+                TtgladClassService::delete($model);
+            }
+        } catch (\Exception $e) {
+            $return['code'] = $e->getCode();
+            $return['msg'] = $e->getMessage();
+        }
+        return $return;
+    }
+}

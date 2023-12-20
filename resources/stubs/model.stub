@@ -1,0 +1,48 @@
+<?php
+
+namespace TtgladModelNamespace;
+
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * Class TtgladClass
+ * TtgladTableComment
+ * @package TtgladModelNamespace
+ */
+class TtgladClass extends Model
+{
+    /**
+     * 表名
+     * TtgladTableComment
+     * @var string
+     */
+    protected $table = 'TtgladTable';
+
+    /**
+     * model名称
+     *
+     * @var string
+     */
+    const MODEL_NAME = '';
+
+    /**
+     * 可以被批量赋值的字段
+     *
+     * @var array
+     */
+    protected $fillable = [
+TtgladFillable
+    ];
+
+    // 自增字段
+    protected $primaryKey = 'id';
+
+    // 时间戳
+    public $timestamps = false;
+
+    // 创建时间
+    //const CREATED_AT = 'create_time';
+
+    // 修改时间
+    //const UPDATED_AT = 'update_time';
+}
