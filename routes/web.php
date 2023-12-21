@@ -122,8 +122,6 @@ Route::group(['namespace' => 'Admin'], function () {
         Route::post('system/dict/data/edit', 'DictController@editPostDetail');
         Route::post('system/dict/data/remove', 'DictController@removeDetail');
 
-
-
         // 系统参数
         Route::get('system/config', 'ConfigController@show');
         Route::post('system/config/list', 'ConfigController@lists');
@@ -157,6 +155,9 @@ Route::group(['namespace' => 'Admin'], function () {
         Route::post('tool/gen/remove', 'GenController@remove');
         Route::get('tool/gen/synchDb/{table}', 'GenController@synchDb');
         Route::get('tool/gen/batchDownloadCode', 'GenController@batchDownloadCode');
+
+        // 系统监控
+        Route::get('monitor/server', 'MonitorController@server');
 
         // 软著项目
 //        Route::get('project/test', 'ProjectController@test');

@@ -12,6 +12,7 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
+        "linfo/linfo": "^4.0",
         "mews/captcha": "^3.3",
         "phpoffice/phpword": "^1.1",
         "tencentcloud/tencentcloud-sdk-php": "^3.0"
