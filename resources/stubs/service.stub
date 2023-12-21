@@ -26,16 +26,16 @@ class TtgladClassService extends BusinessService
     /**
      * 查询TtgladTableComment列表页
      * @param TtgladClass $data
-     * @param int $page
+     * @param int $pageSize
      * @return array
      */
-    public static function query(TtgladClass $data, int $page = 10): array
+    public static function query(TtgladClass $data, int $pageSize = 10): array
     {
         $model = new TtgladClass();
 TtgladFill
 
         $list = $model->orderByDesc('id')
-            ->paginate($pageSize ?? 10)
+            ->paginate($pageSize)
             ->toArray();
         return $list;
     }

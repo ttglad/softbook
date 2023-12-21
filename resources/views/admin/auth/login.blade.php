@@ -15,7 +15,7 @@
     <!-- 避免IE使用兼容模式 -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="shortcut icon" href="/static/favicon.ico" th:href="@{favicon.ico}"/>
+    <link rel="shortcut icon" href="/static/favicon.ico"/>
     <style type="text/css">
         label.error {
             position: inherit;
@@ -46,7 +46,7 @@
             <form id="signupForm" autocomplete="off">
                 <h4 class="no-margins">登录：</h4>
                 <input type="text" name="username" class="form-control uname" placeholder="用户名" value="softbook"/>
-                <input type="password" name="password" class="form-control pword" placeholder="密码" value="admin123"/>
+                <input type="password" name="password" class="form-control pword" placeholder="密码" value=""/>
                 <div class="row m-t">
                     <div class="col-xs-6">
                         <input type="text" name="validateCode" class="form-control code" placeholder="验证码"

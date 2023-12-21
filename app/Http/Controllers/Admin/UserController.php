@@ -219,6 +219,7 @@ class UserController extends AdminController
                 $model = $model->where('status', trim($request->post('status')));
             }
 
+            $pageSize = $request->post('pageSize');
             $list = $model->orderBy('user_id')
                 ->paginate($pageSize ?? 10)
                 ->toArray();

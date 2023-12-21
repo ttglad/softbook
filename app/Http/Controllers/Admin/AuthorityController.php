@@ -24,8 +24,9 @@ class AuthorityController extends AdminController
 
     }
 
-    /*
+    /**
      * 显示登录页面
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getLogin()
     {
@@ -46,9 +47,11 @@ class AuthorityController extends AdminController
         ]);
     }
 
-    /*
+    /**
      * 登录提交
-     * ajax返回
+     * @param Request $request
+     * @return array
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function postLogin(Request $request)
     {
@@ -76,8 +79,9 @@ class AuthorityController extends AdminController
         return $result;
     }
 
-    /*
-     * 用户退出登录
+    /**
+     * 退出登录
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function getLogout()
     {

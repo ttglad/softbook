@@ -88,22 +88,39 @@ Route::group(['namespace' => 'Admin'], function () {
         Route::post('system/dept/add', 'DeptController@addPost');
         Route::get('system/dept/edit/{id}', 'DeptController@edit')->where('id', '[0-9]+');
         Route::post('system/dept/edit', 'DeptController@editPost');
-        Route::get('system/dept/remove/{id}', 'DeptController@remove');
+        Route::get('system/dept/remove/{id}', 'DeptController@remove')->where('id', '[0-9]+');
         Route::get('system/dept/selectDeptTree/{id}/{excludeId?}', 'DeptController@selectDeptTree')->where('id', '[0-9]+');
         Route::get('system/dept/treeData/{id}', 'DeptController@treeData')->where('id', '[0-9]+');
         Route::post('system/dept/checkDeptNameUnique', 'DeptController@checkDeptNameUnique');
 
-        // 部门
+        // 岗位
         Route::get('system/post', 'PostController@show');
         Route::post('system/post/list', 'PostController@lists');
-        Route::get('system/post/add/{id}', 'PostController@add')->where('id', '[0-9]+');
+        Route::get('system/post/add', 'PostController@add');
         Route::post('system/post/add', 'PostController@addPost');
         Route::get('system/post/edit/{id}', 'PostController@edit')->where('id', '[0-9]+');
         Route::post('system/post/edit', 'PostController@editPost');
-        Route::get('system/post/remove/{id}', 'PostController@remove');
-        Route::get('system/post/selectDeptTree/{id}/{excludeId?}', 'PostController@selectDeptTree')->where('id', '[0-9]+');
-        Route::get('system/post/treeData/{id}', 'PostController@treeData')->where('id', '[0-9]+');
-        Route::post('system/post/checkDeptNameUnique', 'PostController@checkDeptNameUnique');
+        Route::post('system/post/remove', 'PostController@remove');
+        Route::post('system/post/checkPostNameUnique', 'PostController@checkPostNameUnique');
+        Route::post('system/post/checkPostCodeUnique', 'PostController@checkPostCodeUnique');
+
+        // 字典
+        Route::get('system/dict', 'DictController@show');
+        Route::post('system/dict/list', 'DictController@lists');
+        Route::get('system/dict/add', 'DictController@add');
+        Route::post('system/dict/add', 'DictController@addPost');
+        Route::get('system/dict/edit/{id}', 'DictController@edit')->where('id', '[0-9]+');
+        Route::post('system/dict/edit', 'DictController@editPost');
+        Route::post('system/dict/remove', 'DictController@remove');
+        Route::post('system/dict/checkDictTypeUnique', 'DictController@checkDictTypeUnique');
+        // 字典数据
+        Route::get('system/dict/detail/{id}', 'DictController@showDetail')->where('id', '[0-9]+');
+        Route::post('system/dict/data/list', 'DictController@listsDetail');
+        Route::get('system/dict/data/add/{dictType}', 'DictController@addDetail');
+        Route::post('system/dict/data/add', 'DictController@addPostDetail');
+        Route::get('system/dict/data/edit/{id}', 'DictController@editDetail')->where('id', '[0-9]+');
+        Route::post('system/dict/data/edit', 'DictController@editPostDetail');
+        Route::post('system/dict/data/remove', 'DictController@removeDetail');
 
 
 
@@ -142,7 +159,7 @@ Route::group(['namespace' => 'Admin'], function () {
         Route::get('tool/gen/batchDownloadCode', 'GenController@batchDownloadCode');
 
         // 软著项目
-        Route::get('project/test', 'ProjectController@test');
+//        Route::get('project/test', 'ProjectController@test');
 
     });
 });

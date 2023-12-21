@@ -60,11 +60,11 @@ class SoftbookDoc extends Command
         $businessType = '通讯行业';
 
         // 系统功能
-        $systemFeatures = '该系统是一款通信数据采集交互运维系统，主要包括数据采集管理、通信运维监控、数据交互分析等功能。通过实时监测和数据分析，确保通信设备的正常运行，提高通信质量和运维效率。';
+        $systemFeatures = '该系统是一款通信信号调度集成系统，主要包括信号调度管理、通信设备配置、网络拓扑管理等功能。通过对信号强度的监控和调度任务的分析，确保通信信号的稳定性和调度效果。';
         // 开发目的
-        $developmentPurpose = '系统旨在提供一套高效的通信数据采集与运维解决方案，通过对数据的采集、分析和运维监控，保障通信系统的稳定性和数据交互质量。提高通信设备利用率，降低运维成本，增强系统稳定性。';
+        $developmentPurpose = '系统旨在提供一套高效的通信信号调度解决方案，通过对信号的监测和调度任务的分析，优化通信信号的质量，提高调度效果，增强通信系统的稳定性。';
         // 技术特点
-        $technicalFeatures = '系统采用先进的数据采集技术和通信运维监控手段，实现对通信设备的全面管理。报警与处理模块支持智能化处理异常情况，提高运维应对能力。系统还具备灵活的数据分析与优化功能，支持多维度的数据分析，为通信运维提供科学依据。';
+        $technicalFeatures = '系统采用先进的信号监控和调度技术，实现对通信信号的全面调度管理。报警与处理模块支持智能化处理异常情况，提高调度应对能力。系统还具备灵活的任务分析与效果评估功能，支持多维度的数据分析，为通信信号调度提供科学依据。';
 
         $savePath .= $projectName . '/';
         if (!is_dir($savePath)) {
@@ -108,6 +108,17 @@ class SoftbookDoc extends Command
             'size' => 10.5,       // 字体大小
         ];
 
+        $pageStyle = [
+            'indentation' => ['firstLine' => 360],
+            'spaceBefore' => 30,
+            'spaceAfter' => 30,
+        ];
+
+        $pageImageStyle = [
+            'alignment' => Jc::CENTER,
+            'spaceAfter' => 60,
+        ];
+
         // 添加页眉
         $header = $section->addHeader();
         $header->addText($projectName, [
@@ -122,11 +133,12 @@ class SoftbookDoc extends Command
             'size' => 9,       // 字体大小
         ], ['alignment' => Jc::CENTER]);
 
-        $section->addText('概述', $fontStyle, ['alignment' => Jc::CENTER]);
-
-        $section->addText('该平台主要功能包括', $fontStyle, [
-            'indentation' => ['firstLine' => 360],  // 设置首行缩进为400 twips（1/20英寸）
+        $section->addText('概述', $fontStyle, [
+            'alignment' => Jc::CENTER,
+            'spaceAfter' => 30,
         ]);
+
+        $section->addText('该平台主要功能包括', $fontStyle, $pageStyle);
 
         $phpWord->addNumberingStyle(
             'multilevel',
@@ -140,22 +152,20 @@ class SoftbookDoc extends Command
         );
 
         $section->addListItem('一、用户登录', 0, $fontStyle, 'multilevel');
-        $section->addText('如图1所示，用户在账号登录框输入用户名和密码即可进入系统。', $fontStyle, [
-            'indentation' => ['firstLine' => 400],  // 设置首行缩进为400 twips（1/20英寸）
-        ]);
+        $section->addText('如图1所示，用户在账号登录框输入用户名和密码即可进入系统。', $fontStyle, $pageStyle);
         $section->addText('功能介绍：系统设置了不同的管理权限，由超级管理员分配用户权限和设置账号密码，不同用户账号之间存在权限区别，如用户是否能够是否能够查看详细运行数据的权限等。',
-            $fontStyle, [
-                'indentation' => ['firstLine' => 400],  // 设置首行缩进为400 twips（1/20英寸）
-            ]);
+            $fontStyle, $pageStyle);
 
         $imageStyle = [
             'alignment' => Jc::CENTER,
-            'width' => 400,  // 设置图片宽度为100%页面宽度
-            'height' => 250, // 设置图片高度为100%页面高度
+            'width' => 420,  // 设置图片宽度为100%页面宽度
+            'height' => 230, // 设置图片高度为100%页面高度
         ];
-        $section->addImage($imagePath . 'login.png', $imageStyle, false, '用户登录');
 
-        $section->addText('图' . ++$imageNum . '  用户登录', $fontStyle, ['alignment' => Jc::CENTER]);
+        if (is_file($imagePath . 'login.png')) {
+            $section->addImage($imagePath . 'login.png', $imageStyle, false, '用户登录');
+        }
+        $section->addText('图' . ++$imageNum . '  用户登录', $fontStyle, $pageImageStyle);
 
         $menus = $this->getMenuTrees();
         foreach ($menus as $item => $menu) {
@@ -169,9 +179,8 @@ class SoftbookDoc extends Command
                 $itemOrder = '四、';
             }
             $section->addListItem($itemOrder . $menu['menu_name'], 0, $fontStyle, 'multilevel');
-            $section->addText('这个一级菜单主要包括两个二级菜单，本一级菜单具体功能介绍如下：', $fontStyle, [
-                'indentation' => ['firstLine' => 400],  // 设置首行缩进为400 twips（1/20英寸）
-            ]);
+            $section->addText('这个一级菜单主要包括两个二级菜单，本一级菜单具体功能介绍如下：', $fontStyle, $pageStyle);
+
             foreach ($menu['children'] as $child) {
                 // 获取表名字
                 $tableName = trim(str_replace("/business/", '', $child['url']), '/');
@@ -184,46 +193,49 @@ class SoftbookDoc extends Command
                             $tableColumnDesc .= $column->column_comment . '、';
                         }
                     }
-                    $tableColumnDesc = trim($tableColumnDesc, '、') . '。';
+//                    $this->info($tableColumnDesc);
+                    $tableColumnDesc = mb_substr($tableColumnDesc, 0, -1) . '。';
                 }
 
                 // 获取临时的序号
                 $tempImageNum = $imageNum;
 
                 $section->addListItem($child['menu_name'], 1, $fontStyle, 'multilevel');
-                $section->addText('功能入口：点击左部菜单中，即可进入该菜单界面查看其信息内容。', $fontStyle, [
-                    'indentation' => ['firstLine' => 400],  // 设置首行缩进为400 twips（1/20英寸）
-                ]);
+                $section->addText('功能入口：点击左部菜单中，即可进入该菜单界面查看其信息内容。', $fontStyle, $pageStyle);
                 $section->addText('功能介绍：该菜单设计了通过名称智能查找、对各字段的新增、编辑和删除处理，具体功能如下。' . $tableColumnDesc,
-                    $fontStyle, [
-                        'indentation' => ['firstLine' => 400],  // 设置首行缩进为400 twips（1/20英寸）
-                    ]);
-                $section->addImage($imagePath . $child['imagePrefix'] . '-01.png', $imageStyle, false);
-                $section->addText('图' . ++$imageNum . '  菜单查看', $fontStyle, ['alignment' => Jc::CENTER]);
+                    $fontStyle,$pageStyle);
+
+                if (is_file($imagePath . $child['imagePrefix'] . '-01.png')) {
+                    $section->addImage($imagePath . $child['imagePrefix'] . '-01.png', $imageStyle, false);
+                }
+                $section->addText('图' . ++$imageNum . '  菜单查看', $fontStyle, $pageImageStyle);
 
                 $section->addText('添加功能：点击信息编辑栏中的“添加”按钮即可进行信息的添加，填写各字段信息，点击完成即可进行新增，具体操作如图' . ++$tempImageNum . '、图' . ++$tempImageNum . '所示。',
-                    $fontStyle, [
-                        'indentation' => ['firstLine' => 400],  // 设置首行缩进为400 twips（1/20英寸）
-                    ]);
-                $section->addImage($imagePath . $child['imagePrefix'] . '-02.png', $imageStyle, false);
-                $section->addText('图' . ++$imageNum . '  新增信息', $fontStyle, ['alignment' => Jc::CENTER]);
+                    $fontStyle, $pageStyle);
+                if (is_file($imagePath . $child['imagePrefix'] . '-02.png')) {
+                    $section->addImage($imagePath . $child['imagePrefix'] . '-02.png', $imageStyle, false);
+                }
+                $section->addText('图' . ++$imageNum . '  新增信息', $fontStyle, $pageImageStyle);
 
-                $section->addImage($imagePath . $child['imagePrefix'] . '-03.png', $imageStyle, false);
-                $section->addText('图' . ++$imageNum . '  新增后界面', $fontStyle, ['alignment' => Jc::CENTER]);
+                if (is_file($imagePath . $child['imagePrefix'] . '-03.png')) {
+                    $section->addImage($imagePath . $child['imagePrefix'] . '-03.png', $imageStyle, false);
+                }
+                $section->addText('图' . ++$imageNum . '  新增后界面', $fontStyle, $pageImageStyle);
 
                 $section->addText('编辑功能：点击信息编辑栏中的“编辑”按钮即可进行信息的编辑，更改各字段信息，点击完成即可进行编辑，具体操作如图' . ++$tempImageNum . '、图' . ++$tempImageNum . '所示。',
-                    $fontStyle, [
-                        'indentation' => ['firstLine' => 400],  // 设置首行缩进为400 twips（1/20英寸）
-                    ]);
-                $section->addImage($imagePath . $child['imagePrefix'] . '-04.png', $imageStyle, false);
-                $section->addText('图' . ++$imageNum . '  编辑信息', $fontStyle, ['alignment' => Jc::CENTER]);
+                    $fontStyle, $pageStyle);
+                if (is_file($imagePath . $child['imagePrefix'] . '-04.png')) {
+                    $section->addImage($imagePath . $child['imagePrefix'] . '-04.png', $imageStyle, false);
+                }
+                $section->addText('图' . ++$imageNum . '  编辑信息', $fontStyle, $pageImageStyle);
 
                 $section->addText('删除功能：点击信息编辑栏中的“删除”按钮即可进行信息的删除，具体操作如图' . ++$tempImageNum . '、图' . ++$tempImageNum . '所示。',
-                    $fontStyle, [
-                        'indentation' => ['firstLine' => 400],  // 设置首行缩进为400 twips（1/20英寸）
-                    ]);
-                $section->addImage($imagePath . $child['imagePrefix'] . '-05.png', $imageStyle, false);
-                $section->addText('图' . ++$imageNum . '  删除信息', $fontStyle, ['alignment' => Jc::CENTER]);
+                    $fontStyle, $pageStyle);
+
+                if (is_file($imagePath . $child['imagePrefix'] . '-05.png')) {
+                    $section->addImage($imagePath . $child['imagePrefix'] . '-05.png', $imageStyle, false);
+                }
+                $section->addText('图' . ++$imageNum . '  删除信息', $fontStyle, $pageImageStyle);
             }
         }
 
@@ -231,35 +243,45 @@ class SoftbookDoc extends Command
         $tempImageNum = $imageNum;
 
         $section->addListItem('五、用户管理', 0, $fontStyle, 'multilevel');
-        $section->addText('功能入口：点击左部菜单系统管理-用户管理，即可进入该界面。', $fontStyle, [
-            'indentation' => ['firstLine' => 400],  // 设置首行缩进为400 twips（1/20英寸）
-        ]);
+        $section->addText('功能入口：点击左部菜单系统管理-用户管理，即可进入该界面。', $fontStyle, $pageStyle);
         $section->addText('功能介绍：系统设置，可以管理用户信息等，通过对系统中的用户进行创建、删除、修
 改和权限控制等操作，确保系统安全性和有效性。旨在提供合法用户访问系统、限制用户操作范围和访问权限、管理用户个人信息以及收集用户行为数据等功能。如图' . ++$tempImageNum . '所示。',
-            $fontStyle, [
-                'indentation' => ['firstLine' => 400],  // 设置首行缩进为400 twips（1/20英寸）
-            ]);
-        $section->addImage($basePath . 'user.png', $imageStyle, false);
-        $section->addText('图' . ++$imageNum . '  编辑信息', $fontStyle, ['alignment' => Jc::CENTER]);
+            $fontStyle, $pageStyle);
+        if(is_file($basePath . 'user.png')) {
+            $section->addImage($basePath . 'user.png', [
+                'alignment' => Jc::CENTER,
+                'width' => 400,  // 设置图片宽度为100%页面宽度
+                'height' => 250, // 设置图片高度为100%页面高度
+            ], false);
+        }
+        $section->addText('图' . ++$imageNum . '  编辑信息', $fontStyle, $pageImageStyle);
 
         $section->addListItem('六、角色管理', 0, $fontStyle, 'multilevel');
-        $section->addText('功能入口：点击左部菜单系统管理-角色管理，即可进入该界面。', $fontStyle, [
-            'indentation' => ['firstLine' => 400],  // 设置首行缩进为400 twips（1/20英寸）
-        ]);
+        $section->addText('功能入口：点击左部菜单系统管理-角色管理，即可进入该界面。', $fontStyle, $pageStyle);
         $section->addText('功能介绍：系统设置，可以管理角色信息等，通过将用户分配到不同的角色中，每个角色具有不同的权限和功能，来实现对系统中用户权限的控制和管理。方便系统进行细粒度的权限控制，确保用户只能访问其具备权限的资源，提高系统的安全性和可管理性。如图' . ++$tempImageNum . '所示。',
-            $fontStyle, [
-                'indentation' => ['firstLine' => 400],  // 设置首行缩进为400 twips（1/20英寸）
-            ]);
-        $section->addImage($basePath . 'role.png', $imageStyle, false);
-        $section->addText('图' . ++$imageNum . '  角色管理', $fontStyle, ['alignment' => Jc::CENTER]);
+            $fontStyle, $pageStyle);
+
+        if (is_file($basePath . 'role.png')) {
+            $section->addImage($basePath . 'role.png', [
+                'alignment' => Jc::CENTER,
+                'width' => 400,  // 设置图片宽度为100%页面宽度
+                'height' => 250, // 设置图片高度为100%页面高度
+            ], false);
+        }
+
+        $section->addText('图' . ++$imageNum . '  角色管理', $fontStyle, $pageImageStyle);
 
         $section->addListItem('七、系统监控', 0, $fontStyle, 'multilevel');
         $section->addText('功能入口：点击左侧菜单栏系统监控，可以查看各个维度的监控数据，实时监测系统的运行状态、资源利用率、响应时间等指标，及时发现并解决潜在的问题，提高系统的运行效率和可用性。',
-            $fontStyle, [
-                'indentation' => ['firstLine' => 400],  // 设置首行缩进为400 twips（1/20英寸）
-            ]);
-        $section->addImage($basePath . 'monitor.png', $imageStyle, false);
-        $section->addText('图' . ++$imageNum . '  系统监控', $fontStyle, ['alignment' => Jc::CENTER]);
+            $fontStyle, $pageStyle);
+        if (is_file($basePath . 'monitor.png')) {
+            $section->addImage($basePath . 'monitor.png', [
+                'alignment' => Jc::CENTER,
+                'width' => 400,  // 设置图片宽度为100%页面宽度
+                'height' => 250, // 设置图片高度为100%页面高度
+            ], false);
+        }
+        $section->addText('图' . ++$imageNum . '  系统监控', $fontStyle, $pageImageStyle);
 
         $phpWord->save($savePath . $projectName . '使用说明.docx');
     }
@@ -325,8 +347,14 @@ class SoftbookDoc extends Command
      * @param $technicalFeatures
      * @return void
      */
-    private function saveInfoTable($projectName, $savePath, $systemFeatures, $developmentPurpose, $technicalFeatures, $businessType)
-    {
+    private function saveInfoTable(
+        $projectName,
+        $savePath,
+        $systemFeatures,
+        $developmentPurpose,
+        $technicalFeatures,
+        $businessType
+    ) {
         $config = config('softbook');
 
         $phpWord = new PhpWord();
@@ -366,7 +394,7 @@ class SoftbookDoc extends Command
             'name' => '宋体(正文)',  // 字体
             'size' => 10,       // 字体大小
         ], [
-            'alignment' => 'center',
+            'alignment' => Jc::CENTER,
         ]);
 
         $tableWidth = 9100;
@@ -383,7 +411,7 @@ class SoftbookDoc extends Command
             'size' => 12,       // 字体大小
             'bold' => true,       // 加粗
         ], [
-            'alignment' => 'center',
+            'alignment' => JC::CENTER,
 //            'spacing' => 120,
             'spaceBefore' => 30,
             'spaceAfter' => 30,
@@ -506,10 +534,10 @@ class SoftbookDoc extends Command
         $cell = $table->addCell($tableRightWidth);
         $cell->addText('', $fontStyle, $pageStyle);
         $cell->addText(implode(' / ', [
-                $config['php_ver'][array_rand($config['php_ver'])],
-                $config['mysql_ver'][array_rand($config['mysql_ver'])],
-                $config['nginx_ver'][array_rand($config['nginx_ver'])],
-            ]), $fontStyle, $pageStyle);
+            $config['php_ver'][array_rand($config['php_ver'])],
+            $config['mysql_ver'][array_rand($config['mysql_ver'])],
+            $config['nginx_ver'][array_rand($config['nginx_ver'])],
+        ]), $fontStyle, $pageStyle);
         $cell->addText('', $fontStyle, $pageStyle);
 
         // 添加数据行
@@ -560,7 +588,7 @@ class SoftbookDoc extends Command
         $cell = $table->addCell($tableRightWidth);
         $cell->addText($technicalFeatures, $fontStyle, $pageStyle);
 
-        $phpWord->save($savePath . $projectName. '信息采集表.docx');
+        $phpWord->save($savePath . $projectName . '信息采集表.docx');
     }
 
 

@@ -99,6 +99,7 @@ class ConfigController extends AdminController
                 $model = $model->where('config_type', trim($request->post('config_type')));
             }
 
+            $pageSize = $request->post('pageSize');
             $list = $model->orderByDesc('config_id')
                 ->paginate($pageSize ?? 10)
                 ->toArray();

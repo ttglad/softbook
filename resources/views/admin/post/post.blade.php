@@ -17,10 +17,11 @@
                             岗位名称：<input type="text" name="postName"/>
                         </li>
                         <li>
-                            岗位状态：<select name="status" th:with="type=${@dict.getType('sys_normal_disable')}">
+                            岗位状态：<select name="status">
                                 <option value="">所有</option>
-                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
-                                        th:value="${dict.dictValue}"></option>
+                                @foreach($sysNormalDisable as $normalDisable)
+                                    <option value="{{ $normalDisable->dict_value }}">{{ $normalDisable->dict_label }}</option>
+                                @endforeach
                             </select>
                         </li>
                         <li>
@@ -35,18 +36,16 @@
         </div>
 
         <div class="btn-group-sm" id="toolbar" role="group">
-            <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:post:add">
+            <a class="btn btn-success" onclick="$.operate.add()">
                 <i class="fa fa-plus"></i> 新增
             </a>
-            <a class="btn btn-primary single disabled" onclick="$.operate.edit()"
-               shiro:hasPermission="system:post:edit">
+            <a class="btn btn-primary single disabled" onclick="$.operate.edit()">
                 <i class="fa fa-edit"></i> 修改
             </a>
-            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
-               shiro:hasPermission="system:post:remove">
+            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()">
                 <i class="fa fa-remove"></i> 删除
             </a>
-            <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:post:export">
+            <a class="btn btn-warning" onclick="$.table.exportExcel()">
                 <i class="fa fa-download"></i> 导出
             </a>
         </div>
@@ -72,27 +71,27 @@
             updateUrl: prefix + "/edit/{id}",
             removeUrl: prefix + "/remove",
             exportUrl: prefix + "/export",
-            sortName: "postSort",
+            sortName: "post_sort",
             modalName: "岗位",
             columns: [{
                 checkbox: true
             },
                 {
-                    field: 'postId',
+                    field: 'post_id',
                     title: '岗位编号'
                 },
                 {
-                    field: 'postCode',
+                    field: 'post_code',
                     title: '岗位编码',
                     sortable: true
                 },
                 {
-                    field: 'postName',
+                    field: 'post_name',
                     title: '岗位名称',
                     sortable: true
                 },
                 {
-                    field: 'postSort',
+                    field: 'post_sort',
                     title: '显示顺序',
                     sortable: true
                 },
@@ -105,7 +104,7 @@
                     }
                 },
                 {
-                    field: 'createTime',
+                    field: 'create_time',
                     title: '创建时间',
                     sortable: true
                 },
@@ -114,8 +113,8 @@
                     align: 'center',
                     formatter: function (value, row, index) {
                         var actions = [];
-                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.postId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.postId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.post_id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.post_id + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
                     }
                 }]
