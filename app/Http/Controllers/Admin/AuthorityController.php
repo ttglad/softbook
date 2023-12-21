@@ -59,6 +59,8 @@ class AuthorityController extends AdminController
             'code' => 0,
             'message' => '',
         ];
+
+        // 验证码校验
         $rules = ['captcha' => 'required|captcha'];
         $validator = validator()->make(request()->all(), $rules);
         if ($validator->fails()) {
@@ -67,10 +69,12 @@ class AuthorityController extends AdminController
             return $result;
         }
 
+        // 登录校验
+        $remember = ($request->input('remember') == 'true') ? true : false;
         if (!Auth::attempt([
             'login_name' => $request->input('username'),
             'password' => $request->input('password'),
-        ], $request->has('remember'))
+        ], $remember)
         ) {
             $result['code'] = 1001;
             $result['message'] = '用户名或者密码错误，请重新登录';

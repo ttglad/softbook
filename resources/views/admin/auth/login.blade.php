@@ -25,7 +25,7 @@
         if (window.top !== window.self) {
             alert('未登录或登录超时。请重新登录');
             window.top.location = window.location
-        };
+        }
     </script>
 </head>
 <body class="signin">
@@ -38,7 +38,7 @@
                 <div class="m-b"></div>
                 <h1><strong>{{ $softName }}</strong></h1>
                 @if ($registerValue)
-                <strong>还没有账号？ <a href="/register">立即注册&raquo;</a></strong>
+                    <strong>还没有账号？ <a href="/register">立即注册&raquo;</a></strong>
                 @endif
             </div>
         </div>
@@ -59,9 +59,9 @@
                     </div>
                 </div>
                 @if ($rememberMe)
-                <div class="checkbox-custom @if (!$captchaEnabled) m-t @endif">
-                    <input type="checkbox" id="rememberme" name="rememberme"> <label for="rememberme">记住我</label>
-                </div>
+                    <div class="checkbox-custom @if (!$captchaEnabled) m-t @endif">
+                        <input type="checkbox" id="rememberme" name="rememberme"> <label for="rememberme">记住我</label>
+                    </div>
                 @endif
                 <button class="btn btn-success btn-block" id="btnSubmit" data-loading="...">登录</button>
             </form>
@@ -69,13 +69,13 @@
     </div>
     <div class="signup-footer">
         <div class="pull-left">
-            Copyright © <?php echo date('Y');?> All Rights Reserved. <br>
+            Copyright © <?php echo date('Y'); ?> All Rights Reserved. <br>
         </div>
     </div>
 </div>
 <script>
-    var ctx = "<?php echo '/';?>";
-    var captchaType = <?php echo "captchaType";?>;
+    var ctx = "<?php echo '/'; ?>";
+    var captchaType = <?php echo "captchaType"; ?>;
 </script>
 <!--[if lte IE 8]>
 <script>window.location.href = ctx + 'html/ie.html';</script><![endif]-->
