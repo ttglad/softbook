@@ -49,7 +49,7 @@ class RoleController extends AdminController
                 $model = $model->where('create_time', '<=', $params['endTime']);
             }
             $pageSize = $request->post('pageSize');
-            $list = $model->orderByDesc('role_id')
+            $list = $model->orderBy('role_sort')
                 ->paginate($pageSize ?? 10)
                 ->toArray();
 

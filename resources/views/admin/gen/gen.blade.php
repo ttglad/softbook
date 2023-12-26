@@ -32,10 +32,7 @@
 			</div>
 
 			<div class="btn-group-sm" id="toolbar" role="group">
-				<a class="btn btn-success multiple disabled" onclick="batchDownloadCode()">
-					<i class="fa fa-download"></i> 下载
-				</a>
-			     <a class="btn btn-success multiple disabled" onclick="batchGenCode()">
+                <a class="btn btn-success multiple disabled" onclick="batchGenCode()">
 			        <i class="fa fa-download"></i> 生成
 			    </a>
 				<a class="btn btn-success" onclick="createTable()">
@@ -202,19 +199,6 @@
 			})
 		}
 
-		// 批量下载代码
-		function batchDownloadCode() {
-		    var rows = $.table.selectColumns("table_name");
-		    if (rows.length == 0) {
-		        $.modal.alertWarning("请选择要生成的数据");
-		        return;
-		    }
-		    $.modal.confirm("确认要生成选中的" + rows.length + "条数据吗?", function() {
-		    	location.href = prefix + "/batchDownloadCode?tables=" + rows;
-		        layer.msg('执行成功,正在生成代码请稍候…', { icon: 1 });
-		    });
-		}
-
 		// 批量生成代码
 		function batchGenCode() {
 		    var rows = $.table.selectColumns("table_name");
@@ -223,8 +207,19 @@
 		        return;
 		    }
 		    $.modal.confirm("确认要生成选中的" + rows.length + "条数据吗?", function() {
-		    	location.href = prefix + "/batchGenCode?tables=" + rows;
-		        layer.msg('执行成功,正在生成代码请稍候…', { icon: 1 });
+		    	// location.href = prefix + "/batchGenCode?tables=" + rows;
+		        // layer.msg('执行成功,正在生成代码请稍候…', { icon: 1 });
+                $.ajax({
+                    type: "get",
+                    url: prefix + "/batchGenCode?tables=" + rows,
+                    success: function(r) {
+                        if (r.code == web_status.SUCCESS) {
+
+                        } else {
+                            $.modal.msg(r.message);
+                        }
+                    }
+                });
 		    });
 		}
 

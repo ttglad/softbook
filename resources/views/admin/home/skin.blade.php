@@ -159,6 +159,36 @@
         </a>
         <p class="text-center">绿浅（新）</p>
     </li>
+    <li style="float:left; width: 33.33333%; padding: 5px;">
+        <a href="javascript:" data-skin="skin-purple|theme-blue"
+           style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover">
+            <span style="width: 20%; float: left; height: 13px; background: #555299"></span>
+            <span style="width: 80%; float: left; height: 13px; background: #605ca8"></span>
+            <span style="width: 20%; float: left; height: 30px; background: rgba(15,41,80,1)"></span>
+            <span style="width: 80%; float: left; height: 30px; background: #f4f5f7"></span>
+        </a>
+        <p class="text-center">紫浅（新）</p>
+    </li>
+    <li style="float:left; width: 33.33333%; padding: 5px;">
+        <a href="javascript:" data-skin="skin-red|theme-blue"
+           style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover">
+            <span style="width: 20%; float: left; height: 13px; background: #dd4b39"></span>
+            <span style="width: 80%; float: left; height: 13px; background: #d73925"></span>
+            <span style="width: 20%; float: left; height: 30px; background: rgba(15,41,80,1)"></span>
+            <span style="width: 80%; float: left; height: 30px; background: #f4f5f7"></span>
+        </a>
+        <p class="text-center">红浅（新）</p>
+    </li>
+    <li style="float:left; width: 33.33333%; padding: 5px;">
+        <a href="javascript:" data-skin="skin-yellow|theme-blue"
+           style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover">
+            <span style="width: 20%; float: left; height: 13px; background: #f39c12"></span>
+            <span style="width: 80%; float: left; height: 13px; background: #e08e0b"></span>
+            <span style="width: 20%; float: left; height: 30px; background: rgba(15,41,80,1)"></span>
+            <span style="width: 80%; float: left; height: 30px; background: #f4f5f7"></span>
+        </a>
+        <p class="text-center">黄浅（新）</p>
+    </li>
 </ul>
 </body>
 <script src="/static/js/jquery.min.js"></script>

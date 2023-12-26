@@ -12,4 +12,4 @@
 <link href="/static/ajax/libs/bootstrap-table/bootstrap-table.min.css?v=1.18.3" rel="stylesheet"/>
 <link href="/static/css/animate.min.css?v=20210831" rel="stylesheet"/>
 <link href="/static/css/style.min.css?v=20210831" rel="stylesheet"/>
-<link href="/static/ruoyi/css/ry-ui.css?v=4.7.7" rel="stylesheet"/>
+<link href="/static/ruoyi/css/soft-ui.css?v=4.7.7" rel="stylesheet"/>

@@ -3,7 +3,7 @@ html {
 }
 body.signin {
 	height:auto;
-	background:url(../img/login-background2.jpg) no-repeat center fixed;
+	background:url(../img/login-back.jpg) no-repeat center fixed;
 	-webkit-background-size:cover;
 	-moz-background-size:cover;
 	-o-background-size:cover;

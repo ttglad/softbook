@@ -66,6 +66,7 @@ TtgladFill
     {
         $data = TtgladClassService::detail($id);
         return view('business.TtgladView.edit', [
+            'id' => $id,
             'data' => $data,
         ]);
     }

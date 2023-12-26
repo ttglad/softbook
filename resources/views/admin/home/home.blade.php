@@ -14,7 +14,7 @@
     <link href="/static/css/animate.min.css" rel="stylesheet"/>
     <link href="/static/css/style.min.css" rel="stylesheet"/>
     <link href="/static/css/skins.css" rel="stylesheet"/>
-    <link href="/static/ruoyi/css/ry-ui.css?v=4.7.7" rel="stylesheet"/>
+    <link href="/static/ruoyi/css/soft-ui.css?v=4.7.7" rel="stylesheet"/>
 </head>
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow: hidden">
 <div id="wrapper">
@@ -188,7 +188,7 @@
 <script src="/static/js/jquery.contextMenu.min.js"></script>
 <script src="/static/ajax/libs/blockUI/jquery.blockUI.js"></script>
 <script src="/static/ajax/libs/layer/layer.min.js"></script>
-<script src="/static/ruoyi/js/ry-ui.js?v=4.7.7"></script>
+<script src="/static/ruoyi/js/soft-ui.js?v=4.7.7"></script>
 <script src="/static/ruoyi/js/common.js?v=4.7.7"></script>
 <script src="/static/ruoyi/index.js?v=20201208"></script>
 <script src="/static/ajax/libs/fullscreen/jquery.fullscreen.js"></script>
@@ -230,7 +230,7 @@
             type : 2,
             shadeClose : true,
             title : "切换主题",
-            area : ["530px", "386px"],
+            area : ["530px", "482px"],
             content : [ctx + "system/switchSkin", 'no']
         })
     }

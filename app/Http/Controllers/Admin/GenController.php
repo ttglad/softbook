@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\GenTable;
 use App\Models\GenTableColumn;
-use App\Models\SysConfig;
-use App\Models\SysDictData;
 use App\Models\SysMenu;
 use App\Services\GenTableService;
 use App\Services\ResourceService;
@@ -247,97 +245,83 @@ class GenController extends AdminController
     }
 
     /**
-     * 下载代码
+     * 生成代码
      * @return void
      */
-    public function batchDownloadCode(Request $request)
+    public function batchGenCode(Request $request)
     {
-        $content = '';
-        if (empty($request->get('tables'))) {
-            abort(404);
-        }
+        $return = $this->ajaxReturn;
         try {
-            $resourceService = new ResourceService();
 
-            // 获取登录页面 ######
-            $sysConfig = SysConfig::where('config_key', 'sys.account.registerUser')->first();
-            $registerValue = is_null($sysConfig) ? false : $sysConfig->config_value;
-            $rememberMe = true;
-            $captchaEnabled = false;
-            // 软件名称
-            $sysConfig = SysConfig::where('config_key', 'sys.soft.name')->first();
-            $softName = $sysConfig->config_value;
-
-            $content .= view('admin.auth.login', [
-                'registerValue' => $registerValue,
-                'rememberMe' => $rememberMe,
-                'captchaEnabled' => $captchaEnabled,
-                'softName' => $softName,
-            ])->render();
-
-            // 获取用户页 ######
-            // 获取菜单展示名称
-            $sysNormalDisable = SysDictData::where('dict_type', 'sys_normal_disable')->get();
-            $content .= view('admin.user.user', [
-                'sysNormalDisable' => $sysNormalDisable,
-            ])->render();
-
-            // 菜单业务列表
-            $tables = explode(',', $request->get('tables'));
-            // 获取页面代码 ######
-            foreach ($tables as $table) {
-                // 获取业务表名称
-                $business = GenTable::where('table_name', $table)->first();
-                if (is_null($business)) {
-                    throw new \Exception('业务不存在', 1001);
-                }
-                // 业务列名称
-                $businessColumn = GenTableColumn::where('table_id', $business->table_id)->orderBy('sort')->get();
-
-                // 获取业务展示页面
-                $content .= view('business.show', [
-                    'business' => $business,
-                    'businessColumn' => $businessColumn,
-                ])->render();
-                // 获取业务添加页面
-//                $content .= view('business.add', [
-//                    'business' => $business,
-//                    'businessColumn' => $businessColumn,
-//                ])->render();
+            $content = '';
+            if (empty($request->get('tables'))) {
+                abort(404);
             }
+            try {
+                $resourceService = new ResourceService();
 
-            // 获取登录+用户服务
-            $content .= file_get_contents(app_path('Http/Controllers/Admin/AuthorityController.php'));
-            $content .= file_get_contents(app_path('Http/Controllers/Admin/UserController.php'));
-            $content .= file_get_contents(app_path('Models/SysUser.php'));
+                // 菜单业务列表
+                $tables = explode(',', $request->get('tables'));
 
-            // 获取服务代码
-            foreach ($tables as $table) {
-                // 获取业务表名称
-                $business = GenTable::where('table_name', $table)->first();
-                if (is_null($business)) {
-                    throw new \Exception('业务不存在', 1001);
+                // 获取页面代码 ######
+                foreach ($tables as $table) {
+                    // 获取业务表名称
+                    $business = GenTable::where('table_name', $table)->first();
+                    if (is_null($business)) {
+                        throw new \Exception('业务不存在', 1001);
+                    }
+                    // 业务列名称
+                    $businessColumn = GenTableColumn::where('table_id', $business->table_id)->orderBy('sort')->get();
+
+                    $viewPath = resource_path('views/business/' . $business->business_name);
+                    if (!is_dir($viewPath)) {
+                        mkdir($viewPath, 0777, true);
+                    }
+
+                    file_put_contents($viewPath . '/show.blade.php', view('demo.show', [
+                        'business' => $business,
+                        'businessColumn' => $businessColumn,
+                    ])->render());
+
+                    file_put_contents($viewPath . '/add.blade.php', view('demo.add', [
+                        'business' => $business,
+                        'businessColumn' => $businessColumn,
+                    ])->render());
+
+                    file_put_contents($viewPath . '/edit.blade.php', view('demo.edit', [
+                        'id' => 1,
+                        'business' => $business,
+                        'businessColumn' => $businessColumn,
+                    ])->render());
+
+                    $controllerPath = app_path('Http/Controllers/Business');
+                    if (!is_dir($controllerPath)) {
+                        mkdir($controllerPath, 0777, true);
+                    }
+                    $controllerContent = $resourceService->getControllerContentForGen($business, $businessColumn);
+                    file_put_contents($controllerPath . '/' . ucfirst($business->business_name) . 'Controller.php', $controllerContent);
+
+                    $modelPath = app_path('Models/Business');
+                    if (!is_dir($modelPath)) {
+                        mkdir($modelPath, 0777, true);
+                    }
+                    $modelContent = $resourceService->getModelContentForGen($business, $businessColumn);
+                    file_put_contents($modelPath . '/' . ucfirst($business->business_name) . '.php', $modelContent);
+
+                    $servicePath = app_path('Services/Business');
+                    if (!is_dir($servicePath)) {
+                        mkdir($servicePath, 0777, true);
+                    }
+                    $serviceContent = $resourceService->getServiceContentForGen($business, $businessColumn);
+                    file_put_contents($servicePath . '/' . ucfirst($business->business_name) . 'Service.php', $serviceContent);
                 }
-                // 业务列名称
-                $businessColumn = GenTableColumn::where('table_id', $business->table_id)->orderBy('sort')->get();
-
-                // 获取model代码
-                $content .= $resourceService->getControllerContent($business, $businessColumn);
-                $content .= $resourceService->getModelContent($business, $businessColumn);
-                $content .= $resourceService->getServiceContent($business, $businessColumn);
+            } catch (\Exception $e) {
+                abort(404);
             }
         } catch (\Exception $e) {
-            abort(404);
+            $return['code'] = $e->getCode();
+            $return['msg'] = $e->getMessage();
         }
-
-        // 替换软件代码
-        $sysConfig = SysConfig::where('config_key', 'sys.soft.code')->first();
-        if (!is_null($sysConfig) && !empty($sysConfig->config_value)) {
-            $content = str_replace('ruoyi', $sysConfig->config_value, $content);
-        }
-
-        return response()->streamDownload(function () use ($content) {
-            echo $content;
-        }, 'softbook.txt');
+        return $return;
     }
 }

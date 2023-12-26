@@ -86,7 +86,7 @@ class SysMenuService extends Service
      * @param $parentId
      * @return array
      */
-    private function getChildPerms($menus, $parentId): array
+    public function getChildPerms($menus, $parentId): array
     {
         $tree = [];
         foreach ($menus as $item) {

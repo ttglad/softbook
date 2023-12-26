@@ -3,7 +3,7 @@ $(function() {
     validateKickout();
     validateRule();
     $('.imgcode').click(function() {
-        var url = ctx + "captcha/math?s=" + Math.random();
+        var url = "/captcha/math?s=" + Math.random();
         $(".imgcode").attr("src", url);
     });
 

@@ -143,7 +143,7 @@ class DictController extends AdminController
                 $model = $model->where('dict_type', trim($request->post('dictType')));
             }
             if ($request->post('dictName')) {
-                $model = $model->where('dick_name', 'like', '%' . trim($request->post('dictName')) . '%');
+                $model = $model->where('dict_name', 'like', '%' . trim($request->post('dictName')) . '%');
             }
             if (strlen($request->post('status')) > 0) {
                 $model = $model->where('status', trim($request->post('status')));
@@ -345,7 +345,7 @@ class DictController extends AdminController
                 $model = $model->where('dict_type', trim($request->post('dictType')));
             }
             if ($request->post('dictLabel')) {
-                $model = $model->where('dick_label', 'like', '%' . trim($request->post('dictLabel')) . '%');
+                $model = $model->where('dict_label', 'like', '%' . trim($request->post('dictLabel')) . '%');
             }
             if (strlen($request->post('status')) > 0) {
                 $model = $model->where('status', trim($request->post('status')));

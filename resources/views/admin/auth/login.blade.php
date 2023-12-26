@@ -9,7 +9,7 @@
     <link href="/static/css/font-awesome.min.css" rel="stylesheet"/>
     <link href="/static/css/style.min.css" rel="stylesheet"/>
     <link href="/static/css/login.min.css" rel="stylesheet"/>
-    <link href="/static/ruoyi/css/ry-ui.css" rel="stylesheet"/>
+    <link href="/static/ruoyi/css/soft-ui.css" rel="stylesheet"/>
     <!-- 360浏览器急速模式 -->
     <meta name="renderer" content="webkit">
     <!-- 避免IE使用兼容模式 -->
@@ -84,7 +84,7 @@
 <script src="/static/ajax/libs/validate/jquery.validate.min.js"></script>
 <script src="/static/ajax/libs/layer/layer.min.js"></script>
 <script src="/static/ajax/libs/blockUI/jquery.blockUI.js"></script>
-<script src="/static/ruoyi/js/ry-ui.js"></script>
+<script src="/static/ruoyi/js/soft-ui.js"></script>
 <script src="/static/ruoyi/login.js"></script>
 </body>
 </html>

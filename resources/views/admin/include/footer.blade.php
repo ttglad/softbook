@@ -16,7 +16,7 @@
 <script src="/static/ajax/libs/layer/layer.min.js?v=3.5.1"></script>
 <script src="/static/ajax/libs/layui/layui.min.js?v=2.7.5"></script>
 <script src="/static/ruoyi/js/common.js?v=4.7.7"></script>
-<script src="/static/ruoyi/js/ry-ui.js?v=4.7.7"></script>
+<script src="/static/ruoyi/js/soft-ui.js?v=4.7.7"></script>
 <script>
     $(function() {
         $.ajaxSetup({

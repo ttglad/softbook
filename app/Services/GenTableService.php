@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\DB;
 
 class GenTableService extends Service
 {
+    private $projectTables = [
+        'project_info',
+        'project_menu',
+        'project_column',
+        'project_dict',
+        'project_business'
+    ];
+
     /**
      * 获取未导入的表名称
      * @param $tableName
@@ -19,7 +27,9 @@ class GenTableService extends Service
     {
         $sql = "SELECT table_name, table_comment, create_time, update_time FROM information_schema.tables ";
         $sql .= "WHERE table_schema = (SELECT database()) ";
-        $sql .= "AND table_name NOT LIKE 'qrtz_%' AND table_name NOT LIKE 'gen_%' AND table_name NOT LIKE 'sys_%' ";
+        $sql .= "AND table_name NOT LIKE 'gen_%' AND table_name NOT LIKE 'sys_%' AND table_name NOT IN ('" . implode("','",
+                $this->projectTables) . "') ";
+
 //        $sql .= "AND table_name NOT IN (SELECT table_name FROM gen_table) ";
         if (!empty($tableName)) {
             $sql .= "AND LOWER(table_name) LIKE LOWER(CONCAT('%', #{tableName}, '%')) ";
@@ -40,7 +50,8 @@ class GenTableService extends Service
     public function getTableListByNames($tableNames): array
     {
         $sql = "SELECT table_name, table_comment, create_time, update_time FROM information_schema.tables ";
-        $sql .= "WHERE table_name NOT LIKE 'qrtz_%' AND table_name NOT LIKE 'gen_%' AND table_schema = (SELECT database()) AND table_name IN(";
+        $sql .= "WHERE table_name NOT LIKE 'gen_%' AND table_name NOT LIKE 'sys_%' ADN table_name NOT IN ('" . implode("','",
+                $this->projectTables) . "')  AND table_schema = (SELECT database()) AND table_name IN(";
         $sql .= "'" . implode("','", $tableNames) . "'";
         $sql .= ");";
         return DB::select($sql);
@@ -73,7 +84,7 @@ class GenTableService extends Service
         $gen->table_comment = $tableComment;
         $gen->class_name = $className;
         $gen->tpl_category = 'crud';
-        $gen->package_name = 'com.ruoyi.system';
+        $gen->package_name = 'com.softbook.system';
         $gen->module_name = 'system';
         $gen->business_name = lcfirst($className);
         $gen->function_name = $tableComment;
@@ -87,28 +98,6 @@ class GenTableService extends Service
      * 初始化表
      * @param $tableName
      * @param $tableComment
-     * `column_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
-     * `table_id` varchar(64) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '归属表编号',
-     * `column_name` varchar(200) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '列名称',
-     * `column_comment` varchar(500) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '列描述',
-     * `column_type` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '列类型',
-     * `java_type` varchar(500) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'JAVA类型',
-     * `java_field` varchar(200) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'JAVA字段名',
-     * `is_pk` char(1) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否主键（1是）',
-     * `is_increment` char(1) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否自增（1是）',
-     * `is_required` char(1) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否必填（1是）',
-     * `is_insert` char(1) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否为插入字段（1是）',
-     * `is_edit` char(1) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否编辑字段（1是）',
-     * `is_list` char(1) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否列表字段（1是）',
-     * `is_query` char(1) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否查询字段（1是）',
-     * `query_type` varchar(200) COLLATE utf8mb4_bin DEFAULT 'EQ' COMMENT '查询方式（等于、不等于、大于、小于、范围）',
-     * `html_type` varchar(200) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '显示类型（文本框、文本域、下拉框、复选框、单选框、日期控件）',
-     * `dict_type` varchar(200) COLLATE utf8mb4_bin DEFAULT '' COMMENT '字典类型',
-     * `sort` int(11) DEFAULT NULL COMMENT '排序',
-     * `create_by` varchar(64) COLLATE utf8mb4_bin DEFAULT '' COMMENT '创建者',
-     * `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-     * `update_by` varchar(64) COLLATE utf8mb4_bin DEFAULT '' COMMENT '更新者',
-     * `update_time` datetime DEFAULT NULL COMMENT '更新时间',
      * @return GenTable
      */
     public function initGenTableColumn($columnObj, $genTable): GenTableColumn

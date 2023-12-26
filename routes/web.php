@@ -27,6 +27,7 @@ Route::group(['namespace' => 'Admin'], function () {
         Route::get('main', 'HomeController@base')->name('admin_main');
 
         // 主框架
+        Route::get('/', 'HomeController@home')->name('admin_home');
         Route::get('index', 'HomeController@home')->name('admin_home');
 
         // 切换主题
@@ -89,7 +90,8 @@ Route::group(['namespace' => 'Admin'], function () {
         Route::get('system/dept/edit/{id}', 'DeptController@edit')->where('id', '[0-9]+');
         Route::post('system/dept/edit', 'DeptController@editPost');
         Route::get('system/dept/remove/{id}', 'DeptController@remove')->where('id', '[0-9]+');
-        Route::get('system/dept/selectDeptTree/{id}/{excludeId?}', 'DeptController@selectDeptTree')->where('id', '[0-9]+');
+        Route::get('system/dept/selectDeptTree/{id}/{excludeId?}', 'DeptController@selectDeptTree')->where('id',
+            '[0-9]+');
         Route::get('system/dept/treeData/{id}', 'DeptController@treeData')->where('id', '[0-9]+');
         Route::post('system/dept/checkDeptNameUnique', 'DeptController@checkDeptNameUnique');
 
@@ -154,41 +156,90 @@ Route::group(['namespace' => 'Admin'], function () {
         Route::post('tool/gen/importTable', 'GenController@importTablePost');
         Route::post('tool/gen/remove', 'GenController@remove');
         Route::get('tool/gen/synchDb/{table}', 'GenController@synchDb');
-        Route::get('tool/gen/batchDownloadCode', 'GenController@batchDownloadCode');
+        Route::get('tool/gen/batchGenCode', 'GenController@batchGenCode');
 
         // 系统监控
         Route::get('monitor/server', 'MonitorController@server');
 
-        // 软著项目
-//        Route::get('project/test', 'ProjectController@test');
-
     });
 });
 
+// 软著项目编辑
+Route::group(['namespace' => 'Project', 'middleware' => ['auth']], function () {
+
+    // 软著项目
+    Route::get('project', 'InfoController@show');
+    Route::get('project/add', 'InfoController@add');
+    Route::post('project/add', 'InfoController@addPost');
+    Route::post('project/list', 'InfoController@lists');
+    Route::get('project/edit/{id}', 'InfoController@edit')->where('id', '[0-9]+');
+    Route::post('project/edit', 'InfoController@editPost');
+    Route::post('project/remove', 'InfoController@remove');
+    Route::get('project/switchSkin', 'InfoController@switchSkin');
+
+
+    // 项目菜单
+    Route::get('project/menu/{id}', 'MenuController@show')->where('id', '[0-9]+');
+    Route::get('project/menu/{id}/add/{mid}', 'MenuController@add')->where('id', '[0-9]+')->where('mid', '[0-9]+');
+    Route::post('project/menu/{id}/add', 'MenuController@addPost')->where('id', '[0-9]+');
+    Route::post('project/menu/{id}/list', 'MenuController@lists')->where('id', '[0-9]+');
+    Route::get('project/menu/{id}/edit/{mid}', 'MenuController@edit')->where('id', '[0-9]+')->where('mid', '[0-9]+');
+    Route::post('project/menu/{id}/edit', 'MenuController@editPost');
+    Route::get('project/menu/{id}/remove/{mid}', 'MenuController@remove')->where('id', '[0-9]+')->where('mid',
+        '[0-9]+');
+    Route::get('project/menu/{id}/tree/{mid}', 'MenuController@tree')->where('id', '[0-9]+')->where('mid', '[0-9]+');
+    Route::get('project/menu/{id}/treeLists', 'MenuController@treeLists')->where('id', '[0-9]+');
+
+    // 项目菜单字段
+    Route::get('project/menu/column/{id}', 'ColumnController@show')->where('id', '[0-9]+');
+    Route::get('project/menu/column/{id}/add', 'ColumnController@add')->where('id', '[0-9]+');
+    Route::post('project/menu/column/{id}/add', 'ColumnController@addPost')->where('id', '[0-9]+');
+    Route::post('project/menu/column/{id}/list', 'ColumnController@lists')->where('id', '[0-9]+');
+    Route::get('project/menu/column/{id}/edit/{mid}', 'ColumnController@edit')->where('id', '[0-9]+')->where('mid', '[0-9]+');
+    Route::post('project/menu/column/{id}/edit', 'ColumnController@editPost');
+    Route::post('project/menu/column/{id}/remove', 'ColumnController@remove')->where('id', '[0-9]+');
+
+    // 项目字典
+    Route::get('project/dict', 'DictController@show');
+    Route::post('project/dict/list', 'DictController@lists');
+    Route::get('project/dict/add', 'DictController@add');
+    Route::post('project/dict/add', 'DictController@addPost');
+    Route::get('project/dict/edit/{id}', 'DictController@edit')->where('id', '[0-9]+');
+    Route::post('project/dict/edit', 'DictController@editPost');
+    Route::post('project/dict/remove', 'DictController@remove');
+
+    // 项目预览
+    Route::get('project/login/{id}', 'PreviewController@login')->where('id', '[0-9]+');
+    Route::post('project/preview/{id}/login', 'PreviewController@loginPost')->where('id', '[0-9]+');
+    Route::get('project/preview/{id}/index', 'PreviewController@index')->where('id', '[0-9]+');
+
+    // 项目业务
+    Route::get('project/business/{id}', 'BusinessController@show');
+    Route::get('project/business/{id}/add', 'BusinessController@add');
+    Route::post('project/business/{id}/add', 'BusinessController@addPost');
+    Route::get('project/business/{id}/edit/{did}', 'BusinessController@edit');
+    Route::post('project/business/{id}/edit', 'BusinessController@editPost');
+    Route::post('project/business/{id}/list', 'BusinessController@lists');
+    Route::post('project/business/{id}/export', 'BusinessController@export');
+    Route::post('project/business/{id}/remove', 'BusinessController@remove');
+    Route::post('project/business/{id}/download', 'BusinessController@download');
+
+});
 
 // 业务菜单统一处理
 Route::group(['namespace' => 'Business', 'middleware' => ['auth']], function () {
-
-    // demo 页面
-    Route::get('business/dataStorage', 'DataStorageController@show');
-    Route::get('business/dataStorage/add', 'DataStorageController@add');
-    Route::post('business/dataStorage/add', 'DataStorageController@addPost');
-    Route::post('business/dataStorage/list', 'DataStorageController@lists');
-    Route::get('business/dataStorage/edit/{id}', 'DataStorageController@edit');
-    Route::post('business/dataStorage/edit', 'DataStorageController@editPost');
-    Route::post('business/dataStorage/remove', 'DataStorageController@remove');
 
     // 下载文件页面
     Route::get('business/download', 'SoftBookController@download');
 
     // 业务具体处理逻辑
-    Route::get('business/{table}', 'SoftBookController@show');
-    Route::get('business/{table}/add', 'SoftBookController@add');
-    Route::post('business/{table}/add', 'SoftBookController@addPost');
-    Route::get('business/{table}/edit/{id}', 'SoftBookController@edit');
-    Route::post('business/{table}/edit', 'SoftBookController@editPost');
-    Route::post('business/{table}/list', 'SoftBookController@lists');
-    Route::post('business/{table}/export', 'SoftBookController@export');
-    Route::post('business/{table}/remove', 'SoftBookController@remove');
+//    Route::get('business/{table}', 'SoftBookController@show');
+//    Route::get('business/{table}/add', 'SoftBookController@add');
+//    Route::post('business/{table}/add', 'SoftBookController@addPost');
+//    Route::get('business/{table}/edit/{id}', 'SoftBookController@edit');
+//    Route::post('business/{table}/edit', 'SoftBookController@editPost');
+//    Route::post('business/{table}/list', 'SoftBookController@lists');
+//    Route::post('business/{table}/export', 'SoftBookController@export');
+//    Route::post('business/{table}/remove', 'SoftBookController@remove');
 });
 

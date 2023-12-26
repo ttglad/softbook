@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Models\GenTable;
-use App\Models\GenTableColumn;
+use App\Models\Project\ProjectColumn;
+use App\Models\Project\ProjectInfo;
+use App\Models\Project\ProjectMenu;
 use App\Models\SysConfig;
 use App\Models\SysDictData;
-use App\Models\SysMenu;
 use App\Services\ResourceService;
 use Illuminate\Console\Command;
 
@@ -23,7 +23,7 @@ class SoftbookDoc extends Command
      *
      * @var string
      */
-    protected $signature = 'softbook:doc';
+    protected $signature = 'softbook:doc {id}';
 
     /**
      * The console command description.
@@ -46,51 +46,42 @@ class SoftbookDoc extends Command
      */
     public function handle()
     {
-        $imagePath = rtrim(env('SOFTBOOK_IMAGE_DIR', resource_path('softbook/image')), '/') . '/';
-        $basePath = rtrim(env('SOFTBOOK_BASE_DIR', resource_path('softbook')), '/') . '/';
-        $savePath = rtrim(env('SOFTBOOK_SAVE_DIR', resource_path('softbook/project')), '/') . '/';
+        $id = $this->argument('id');
+        $project = ProjectInfo::find($id);
 
-        // 软件名称
-        $sysConfig = SysConfig::where('config_key', 'sys.soft.name')->first();
-        $projectName = $sysConfig->config_value;
-        $sysConfig = SysConfig::where('config_key', 'sys.soft.code')->first();
-        $projectKey = $sysConfig->config_value;
+        if (!is_null($project)) {
+            $imagePath = rtrim(env('SOFTBOOK_IMAGE_DIR', resource_path('softbook/image')), '/') . '/';
+            $basePath = rtrim(env('SOFTBOOK_BASE_DIR', resource_path('softbook')), '/') . '/';
+            $savePath = rtrim(env('SOFTBOOK_SAVE_DIR', resource_path('softbook/project')), '/') . '/';
 
-        // 行业
-        $businessType = '通讯行业';
+            $savePath .= $project->project_title . '/';
+            if (!is_dir($savePath)) {
+                // 创建目录
+                mkdir($savePath, 0777, true);
+            }
 
-        // 系统功能
-        $systemFeatures = '该系统是一款通信信号调度集成系统，主要包括信号调度管理、通信设备配置、网络拓扑管理等功能。通过对信号强度的监控和调度任务的分析，确保通信信号的稳定性和调度效果。';
-        // 开发目的
-        $developmentPurpose = '系统旨在提供一套高效的通信信号调度解决方案，通过对信号的监测和调度任务的分析，优化通信信号的质量，提高调度效果，增强通信系统的稳定性。';
-        // 技术特点
-        $technicalFeatures = '系统采用先进的信号监控和调度技术，实现对通信信号的全面调度管理。报警与处理模块支持智能化处理异常情况，提高调度应对能力。系统还具备灵活的任务分析与效果评估功能，支持多维度的数据分析，为通信信号调度提供科学依据。';
+            // 生成说明文档
+            $this->saveProjectInfo($project, $imagePath, $savePath, $basePath);
 
-        $savePath .= $projectName . '/';
-        if (!is_dir($savePath)) {
-            // 创建目录
-            mkdir($savePath, 0777, true);
+            // 生成代码
+            $this->saveCodeInfo($project, $savePath);
+
+            // 生成信息采集表
+            $this->saveInfoTable($project, $savePath);
+        } else {
+            $this->error('项目id未查询到数据');
         }
-
-        // 生成说明文档
-        $this->saveProjectInfo($projectName, $imagePath, $savePath, $basePath);
-
-        // 生成代码
-        $this->saveCodeInfo($projectName, $savePath);
-
-        // 生成信息采集表
-        $this->saveInfoTable($projectName, $savePath, $systemFeatures, $developmentPurpose, $technicalFeatures, $businessType);
     }
 
     /**
      * 生成说明文档
-     * @param $projectName
+     * @param $project
      * @param $imagePath
      * @param $savePath
      * @param $basePath
      * @return void
      */
-    private function saveProjectInfo($projectName, $imagePath, $savePath, $basePath)
+    private function saveProjectInfo($project, $imagePath, $savePath, $basePath)
     {
         $imageNum = 0;
 
@@ -121,7 +112,7 @@ class SoftbookDoc extends Command
 
         // 添加页眉
         $header = $section->addHeader();
-        $header->addText($projectName, [
+        $header->addText($project->project_title, [
             'name' => '宋体(正文)',  // 字体
             'size' => 9,       // 字体大小
         ]);
@@ -162,12 +153,12 @@ class SoftbookDoc extends Command
             'height' => 230, // 设置图片高度为100%页面高度
         ];
 
-        if (is_file($imagePath . 'login.png')) {
-            $section->addImage($imagePath . 'login.png', $imageStyle, false, '用户登录');
+        if (is_file($imagePath . 'login-' . $project->project_id . '.png')) {
+            $section->addImage($imagePath . 'login-' . $project->project_id . '.png', $imageStyle, false, '用户登录');
         }
         $section->addText('图' . ++$imageNum . '  用户登录', $fontStyle, $pageImageStyle);
 
-        $menus = $this->getMenuTrees();
+        $menus = $this->getMenuTrees($project->project_id);
         foreach ($menus as $item => $menu) {
             if ($item == 0) {
                 $itemOrder = '二、';
@@ -181,16 +172,21 @@ class SoftbookDoc extends Command
             $section->addListItem($itemOrder . $menu['menu_name'], 0, $fontStyle, 'multilevel');
             $section->addText('这个一级菜单主要包括两个二级菜单，本一级菜单具体功能介绍如下：', $fontStyle, $pageStyle);
 
+            if (!isset($menu['children'])) {
+                continue;
+            }
             foreach ($menu['children'] as $child) {
+                $businessColumn = ProjectColumn::where('project_id', $project->project_id)
+                    ->where('menu_id', $child['menu_id'])
+                    ->orderBy('sort')
+                    ->get();
                 // 获取表名字
-                $tableName = trim(str_replace("/business/", '', $child['url']), '/');
-                $table = GenTable::with('columns')->where('table_name', $tableName)->first();
                 $tableColumnDesc = '';
-                if (!is_null($table)) {
+                if (!empty($businessColumn)) {
                     $tableColumnDesc .= '包含字段：';
-                    foreach ($table->columns as $column) {
+                    foreach ($businessColumn as $column) {
                         if ($column->is_list == '1') {
-                            $tableColumnDesc .= $column->column_comment . '、';
+                            $tableColumnDesc .= $column->dict_name . '、';
                         }
                     }
 //                    $this->info($tableColumnDesc);
@@ -203,37 +199,37 @@ class SoftbookDoc extends Command
                 $section->addListItem($child['menu_name'], 1, $fontStyle, 'multilevel');
                 $section->addText('功能入口：点击左部菜单中，即可进入该菜单界面查看其信息内容。', $fontStyle, $pageStyle);
                 $section->addText('功能介绍：该菜单设计了通过名称智能查找、对各字段的新增、编辑和删除处理，具体功能如下。' . $tableColumnDesc,
-                    $fontStyle,$pageStyle);
+                    $fontStyle, $pageStyle);
 
-                if (is_file($imagePath . $child['imagePrefix'] . '-01.png')) {
-                    $section->addImage($imagePath . $child['imagePrefix'] . '-01.png', $imageStyle, false);
+                if (is_file($imagePath . $child['menu_id'] . '-01.png')) {
+                    $section->addImage($imagePath . $child['menu_id'] . '-01.png', $imageStyle, false);
                 }
                 $section->addText('图' . ++$imageNum . '  菜单查看', $fontStyle, $pageImageStyle);
 
                 $section->addText('添加功能：点击信息编辑栏中的“添加”按钮即可进行信息的添加，填写各字段信息，点击完成即可进行新增，具体操作如图' . ++$tempImageNum . '、图' . ++$tempImageNum . '所示。',
                     $fontStyle, $pageStyle);
-                if (is_file($imagePath . $child['imagePrefix'] . '-02.png')) {
-                    $section->addImage($imagePath . $child['imagePrefix'] . '-02.png', $imageStyle, false);
+                if (is_file($imagePath . $child['menu_id'] . '-02.png')) {
+                    $section->addImage($imagePath . $child['menu_id'] . '-02.png', $imageStyle, false);
                 }
                 $section->addText('图' . ++$imageNum . '  新增信息', $fontStyle, $pageImageStyle);
 
-                if (is_file($imagePath . $child['imagePrefix'] . '-03.png')) {
-                    $section->addImage($imagePath . $child['imagePrefix'] . '-03.png', $imageStyle, false);
+                if (is_file($imagePath . $child['menu_id'] . '-03.png')) {
+                    $section->addImage($imagePath . $child['menu_id'] . '-03.png', $imageStyle, false);
                 }
                 $section->addText('图' . ++$imageNum . '  新增后界面', $fontStyle, $pageImageStyle);
 
                 $section->addText('编辑功能：点击信息编辑栏中的“编辑”按钮即可进行信息的编辑，更改各字段信息，点击完成即可进行编辑，具体操作如图' . ++$tempImageNum . '、图' . ++$tempImageNum . '所示。',
                     $fontStyle, $pageStyle);
-                if (is_file($imagePath . $child['imagePrefix'] . '-04.png')) {
-                    $section->addImage($imagePath . $child['imagePrefix'] . '-04.png', $imageStyle, false);
+                if (is_file($imagePath . $child['menu_id'] . '-04.png')) {
+                    $section->addImage($imagePath . $child['menu_id'] . '-04.png', $imageStyle, false);
                 }
                 $section->addText('图' . ++$imageNum . '  编辑信息', $fontStyle, $pageImageStyle);
 
                 $section->addText('删除功能：点击信息编辑栏中的“删除”按钮即可进行信息的删除，具体操作如图' . ++$tempImageNum . '、图' . ++$tempImageNum . '所示。',
                     $fontStyle, $pageStyle);
 
-                if (is_file($imagePath . $child['imagePrefix'] . '-05.png')) {
-                    $section->addImage($imagePath . $child['imagePrefix'] . '-05.png', $imageStyle, false);
+                if (is_file($imagePath . $child['menu_id'] . '-05.png')) {
+                    $section->addImage($imagePath . $child['menu_id'] . '-05.png', $imageStyle, false);
                 }
                 $section->addText('图' . ++$imageNum . '  删除信息', $fontStyle, $pageImageStyle);
             }
@@ -247,7 +243,7 @@ class SoftbookDoc extends Command
         $section->addText('功能介绍：系统设置，可以管理用户信息等，通过对系统中的用户进行创建、删除、修
 改和权限控制等操作，确保系统安全性和有效性。旨在提供合法用户访问系统、限制用户操作范围和访问权限、管理用户个人信息以及收集用户行为数据等功能。如图' . ++$tempImageNum . '所示。',
             $fontStyle, $pageStyle);
-        if(is_file($basePath . 'user.png')) {
+        if (is_file($basePath . 'user.png')) {
             $section->addImage($basePath . 'user.png', [
                 'alignment' => Jc::CENTER,
                 'width' => 400,  // 设置图片宽度为100%页面宽度
@@ -283,17 +279,17 @@ class SoftbookDoc extends Command
         }
         $section->addText('图' . ++$imageNum . '  系统监控', $fontStyle, $pageImageStyle);
 
-        $phpWord->save($savePath . $projectName . '使用说明.docx');
+        $phpWord->save($savePath . $project->project_title . '使用说明.docx');
     }
 
 
     /**
      * 生成代码文档
-     * @param $projectName
+     * @param $project
      * @param $savePath
      * @return void
      */
-    private function saveCodeInfo($projectName, $savePath)
+    private function saveCodeInfo($project, $savePath)
     {
         $phpWord = new PhpWord();
         $section = $phpWord->addSection([
@@ -312,7 +308,7 @@ class SoftbookDoc extends Command
 
         // 添加页眉
         $header = $section->addHeader();
-        $header->addText($projectName, [
+        $header->addText($project->project_title, [
             'name' => '宋体(正文)',  // 字体
             'size' => 9,       // 字体大小
         ]);
@@ -325,7 +321,7 @@ class SoftbookDoc extends Command
         ], ['alignment' => Jc::CENTER]);
 
         // 获取代码
-        $contents = $this->getCodes();
+        $contents = $this->getCodes($project);
 
         $codeArray = explode("\n", $contents);
         foreach ($codeArray as $code) {
@@ -335,26 +331,17 @@ class SoftbookDoc extends Command
             $section->addText(htmlspecialchars($code), $fontStyle);
         }
 
-        $phpWord->save($savePath . $projectName . '代码.docx');
+        $phpWord->save($savePath . $project->project_title . '代码.docx');
     }
 
     /**
      * 生成信息采集表
-     * @param $projectName
+     * @param $project
      * @param $savePath
-     * @param $systemFeatures
-     * @param $developmentPurpose
-     * @param $technicalFeatures
      * @return void
      */
-    private function saveInfoTable(
-        $projectName,
-        $savePath,
-        $systemFeatures,
-        $developmentPurpose,
-        $technicalFeatures,
-        $businessType
-    ) {
+    private function saveInfoTable($project, $savePath)
+    {
         $config = config('softbook');
 
         $phpWord = new PhpWord();
@@ -426,7 +413,7 @@ class SoftbookDoc extends Command
         $table->addCell($tableLeftWidth)
             ->addText('*软件全称：', $fontStyleBold, $pageStyle);
         $table->addCell($tableRightWidth)
-            ->addText($projectName, $fontStyleBold, $pageStyle);// 添加数据行
+            ->addText($project->project_title, $fontStyleBold, $pageStyle);// 添加数据行
 
         // 添加数据行
         $table->addRow();
@@ -439,14 +426,14 @@ class SoftbookDoc extends Command
         $table->addCell($tableLeftWidth)
             ->addText('*版本号：（如：V1.0 ）', $fontStyleBold, $pageStyle);
         $table->addCell($tableRightWidth)
-            ->addText('V1.0', $fontStyle, $pageStyle);
+            ->addText($project->project_version, $fontStyle, $pageStyle);
 
         // 添加数据行
         $table->addRow();
         $table->addCell($tableLeftWidth)
             ->addText('*软件分类', $fontStyleBold, $pageStyle);
         $table->addCell($tableRightWidth)
-            ->addText('应用软件', $fontStyle, $pageStyle);
+            ->addText($project->project_category, $fontStyle, $pageStyle);
 
         // 添加数据行
         $table->addRow();
@@ -552,21 +539,21 @@ class SoftbookDoc extends Command
         $table->addCell($tableLeftWidth)
             ->addText('*程序量', $fontStyleBold, $pageStyle);
         $table->addCell($tableRightWidth)
-            ->addText(rand(61000, 69000), $fontStyle, $pageStyle);
+            ->addText($project->code_line, $fontStyle, $pageStyle);
 
         // 添加数据行
         $table->addRow();
         $table->addCell($tableLeftWidth)
             ->addText('*开发目的', $fontStyleBold, $pageStyle);
         $cell = $table->addCell($tableRightWidth);
-        $cell->addText($developmentPurpose, $fontStyle, $pageStyle);
+        $cell->addText($project->develop_purpose, $fontStyle, $pageStyle);
 
         // 添加数据行
         $table->addRow();
         $table->addCell($tableLeftWidth)
             ->addText('*面向领域/行业', $fontStyleBold, $pageStyle);
         $table->addCell($tableRightWidth)
-            ->addText($businessType, [
+            ->addText($project->project_sector, [
                 'name' => '宋体(正文)',  // 字体
                 'size' => 10.5,       // 字体大小
                 'bold' => true,
@@ -579,16 +566,16 @@ class SoftbookDoc extends Command
         $table->addCell($tableLeftWidth)
             ->addText('*软件的主要功能', $fontStyleBold, $pageStyle);
         $cell = $table->addCell($tableRightWidth);
-        $cell->addText($systemFeatures, $fontStyle, $pageStyle);
+        $cell->addText($project->project_feature, $fontStyle, $pageStyle);
 
         // 添加数据行
         $table->addRow();
         $table->addCell($tableLeftWidth)
             ->addText('*软件的技术特点', $fontStyleBold, $pageStyle);
         $cell = $table->addCell($tableRightWidth);
-        $cell->addText($technicalFeatures, $fontStyle, $pageStyle);
+        $cell->addText($project->project_skill, $fontStyle, $pageStyle);
 
-        $phpWord->save($savePath . $projectName . '信息采集表.docx');
+        $phpWord->save($savePath . $project->project_title . '信息采集表.docx');
     }
 
 
@@ -596,10 +583,14 @@ class SoftbookDoc extends Command
      * 获取菜单树
      * @return array
      */
-    private function getMenuTrees(): array
+    private function getMenuTrees($projectId): array
     {
         $menuTrees = [];
-        $menus = SysMenu::where('visible', 0)->orderByDesc('menu_id')->take(9)->get();
+        $menus = ProjectMenu::where('project_id', $projectId)
+            ->where('visible', 0)
+            ->orderBy('order_num')
+            ->get();
+
 //        $this->info('menu size is: ' . sizeof($menus));
         if (sizeof($menus) > 0) {
             // 取父节点
@@ -613,7 +604,6 @@ class SoftbookDoc extends Command
                         'order_num' => $item->order_num,
                         'url' => $item->url,
                         'target' => $item->target,
-                        'imagePrefix' => '#'
                     ];
                 }
             }
@@ -628,7 +618,6 @@ class SoftbookDoc extends Command
                         'order_num' => $item->order_num,
                         'url' => $item->url,
                         'target' => $item->target,
-                        'imagePrefix' => explode('/', $item->url)[2]
                     ];
                 }
             }
@@ -639,9 +628,11 @@ class SoftbookDoc extends Command
 
             // 子节点排序
             foreach ($menuTrees as &$item) {
-                usort($item['children'], function ($a, $b) {
-                    return $a['order_num'] - $b['order_num'];
-                });
+                if (isset($item['children'])) {
+                    usort($item['children'], function ($a, $b) {
+                        return $a['order_num'] - $b['order_num'];
+                    });
+                }
             }
         }
         return array_values($menuTrees);
@@ -652,11 +643,11 @@ class SoftbookDoc extends Command
      * @return array|string|string[]
      * @throws \Throwable
      */
-    private function getCodes(): string
+    private function getCodes($project): string
     {
         $content = '';
         try {
-            $menus = $this->getMenuTrees();
+            $menus = $this->getMenuTrees($project->project_id);
             $resourceService = new ResourceService();
 
             // 获取登录页面 ######
@@ -664,16 +655,13 @@ class SoftbookDoc extends Command
             $registerValue = is_null($sysConfig) ? false : $sysConfig->config_value;
             $rememberMe = true;
             $captchaEnabled = false;
-            // 软件名称
-            $sysConfig = SysConfig::where('config_key', 'sys.soft.name')->first();
-            $softName = $sysConfig->config_value;
 
-            $content .= view('admin.auth.login', [
+            $content .= view('project.preview.login', [
                 'registerValue' => $registerValue,
                 'rememberMe' => $rememberMe,
                 'captchaEnabled' => $captchaEnabled,
-                'softName' => $softName,
-            ])->render();
+                'project' => $project,
+            ]);
 
             // 获取用户页 ######
             // 获取菜单展示名称
@@ -689,21 +677,18 @@ class SoftbookDoc extends Command
                     continue;
                 }
                 foreach ($menu['children'] as $child) {
-                    $table = str_replace('business/', '', trim($child['url'], '/'));
 
-                    // 获取业务表名称
-                    $business = GenTable::where('table_name', $table)->first();
-                    if (is_null($business)) {
-                        throw new \Exception('业务不存在', 1001);
-                    }
-                    // 业务列名称
-                    $businessColumn = GenTableColumn::where('table_id', $business->table_id)->orderBy('sort')->get();
+                    $business = ProjectMenu::findOrFail($child['menu_id']);
 
-                    // 获取业务展示页面
-                    $content .= view('business.show', [
+                    $businessColumn = ProjectColumn::where('project_id', $business->project_id)
+                        ->where('menu_id', $business->menu_id)
+                        ->orderBy('sort')
+                        ->get();
+
+                    $content .= view('project.business.show', [
                         'business' => $business,
                         'businessColumn' => $businessColumn,
-                    ])->render();
+                    ]);
                 }
             }
 
@@ -718,15 +703,13 @@ class SoftbookDoc extends Command
                     continue;
                 }
                 foreach ($menu['children'] as $child) {
-                    $table = str_replace('business/', '', trim($child['url'], '/'));
 
-                    // 获取业务表名称
-                    $business = GenTable::where('table_name', $table)->first();
-                    if (is_null($business)) {
-                        throw new \Exception('业务不存在', 1001);
-                    }
-                    // 业务列名称
-                    $businessColumn = GenTableColumn::where('table_id', $business->table_id)->orderBy('sort')->get();
+                    $business = ProjectMenu::findOrFail($child['menu_id']);
+
+                    $businessColumn = ProjectColumn::where('project_id', $business->project_id)
+                        ->where('menu_id', $business->menu_id)
+                        ->orderBy('sort')
+                        ->get();
 
                     // 获取model代码
                     $content .= $resourceService->getControllerContent($business, $businessColumn);
@@ -739,9 +722,8 @@ class SoftbookDoc extends Command
         }
 
         // 替换软件代码
-        $sysConfig = SysConfig::where('config_key', 'sys.soft.code')->first();
-        if (!is_null($sysConfig) && !empty($sysConfig->config_value)) {
-            $content = str_replace('ruoyi', $sysConfig->config_value, $content);
+        if (!empty($project->project_code)) {
+            $content = str_replace('ruoyi', $project->project_code, $content);
         }
 
         $content = str_replace('©', '', $content);
