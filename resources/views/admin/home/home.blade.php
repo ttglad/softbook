@@ -214,8 +214,8 @@
         $("body").addClass(skin.split('|')[0]);
         $("body").addClass(skin.split('|')[1]);
     } else {
-        $("body").addClass({{ $sideTheme }});
-        $("body").addClass({{ $skinName }});
+        $("body").addClass("{{ $sideTheme }}");
+        $("body").addClass("{{ $skinName }}");
     }
 
     /* 用户管理-重置密码 */
