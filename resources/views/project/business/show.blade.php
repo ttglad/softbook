@@ -70,9 +70,9 @@
                echo "\n";
                foreach ($businessColumn as $column) {
                    if ($column->dict_value == 'id') {
-                       echo "            {\n                field:'" . $column->dict_value . "',\n                title:'" . $column->column_comment . "',\n                visible: false\n            },";
+                       echo "            {\n                field:'" . $column->dict_value . "',\n                title:'" . $column->dict_name . "',\n                visible: false\n            },";
                    } else {
-                       echo "            {\n                field:'" . $column->dict_value . "',\n                title:'" . $column->column_comment . "'\n            },";
+                       echo "            {\n                field:'" . $column->dict_value . "',\n                title:'" . $column->dict_name . "'\n            },";
                    }
                    echo "\n";
                }
