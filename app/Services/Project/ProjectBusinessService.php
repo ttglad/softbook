@@ -2,7 +2,6 @@
 
 namespace App\Services\Project;
 
-use App\Models\GenBusinessData;
 use App\Models\Project\ProjectBusiness;
 use App\Services\Service;
 

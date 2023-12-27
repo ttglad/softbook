@@ -176,6 +176,8 @@ Route::group(['namespace' => 'Project', 'middleware' => ['auth']], function () {
     Route::post('project/edit', 'InfoController@editPost');
     Route::post('project/remove', 'InfoController@remove');
     Route::get('project/switchSkin', 'InfoController@switchSkin');
+    Route::get('project/download/{id}', 'InfoController@download');
+    Route::post('project/uploadImage', 'InfoController@uploadImage');
 
 
     // 项目菜单

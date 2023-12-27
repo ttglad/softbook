@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Project;
 
 use App\Models\Project\ProjectInfo;
 use App\Models\SysDictData;
+use App\Services\Project\ProjectDocService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 /**
  *
@@ -75,8 +77,8 @@ class InfoController extends ProjectController
             $model->create_by = auth()->user()->login_name;
 
             // 主题样式列表
-            $model->project_skin = $this->skins[array_rand($this->skins)];
-            $model->project_theme = $this->themes[array_rand($this->themes)];
+            $model->project_skin = Arr::random($this->skins);
+            $model->project_theme = Arr::random($this->themes);
             $skinTheme = explode('|', trim($request->post('skinTheme')));
             if (isset($skinTheme[0]) && in_array($skinTheme[0], $this->skins)) {
                 $model->project_skin = $skinTheme[0];
@@ -135,8 +137,8 @@ class InfoController extends ProjectController
             $model->create_by = auth()->user()->login_name;
 
             // 主题样式列表
-            $model->project_skin = $this->skins[array_rand($this->skins)];
-            $model->project_theme = $this->themes[array_rand($this->themes)];
+            $model->project_skin = Arr::random($this->skins);
+            $model->project_theme = Arr::random($this->themes);
             $skinTheme = explode('|', trim($request->post('skinTheme')));
             if (isset($skinTheme[0]) && in_array($skinTheme[0], $this->skins)) {
                 $model->project_skin = $skinTheme[0];
@@ -211,6 +213,58 @@ class InfoController extends ProjectController
             $return['msg'] = $e->getMessage();
         }
 
+        return $return;
+    }
+
+    /**
+     * 下载文档
+     * @param Request $request
+     * @param $id
+     * @return void
+     */
+    public function download(Request $request, $id)
+    {
+        try {
+            $project = ProjectInfo::findOrFail($id);
+            $docService = new ProjectDocService();
+            if ($file = $docService->saveDocByProjectId($project, true)) {
+                return response()->download($file, $project->project_title . '.zip')->deleteFileAfterSend();
+            }
+        } catch (\Exception $e) {
+            abort(404);
+        }
+    }
+
+    /**
+     * 截图上传保存
+     * @param Request $request
+     * @return array|mixed
+     */
+    public function uploadImage(Request $request)
+    {
+        $return = $this->ajaxReturn;
+        try {
+            $file = $request->post('file');
+            $name = $request->post('name');
+            if (empty($file) || empty($name)) {
+                throw new \Exception('图片内容或者名称不能为空', 1001);
+            }
+            if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $file, $res)) {
+                //获取图片类型
+                $type = $res[2];
+                $imagePath = rtrim(env('SOFTBOOK_IMAGE_DIR', resource_path('softbook/image')), '/');
+                $fileName = $imagePath . '/' . $name . '.' . $type;
+                if (file_exists($fileName)) {
+                    unlink($fileName);
+                }
+                if (!file_put_contents($fileName, base64_decode(str_replace($res[1], '', $file)))) {
+                    throw new \Exception('图片保存失败', 1002);
+                }
+            }
+        } catch (\Exception $e) {
+            $return['code'] = $e->getCode();
+            $return['msg'] = $e->getMessage();
+        }
         return $return;
     }
 }

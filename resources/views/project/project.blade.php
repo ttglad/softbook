@@ -119,6 +119,7 @@
                         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="preview(\'' + row.project_id + '\')"><i class="fa fa-file-image-o"></i>预览</a> ');
                         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.project_id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                         actions.push('<a class="btn btn-info btn-xs ' + menuFlag + '" href="javascript:void(0)" onclick="menu(\'' + row.project_id + '\')"><i class="fa fa-list-ul"></i>菜单</a> ');
+                        actions.push('<a class="btn btn-info btn-xs ' + menuFlag + '" href="javascript:void(0)" onclick="getCode(\'' + row.project_id + '\')"><i class="fa fa-download"></i>下载</a> ');
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.project_id + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
                     }
@@ -137,6 +138,12 @@
     function menu(projectId) {
         var url = prefix + '/menu/' + projectId;
         $.modal.openTab("项目菜单", url);
+    }
+
+    // 菜单管理
+    function getCode(projectId) {
+        var url = prefix + '/download/' + projectId;
+        window.open(url);
     }
 </script>
 </body>
