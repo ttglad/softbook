@@ -436,7 +436,8 @@ class ProjectDocService extends ProjectService
         $table->addRow();
         $table->addCell($tableLeftWidth)
             ->addText('*著作权人（公司名称）', $fontStyleBold, $pageStyle);
-        $table->addCell($tableRightWidth);
+        $table->addCell($tableRightWidth)
+            ->addText($project->project_author, $fontStyle, $pageStyle);
 
         // 添加数据行
         $table->addRow();
