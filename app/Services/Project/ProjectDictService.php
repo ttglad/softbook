@@ -10,6 +10,21 @@ use TencentCloud\Tmt\V20180321\TmtClient;
 
 class ProjectDictService extends ProjectService
 {
+    /**
+     * @return string[]
+     */
+    protected static function getExcludeChar()
+    {
+        return ['-', '_', '.'];
+    }
+
+    /**
+     * @return string[]
+     */
+    protected static function getExcludeWords()
+    {
+        return ['of', 'on', 'in'];
+    }
 
     /**
      * @return TmtClient
@@ -39,9 +54,11 @@ class ProjectDictService extends ProjectService
                 $valueArray = explode(' ', $content->TargetText);
                 $valueStr = '';
                 foreach ($valueArray as $value) {
-                    $valueStr .= ucfirst($value);
+                    if (!in_array(strtolower($value), self::getExcludeWords())) {
+                        $valueStr .= ucfirst($value);
+                    }
                 }
-                $valueStr = str_replace(['-', '_'], '', $valueStr);
+                $valueStr = str_replace(self::getExcludeChar(), '', $valueStr);
                 $dict = new ProjectDict();
                 $dict->dict_name = $key;
                 $dict->dict_value = lcfirst($valueStr);
@@ -50,6 +67,7 @@ class ProjectDictService extends ProjectService
         }
         return $dict;
     }
+
     /**
      * 根据内容返回值
      * @param $key
@@ -71,9 +89,11 @@ class ProjectDictService extends ProjectService
                 $valueArray = explode(' ', $content->TargetText);
                 $valueStr = '';
                 foreach ($valueArray as $value) {
-                    $valueStr .= ucfirst($value);
+                    if (!in_array(strtolower($value), self::getExcludeWords())) {
+                        $valueStr .= ucfirst($value);
+                    }
                 }
-                $valueStr = str_replace(['-', '_'], '', $valueStr);
+                $valueStr = str_replace(self::getExcludeChar(), '', $valueStr);
                 $dict = new ProjectDict();
                 $dict->dict_name = $key;
                 $dict->dict_value = lcfirst($valueStr);
@@ -118,9 +138,11 @@ class ProjectDictService extends ProjectService
                     $valueArray = explode(' ', $content->TargetTextList[$i]);
                     $valueStr = '';
                     foreach ($valueArray as $value) {
-                        $valueStr .= ucfirst($value);
+                        if (!in_array(strtolower($value), self::getExcludeWords())) {
+                            $valueStr .= ucfirst($value);
+                        }
                     }
-                    $valueStr = str_replace(['-', '_'], '', $valueStr);
+                    $valueStr = str_replace(self::getExcludeChar(), '', $valueStr);
                     $dict = new ProjectDict();
                     $dict->dict_name = $item;
                     $dict->dict_value = lcfirst($valueStr);
