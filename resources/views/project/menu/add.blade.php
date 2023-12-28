@@ -35,8 +35,8 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label is-required">菜单类型：</label>
 				<div class="col-sm-8">
-					<label class="radio-box"> <input type="radio" name="menuType" value="M" checked/> 目录 </label>
-					<label class="radio-box"> <input type="radio" name="menuType" value="C" /> 菜单 </label>
+					<label class="radio-box"> <input type="radio" name="menuType" value="M" @if($menuParent->menu_id == 0) checked @endif/> 目录 </label>
+					<label class="radio-box"> <input type="radio" name="menuType" value="C" @if($menuParent->menu_id > 0) checked @endif/> 菜单 </label>
 				</div>
 			</div>
 			<div class="form-group">
@@ -77,7 +77,7 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label is-required" title="数字越小越靠前">显示排序：<i class="fa fa-question-circle-o"></i></label>
 				<div class="col-sm-8">
-					<input class="form-control" type="text" name="orderNum" required>
+					<input class="form-control" type="text" name="orderNum" required value="1">
 				</div>
 			</div>
 			<div class="form-group">

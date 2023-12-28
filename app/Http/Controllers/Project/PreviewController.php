@@ -108,6 +108,7 @@ class PreviewController extends ProjectController
         $projectMenu = ProjectMenu::where('project_id', $project->project_id)
             ->where('visible', '0')
             ->orderBy('order_num')
+            ->orderBy('menu_id')
             ->get()
             ->toArray();
         $menus = $menuService->getChildPerms(array_merge($projectMenu, $defaultMenu), 0);
