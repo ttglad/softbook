@@ -55,8 +55,8 @@
         <div class="col-sm-5">
             <form id="signupForm" autocomplete="off">
                 <h4 class="no-margins">登录：</h4>
-                <input type="text" name="username" class="form-control uname" placeholder="用户名" value="softbook"/>
-                <input type="password" name="password" class="form-control pword" placeholder="密码" value=""/>
+                <input type="text" name="username" autocomplete="off" class="form-control uname" placeholder="用户名" value=""/>
+                <input type="password" name="password" autocomplete="off" class="form-control pword" placeholder="密码" value=""/>
                 <div class="row m-t">
                     <div class="col-xs-6">
                         <input type="text" name="validateCode" class="form-control code" placeholder="验证码"
