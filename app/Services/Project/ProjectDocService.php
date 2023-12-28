@@ -182,7 +182,7 @@ class ProjectDocService extends ProjectService
 
                 $section->addListItem($child['menu_name'], 1, $fontStyle, 'multilevel');
                 $section->addText('功能入口：点击左部菜单中，即可进入该菜单界面查看其信息内容。', $fontStyle, $pageStyle);
-                $section->addText('功能介绍：该菜单设计了通过名称智能查找、对各字段的新增、编辑和删除处理，具体功能如下。' . $tableColumnDesc,
+                $section->addText('功能介绍：该菜单设计了通过名称智能查找、对各字段的新增、编辑和删除处理，具体操作如图' . ++$tempImageNum . '所示。' . $tableColumnDesc,
                     $fontStyle, $pageStyle);
 
                 if (is_file($imagePath . $child['menu_id'] . '-01.png')) {
@@ -202,14 +202,14 @@ class ProjectDocService extends ProjectService
                 }
                 $section->addText('图' . ++$imageNum . '  新增后界面', $fontStyle, $pageImageStyle);
 
-                $section->addText('编辑功能：点击信息编辑栏中的“编辑”按钮即可进行信息的编辑，更改各字段信息，点击完成即可进行编辑，具体操作如图' . ++$tempImageNum . '、图' . ++$tempImageNum . '所示。',
+                $section->addText('编辑功能：点击信息编辑栏中的“编辑”按钮即可进行信息的编辑，更改各字段信息，点击完成即可进行编辑，具体操作如图' . ++$tempImageNum . '所示。',
                     $fontStyle, $pageStyle);
                 if (is_file($imagePath . $child['menu_id'] . '-04.png')) {
                     $section->addImage($imagePath . $child['menu_id'] . '-04.png', $imageStyle, false);
                 }
                 $section->addText('图' . ++$imageNum . '  编辑信息', $fontStyle, $pageImageStyle);
 
-                $section->addText('删除功能：点击信息编辑栏中的“删除”按钮即可进行信息的删除，具体操作如图' . ++$tempImageNum . '、图' . ++$tempImageNum . '所示。',
+                $section->addText('删除功能：点击信息编辑栏中的“删除”按钮即可进行信息的删除，具体操作如图' . ++$tempImageNum . '所示。',
                     $fontStyle, $pageStyle);
 
                 if (is_file($imagePath . $child['menu_id'] . '-05.png')) {
@@ -234,7 +234,7 @@ class ProjectDocService extends ProjectService
                 'height' => 250, // 设置图片高度为100%页面高度
             ], false);
         }
-        $section->addText('图' . ++$imageNum . '  编辑信息', $fontStyle, $pageImageStyle);
+        $section->addText('图' . ++$imageNum . '  用户管理', $fontStyle, $pageImageStyle);
 
         $section->addListItem('六、角色管理', 0, $fontStyle, 'multilevel');
         $section->addText('功能入口：点击左部菜单系统管理-角色管理，即可进入该界面。', $fontStyle, $pageStyle);
