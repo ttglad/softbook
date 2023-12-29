@@ -41,7 +41,7 @@
                             </div>
                         </a>
                         <div class="pull-left info">
-                            <p>{{ auth()->user()->user_name }}</p>
+                            <p>admin</p>
                             <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
                             <a href="/loginOut" style="padding-left:5px;"><i class="fa fa-sign-out text-danger"></i> 注销</a>
                         </div>
@@ -121,7 +121,7 @@
                     <li class="dropdown user-menu">
                         <a href="javascript:void(0)" class="dropdown-toggle" data-hover="dropdown">
                             <img src="@if (auth()->user()->avatar ) {{ auth()->user()->avatar }} @else /static/img/profile.jpg @endif" onerror="this.src='/static/img/profile.jpg'" class="user-image">
-                            <span class="hidden-xs">{{ auth()->user()->user_name }}</span>
+                            <span class="hidden-xs">admin</span>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="mt5">
