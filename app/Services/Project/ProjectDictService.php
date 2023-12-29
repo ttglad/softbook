@@ -32,7 +32,7 @@ class ProjectDictService extends ProjectService
     public static function getClient()
     {
         $cred = new Credential(env('TENCENTCLOUD_SECRET_ID'), env('TENCENTCLOUD_SECRET_KEY'));
-        return new TmtClient($cred, 'ap-shanghai');
+        return new TmtClient($cred, env('TENCENTCLOUD_REGION', 'ap-shanghai'));
     }
 
     /**
