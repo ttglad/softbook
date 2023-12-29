@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\SysMenu;
+use App\Services\Project\ProjectDictService;
 use App\Utils\StringUtils;
 use Illuminate\Console\Command;
 
@@ -47,8 +48,13 @@ class Test extends Command
 //        $this->info(lcfirst($string));
 //        $string = StringUtils::getDbColumnType("int(11)", true);
 //        $this->info(lcfirst($string));
-        $string = StringUtils::getDbColumnLength("int(111)", true);
-        $this->info(($string));
+//        $string = StringUtils::getDbColumnLength("int(111)", true);
+//        $this->info(($string));
+//
+//        $string = '访问文件';
+//
+//        $data = ProjectDictService::getDictObj($string);
+//        var_dump($data);
     }
 
 }
