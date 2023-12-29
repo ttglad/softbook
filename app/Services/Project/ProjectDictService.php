@@ -15,7 +15,7 @@ class ProjectDictService extends ProjectService
      */
     protected static function getExcludeChar()
     {
-        return ['-', '_', '.'];
+        return ['-', '_', '.', "'"];
     }
 
     /**

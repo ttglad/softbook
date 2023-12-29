@@ -128,7 +128,7 @@ class ProjectDocService extends ProjectService
 
         $section->addListItem('一、用户登录', 0, $fontStyle, 'multilevel');
         $section->addText('如图1所示，用户在账号登录框输入用户名和密码即可进入系统。', $fontStyle, $pageStyle);
-        $section->addText('功能介绍：系统设置了不同的管理权限，由超级管理员分配用户权限和设置账号密码，不同用户账号之间存在权限区别，如用户是否能够是否能够查看详细运行数据的权限等。',
+        $section->addText('功能介绍：系统设置了不同的管理权限，由超级管理员分配用户权限和设置账号密码，不同用户账号之间存在权限区别，如用户是否能够查看详细运行数据的权限等。',
             $fontStyle, $pageStyle);
 
         $imageStyle = [
