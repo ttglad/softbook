@@ -23,9 +23,9 @@ class InfoController extends ProjectController
      */
     public function show()
     {
-        $sysNormalDisable = SysDictData::where('dict_type', 'sys_normal_disable')->get();
+        $projectStatusEnum = SysDictData::where('dict_type', 'project_status_enum')->get();
         return view('project.project', [
-            'sysNormalDisable' => $sysNormalDisable,
+            'projectStatusEnum' => $projectStatusEnum,
         ]);
     }
 
@@ -259,6 +259,44 @@ class InfoController extends ProjectController
                 }
                 if (!file_put_contents($fileName, base64_decode(str_replace($res[1], '', $file)))) {
                     throw new \Exception('图片保存失败', 1002);
+                }
+            }
+        } catch (\Exception $e) {
+            $return['code'] = $e->getCode();
+            $return['msg'] = $e->getMessage();
+        }
+        return $return;
+    }
+
+    /**
+     * 截图上传保存
+     * @param Request $request
+     * @return array|mixed
+     */
+    public function submit(Request $request)
+    {
+        $return = $this->ajaxReturn;
+        $return['next_id'] = 0;
+        try {
+            $maxId = 0;
+            $ids = explode(',', trim($request->get('ids')));
+            $status = $request->get('type') == 'image' ? 1 : 2;
+            $next = $request->get('next') == 'true' ? true : false;
+            if (!empty($ids)) {
+                foreach ($ids as $id) {
+                    if ($maxId < $id) {
+                        $maxId = $id;
+                    }
+                    $project = ProjectInfo::findOrFail($id);
+                    $project->status = $status;
+                    $project->update_by = auth()->user()->login_name;
+                    $project->save();
+                }
+            }
+            if ($next && $maxId > 0) {
+                $project = ProjectInfo::where('project_id', '>', $maxId)->where('status', 0)->orderBy('project_id')->first();
+                if (!is_null($project)) {
+                    $return['next_id'] = $project->project_id;
                 }
             }
         } catch (\Exception $e) {

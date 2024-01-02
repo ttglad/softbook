@@ -178,6 +178,7 @@ Route::group(['namespace' => 'Project', 'middleware' => ['auth']], function () {
     Route::get('project/switchSkin', 'InfoController@switchSkin');
     Route::get('project/download/{id}', 'InfoController@download');
     Route::post('project/uploadImage', 'InfoController@uploadImage');
+    Route::get('project/submit', 'InfoController@submit');
 
 
     // 项目菜单

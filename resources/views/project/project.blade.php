@@ -16,9 +16,9 @@
                         <li>
                             项目状态：<select name="status">
                                 <option value="">所有</option>
-                                @foreach($sysNormalDisable as $normalDisable)
+                                @foreach($projectStatusEnum as $statusEnum)
                                     <option
-                                        value="{{ $normalDisable->dict_value }}">{{ $normalDisable->dict_label }}</option>
+                                        value="{{ $statusEnum->dict_value }}">{{ $statusEnum->dict_label }}</option>
                                 @endforeach
                             </select>
                         </li>
@@ -34,6 +34,9 @@
         </div>
 
         <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-success" onclick="projectSubmit()">
+                <i class="fa fa-check-circle"></i> 提交
+            </a>
             <a class="btn btn-success" onclick="$.operate.add()">
                 <i class="fa fa-plus"></i> 新增
             </a>
@@ -57,7 +60,7 @@
     var editFlag = true;
     var removeFlag = true;
     var menuFlag = true;
-    var datas = @json($sysNormalDisable);
+    var datas = @json($projectStatusEnum);
     var prefix = ctx + "project";
 
     $(function () {
@@ -95,8 +98,8 @@
                     title: '软件行业'
                 },
                 {
-                    field: 'code_line',
-                    title: '程序量'
+                    field: 'create_by',
+                    title: '创建者'
                 },
                 {
                     field: 'status',
@@ -144,6 +147,26 @@
     function getCode(projectId) {
         var url = prefix + '/download/' + projectId;
         window.open(url);
+    }
+
+    // 提交项目
+    function projectSubmit() {
+        var rows = $.table.selectColumns("project_id");
+        if (rows.length == 0) {
+            $.modal.alertWarning("请选择要生成的数据");
+            return;
+        }
+        $.modal.confirm("确认要提交选中的" + rows.length + "条数据吗?", function () {
+            $.ajax({
+                type: "get",
+                url: prefix + "/submit?ids=" + rows,
+                success: function (r) {
+                    if (r.code != 0) {
+                        $.modal.msg(r.message);
+                    }
+                }
+            });
+        });
     }
 </script>
 </body>
