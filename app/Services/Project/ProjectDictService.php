@@ -75,7 +75,9 @@ class ProjectDictService extends ProjectService
      */
     public static function getDictValue($key): string
     {
-        $return = '';
+        if (empty($key)) {
+            return '';
+        }
 
         $dict = ProjectDict::where('dict_name', $key)->first();
         if (is_null($dict)) {
@@ -115,6 +117,9 @@ class ProjectDictService extends ProjectService
         // 第一步遍历查询字典表
         foreach ($keys as $key) {
             if (isset($return[$key])) {
+                continue;
+            }
+            if (empty($key)) {
                 continue;
             }
             $dict = ProjectDict::where('dict_name', $key)->first();

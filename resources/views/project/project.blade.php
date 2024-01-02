@@ -157,15 +157,7 @@
             return;
         }
         $.modal.confirm("确认要提交选中的" + rows.length + "条数据吗?", function () {
-            $.ajax({
-                type: "get",
-                url: prefix + "/submit?ids=" + rows,
-                success: function (r) {
-                    if (r.code != 0) {
-                        $.modal.msg(r.message);
-                    }
-                }
-            });
+            $.operate.get(prefix + "/submit?ids=" + rows);
         });
     }
 </script>

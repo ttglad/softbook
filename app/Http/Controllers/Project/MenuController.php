@@ -107,6 +107,10 @@ class MenuController extends ProjectController
                     if (!empty($textArr)) {
                         $dictArr = ProjectDictService::getDictArray($textArr);
                         foreach ($textArr as $sort => $item) {
+                            // 空值判断
+                            if (empty($item)) {
+                                continue;
+                            }
                             if (isset($dictArr[$item])) {
                                 $dict = $dictArr[$item];
                                 $projectColumn = new ProjectColumn();
@@ -229,6 +233,10 @@ class MenuController extends ProjectController
 
                         $dictArr = ProjectDictService::getDictArray($textArr);
                         foreach ($textArr as $sort => $item) {
+                            // 空值判断
+                            if (empty($item)) {
+                                continue;
+                            }
                             if (isset($dictArr[$item])) {
                                 $dict = $dictArr[$item];
                                 $projectColumn = ProjectColumn::where('project_id', $project->project_id)
