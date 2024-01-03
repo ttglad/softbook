@@ -23,6 +23,15 @@
                             </select>
                         </li>
                         <li>
+                            创建者：<input type="text" name="createBy"/>
+                        </li>
+                        <li class="select-time">
+                            <label>创建时间： </label>
+                            <input type="text" placeholder="开始时间" class="time-input" name="time[begin]"/>
+                            <span>-</span>
+                            <input type="text" class="time-input" placeholder="结束时间" name="time[end]"/>
+                        </li>
+                        <li>
                             <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
                                     class="fa fa-search"></i>&nbsp;搜索</a>
                             <a class="btn btn-warning btn-rounded btn-sm" onclick="resetPre()"><i

@@ -206,8 +206,18 @@ class InfoController extends ProjectController
             if ($request->post('projectTitle')) {
                 $model = $model->where('project_title', 'like', '%' . trim($request->post('projectTitle')) . '%');
             }
+            if ($request->post('createBy')) {
+                $model = $model->where('create_by', trim($request->post('createBy')));
+            }
             if (strlen($request->post('status')) > 0) {
                 $model = $model->where('status', trim($request->post('status')));
+            }
+            $time = $request->post('time');
+            if (!empty($time['begin'])) {
+                $model = $model->where('create_time', '>=', date('Y-m-d H:i:s', strtotime($time['begin'])));
+            }
+            if (!empty($time['end'])) {
+                $model = $model->where('create_time', '<', date('Y-m-d H:i:s', strtotime($time['end']) + 86400));
             }
             $pageSize = $request->post('pageSize');
             $list = $model->orderByDesc('project_id')
