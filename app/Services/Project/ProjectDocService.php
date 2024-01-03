@@ -133,8 +133,8 @@ class ProjectDocService extends ProjectService
 
         $imageStyle = [
             'alignment' => Jc::CENTER,
-            'width' => 420,  // 设置图片宽度为100%页面宽度
-            'height' => 260, // 设置图片高度为100%页面高度
+            'width' => rand(330, 400),  // 设置图片宽度为100%页面宽度
+            'height' => rand(220, 240), // 设置图片高度为100%页面高度
         ];
 
         if (is_file($imagePath . 'login-' . $project->project_id . '.png')) {

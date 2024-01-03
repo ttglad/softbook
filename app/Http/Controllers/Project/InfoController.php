@@ -104,6 +104,9 @@ class InfoController extends ProjectController
     public function edit(Request $request, $id)
     {
         $data = ProjectInfo::findOrFail($id);
+        if (!auth()->user()->isAdmin() && auth()->user()->login_name != $data->create_by) {
+            abort(404);
+        }
         return view('project.edit', [
             'data' => $data,
             'loginImages' => config('softbook.login_images'),
@@ -121,6 +124,9 @@ class InfoController extends ProjectController
         try {
 
             $model = ProjectInfo::findOrFail($request->post('projectId'));
+            if (!auth()->user()->isAdmin() && auth()->user()->login_name != $model->create_by) {
+                throw new \Exception('没有编辑权限');
+            }
             $model->project_title = $request->post('projectTitle');
             $model->project_name = $request->post('projectName');
             $model->project_code = $request->post('projectCode');
@@ -170,7 +176,9 @@ class InfoController extends ProjectController
             if (!empty($ids)) {
                 foreach ($ids as $id) {
                     $model = ProjectInfo::findOrFail($id);
-                    $model->delete();
+                    if (auth()->user()->isAdmin() || auth()->user()->login_name == $model->create_by) {
+                        $model->delete();
+                    }
                 }
             }
         } catch (\Exception $e) {
@@ -226,6 +234,9 @@ class InfoController extends ProjectController
     {
         try {
             $project = ProjectInfo::findOrFail($id);
+            if (!auth()->user()->isAdmin() && auth()->user()->login_name != $project->create_by) {
+                throw new \Exception('没有下载权限');
+            }
             $docService = new ProjectDocService();
             if ($file = $docService->saveDocByProjectId($project, true)) {
                 return response()->download($file, $project->project_title . '.zip')->deleteFileAfterSend();
@@ -294,7 +305,13 @@ class InfoController extends ProjectController
                 }
             }
             if ($next && $maxId > 0) {
-                $project = ProjectInfo::where('project_id', '>', $maxId)->where('status', 0)->orderBy('project_id')->first();
+                $project = new ProjectInfo();
+                if (!auth()->user()->isAdmin()) {
+                    $project = $project->where('create_by', auth()->user()->login_name);
+                }
+                $project = $project->where('project_id', '>', $maxId)
+                    ->where('status', 0)->orderBy('project_id')
+                    ->first();
                 if (!is_null($project)) {
                     $return['next_id'] = $project->project_id;
                 }

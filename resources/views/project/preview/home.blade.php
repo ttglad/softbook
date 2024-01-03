@@ -36,8 +36,8 @@
                         <a class="menuItem noactive" title="个人中心" href="/system/user/profile">
                             <div class="hide" text="个人中心"></div>
                             <div class="pull-left image">
-                                <img src="@if (auth()->user()->avatar ) {{ auth()->user()->avatar }} @else static/img/profile.jpg @endif"
-                                     onerror="this.src='static/img/profile.jpg'" class="img-circle" alt="User Image">
+                                <img src="@if (auth()->user()->avatar ) {{ auth()->user()->avatar }} @else /static/img/profile.jpg @endif"
+                                     onerror="this.src='/static/img/profile.jpg'" class="img-circle" alt="User Image">
                             </div>
                         </a>
                         <div class="pull-left info">

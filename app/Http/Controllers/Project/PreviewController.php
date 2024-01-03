@@ -26,6 +26,9 @@ class PreviewController extends ProjectController
     {
         // 获取项目信息
         $project = ProjectInfo::findOrFail($id);
+        if (!auth()->user()->isAdmin() && auth()->user()->login_name != $project->create_by) {
+            abort(404);
+        }
         $sysConfig = SysConfig::where('config_key', 'sys.account.registerUser')->first();
         $registerValue = is_null($sysConfig) ? false : ($sysConfig->config_value == 'false' ? false : true);
         $rememberMe = true;
@@ -82,6 +85,9 @@ class PreviewController extends ProjectController
     {
         // 获取项目信息
         $project = ProjectInfo::findOrFail($id);
+        if (!auth()->user()->isAdmin() && auth()->user()->login_name != $project->create_by) {
+            abort(404);
+        }
 
         if (empty($project->project_skin)) {
             // 页面主题
@@ -95,7 +101,6 @@ class PreviewController extends ProjectController
             $skinName = is_null($sysConfig) ? false : $sysConfig->config_value;
             $project->project_theme = $skinName;
         }
-
 
         // 获取菜单
         $defaultMenu = ProjectMenu::where('project_id', 0)

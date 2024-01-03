@@ -136,7 +136,7 @@
 <div class="row container">
     <div class="col-md-10">
         <div class="imageBox">
-            <img id="avatar" src="@if(empty($user->avatar))static/img/profile.jpg@else{{ $user->avatar }}@endif" onerror="this.src='/static/img/profile.jpg'">
+            <img id="avatar" src="@if(empty($user->avatar))/static/img/profile.jpg@else{{ $user->avatar }}@endif" onerror="this.src='/static/img/profile.jpg'">
         </div>
         <div class="action">
             <div class="new-contentarea tc">

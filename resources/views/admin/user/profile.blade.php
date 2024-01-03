@@ -44,7 +44,7 @@
                     <div class="text-center">
                         <p class="user-info-head" onclick="avatar()">
                             <img class="img-circle img-lg"
-                                 src="@if(empty($user->avatar)) static/img/profile.jpg  @else {{ $user->avatar }} @endif"
+                                 src="@if(empty($user->avatar)) /static/img/profile.jpg  @else {{ $user->avatar }} @endif"
                                  onerror="this.src='/static/img/profile.jpg'"></p>
                         <p><a href="javascript:avatar()">修改头像</a></p>
                     </div>
