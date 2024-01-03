@@ -1019,9 +1019,9 @@
 {{--				</div>--}}
 			</div>
             <div class="form-group">
-                <label class="col-sm-3 control-label is-required" title="字段管理，按照','隔开">字段管理：<i class="fa fa-question-circle-o"></i></label>
+                <label class="col-sm-3 control-label is-required" title="字段管理，按照 | 隔开">字段管理：<i class="fa fa-question-circle-o"></i></label>
                 <div class="col-sm-8">
-                     <textarea id="projectKey" name="projectKey" maxlength="500" class="form-control" rows="3" placeholder="字段管理，按照英文','隔开，最少需要5个，例如 设备编号,设备名称,设备状态"></textarea>
+                     <textarea id="projectKey" name="projectKey" maxlength="500" class="form-control" rows="3" placeholder="字段管理，按照英文 | 隔开，最少需要5个，例如 设备编号|设备名称|设备状态"></textarea>
                 </div>
             </div>
 		</form>

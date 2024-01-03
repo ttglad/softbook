@@ -32,6 +32,9 @@
 			</div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="batchAdd()">
+                    <i class="fa fa-clone"></i> 批量新增
+                </a>
 		        <a class="btn btn-success" onclick="$.operate.add(0)">
                     <i class="fa fa-plus"></i> 新增
                 </a>
@@ -179,6 +182,14 @@
         function column(munuId){
             var url = '/project/menu/column/' + munuId;
             $.modal.openTab("菜单字段", url);
+        }
+
+        /**
+         * 一键新增多个菜单
+         */
+        function batchAdd() {
+            var url = prefix + "/batchAdd";
+            $.modal.open("一键新增菜单", url);
         }
 	</script>
 </body>

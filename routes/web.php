@@ -192,6 +192,9 @@ Route::group(['namespace' => 'Project', 'middleware' => ['auth']], function () {
         '[0-9]+');
     Route::get('project/menu/{id}/tree/{mid}', 'MenuController@tree')->where('id', '[0-9]+')->where('mid', '[0-9]+');
     Route::get('project/menu/{id}/treeLists', 'MenuController@treeLists')->where('id', '[0-9]+');
+    Route::get('project/menu/{id}/batchAdd', 'MenuController@batchAdd')->where('id', '[0-9]+');
+    Route::post('project/menu/{id}/batchAdd', 'MenuController@batchAddPost')->where('id', '[0-9]+');
+
 
     // 项目菜单字段
     Route::get('project/menu/column/{id}', 'ColumnController@show')->where('id', '[0-9]+');

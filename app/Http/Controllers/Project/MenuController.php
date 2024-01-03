@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
  */
 class MenuController extends ProjectController
 {
+    private $keySplitChar = '|';
     /**
      * main页
      */
@@ -22,6 +23,9 @@ class MenuController extends ProjectController
     {
         // 获取项目信息
         $project = ProjectInfo::findOrFail($id);
+        if (!auth()->user()->isAdmin() && auth()->user()->login_name != $project->create_by) {
+            abort(403);
+        }
 
         // 获取菜单展示名称
         $sysShowList = SysDictData::where('dict_type', 'sys_show_hide')->get();
@@ -43,6 +47,9 @@ class MenuController extends ProjectController
     {
         // 获取项目信息
         $project = ProjectInfo::findOrFail($id);
+        if (!auth()->user()->isAdmin() && auth()->user()->login_name != $project->create_by) {
+            abort(403);
+        }
         $menuParent = ProjectMenu::where('project_id', $id)->where('menu_id', $mid)->first();
         if (is_null($menuParent)) {
             $menuParent = new ProjectMenu();
@@ -73,6 +80,9 @@ class MenuController extends ProjectController
         try {
 
             $project = ProjectInfo::findOrFail($id);
+            if (!auth()->user()->isAdmin() && auth()->user()->login_name != $project->create_by) {
+                throw new \Exception('无此项目权限', 1001);
+            }
 
             $model = new ProjectMenu();
             $model->project_id = $project->project_id;
@@ -103,7 +113,7 @@ class MenuController extends ProjectController
 
                     // 绑定字段
                     $text = trim($request->post('projectKey'));
-                    $textArr = explode(',', trim($text, ','));
+                    $textArr = explode($this->keySplitChar, trim($text, $this->keySplitChar));
                     if (!empty($textArr)) {
                         $dictArr = ProjectDictService::getDictArray($textArr);
                         foreach ($textArr as $sort => $item) {
@@ -146,6 +156,9 @@ class MenuController extends ProjectController
     public function edit(Request $request, $id, $mid)
     {
         $project = ProjectInfo::findOrFail($id);
+        if (!auth()->user()->isAdmin() && auth()->user()->login_name != $project->create_by) {
+            abort(403);
+        }
         $menu = ProjectMenu::findOrFail($mid);
         if ($menu->project_id != $project->project_id) {
             abort(404);
@@ -165,7 +178,7 @@ class MenuController extends ProjectController
             ->toArray();
         $columnsText = '';
         foreach ($columns as $column) {
-            $columnsText .= ',' . $column['dict_name'];
+            $columnsText .= $this->keySplitChar . $column['dict_name'];
         }
         // 获取菜单展示名称
         $sysShowList = SysDictData::where('dict_type', 'sys_show_hide')->get();
@@ -175,7 +188,7 @@ class MenuController extends ProjectController
             'menu' => $menu,
             'menuParent' => $menuParent,
             'sysShowList' => $sysShowList,
-            'columnsText' => trim($columnsText, ','),
+            'columnsText' => trim($columnsText, $this->keySplitChar),
         ]);
     }
 
@@ -191,6 +204,9 @@ class MenuController extends ProjectController
 
             $projectId = $request->post('projectId');
             $project = ProjectInfo::findOrFail($projectId);
+            if (!auth()->user()->isAdmin() && auth()->user()->login_name != $project->create_by) {
+                throw new \Exception('无此项目权限', 1001);
+            }
 
             $mid = $request->post('menuId');
             $model = ProjectMenu::findOrFail($mid);
@@ -223,7 +239,7 @@ class MenuController extends ProjectController
 
 
                     $text = trim($request->post('projectKey'));
-                    $textArr = explode(',', trim($text, ','));
+                    $textArr = explode($this->keySplitChar, trim($text, $this->keySplitChar));
                     if (!empty($textArr)) {
                         // 清空字段
                         ProjectColumn::where('project_id', $project->project_id)
@@ -303,6 +319,9 @@ class MenuController extends ProjectController
         try {
             // 获取项目是否存在
             $project = ProjectInfo::findOrFail($id);
+            if (!auth()->user()->isAdmin() && auth()->user()->login_name != $project->create_by) {
+                throw new \Exception('无此项目权限', 1001);
+            }
 
             $menus = new ProjectMenu();
             $menus = $menus->where(function ($query) use ($project) {
@@ -373,5 +392,147 @@ class MenuController extends ProjectController
             ];
         }
         return $treeData;
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function batchAdd(Request $request, $id)
+    {
+        // 获取项目信息
+        $project = ProjectInfo::findOrFail($id);
+        if (!auth()->user()->isAdmin() && auth()->user()->login_name != $project->create_by) {
+            abort(403);
+        }
+
+        return view('project.menu.batchAdd', [
+            'project' => $project,
+        ]);
+    }
+
+    /**
+     * 批量新建项目
+     * @param Request $request
+     * @return array|mixed
+     */
+    public function batchAddPost(Request $request, $id)
+    {
+        $return = $this->ajaxReturn;
+
+        try {
+
+            $project = ProjectInfo::findOrFail($id);
+            if (!auth()->user()->isAdmin() && auth()->user()->login_name != $project->create_by) {
+                throw new \Exception('无此项目权限', 1001);
+            }
+            // 获取数据
+            $post = $request->post();
+            $childKeyArr = [];
+
+            $menus = $post['menus'];
+            $childMenus = $post['childMenus'];
+            $childKeys = $post['childKeys'];
+
+            // 数据校验
+            if (sizeof($menus) != 3) {
+                throw new \Exception('一级目录数量不正确', 1002);
+            }
+            if (sizeof($childMenus) != 6) {
+                throw new \Exception('二级目录数量不正确', 1002);
+            }
+            if (sizeof($childKeys) != 6) {
+                throw new \Exception('二级目录字段数量不正确', 1002);
+            }
+
+            // 明细校验
+            foreach ($menus as &$menu) {
+                $menu = trim($menu);
+                if (empty($menu)) {
+                    throw new \Exception('一级目录不能为空', 1002);
+                }
+            }
+            foreach ($childMenus as &$menu2) {
+                $menu2 = trim($menu2);
+                if (empty($menu2)) {
+                    throw new \Exception('二级目录不能为空', 1002);
+                }
+                $childKeyArr = array_merge($childKeyArr, [$menu2]);
+            }
+            foreach ($childKeys as &$menu3) {
+                $menu3 = trim(trim($menu3), $this->keySplitChar);
+                if (empty($menu3)) {
+                    throw new \Exception('二级目录字段不能为空', 1002);
+                }
+                $menu3 = explode($this->keySplitChar, $menu3);
+                if (sizeof($menu3) < 5) {
+                    throw new \Exception('二级目录字段不能小于5个', 1002);
+                }
+                $childKeyArr = array_merge($childKeyArr, $menu3);
+            }
+
+            unset($menu, $menu2, $menu3);
+
+            $childKeyArr = array_unique($childKeyArr);
+            $dictArr = ProjectDictService::getDictArray($childKeyArr);
+
+            foreach ($menus as $sort => $itemMenu) {
+                // 父菜单创建
+                $menuModel = new ProjectMenu();
+                $menuModel->project_id = $project->project_id;
+                $menuModel->parent_id = 0;
+                $menuModel->menu_name = $itemMenu;
+                $menuModel->menu_code = '';
+                $menuModel->order_num = $sort;
+                $menuModel->visible = 0;
+                $menuModel->create_by = auth()->user()->login_name;
+                $menuModel->url = '#';
+                $menuModel->class = '';
+                $menuModel->menu_type = 'M';
+                if ($menuModel->save()) {
+                    for ($i = $sort * 2; $i < ($sort + 1) * 2; $i++) {
+                        $childMenu = new ProjectMenu();
+                        $childMenu->project_id = $project->project_id;
+                        $childMenu->parent_id = $menuModel->menu_id;
+                        $childMenu->menu_name = $childMenus[$i];
+                        $childMenu->menu_code = isset($dictArr[$childMenus[$i]]) ? $dictArr[$childMenus[$i]]['dict_value'] : '';
+                        $childMenu->order_num = $i;
+                        $childMenu->visible = 0;
+                        $childMenu->create_by = auth()->user()->login_name;
+                        $childMenu->class = 'menuItemShot';
+                        $childMenu->menu_type = 'C';
+
+                        if ($childMenu->save()) {
+                            $childMenu->url = '/project/business/' . $childMenu->menu_id;
+                            $childMenu->save();
+
+                            // 新建菜单列
+                            foreach ($childKeys[$i] as $keySort => $itemKey) {
+                                if (isset($dictArr[$itemKey])) {
+                                    $dict = $dictArr[$itemKey];
+                                    $projectColumn = new ProjectColumn();
+                                    $projectColumn->project_id = $project->project_id;
+                                    $projectColumn->menu_id = $childMenu->menu_id;
+                                    $projectColumn->dict_id = $dict['dict_id'];
+                                    $projectColumn->dict_name = $dict['dict_name'];
+                                    $projectColumn->dict_value = $dict['dict_value'];
+                                    $projectColumn->query_type = 'LIKE';
+                                    $projectColumn->sort = $keySort;
+                                    $projectColumn->create_by = auth()->user()->login_name;
+                                    $projectColumn->save();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        } catch (\Exception $e) {
+            $return['code'] = $e->getCode();
+            $return['msg'] = $e->getMessage();
+        }
+
+        return $return;
     }
 }
