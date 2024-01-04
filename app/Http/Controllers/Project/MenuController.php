@@ -469,6 +469,9 @@ class MenuController extends ProjectController
                 if (sizeof($menu3) < 5) {
                     throw new \Exception('二级目录字段不能小于5个', 1002);
                 }
+                foreach ($menu3 as &$_menu) {
+                    $_menu = trim($_menu);
+                }
                 $childKeyArr = array_merge($childKeyArr, $menu3);
             }
 
