@@ -48,12 +48,14 @@ class SoftbookProject extends Command
                 continue;
             }
 
+            $this->info('begin: ' . $info[0]);
+
             try {
                 $project = $this->checkInfo($info, $author);
                 $menu = $this->checkMenu($info);
 
-                $this->info(print_r($project->toArray(), true));
-                $this->info(print_r($menu, true));
+//                $this->info(print_r($project->toArray(), true));
+//                $this->info(print_r($menu, true));
 
                 if ($project->save()) {
                     // 获取字段明细
@@ -120,9 +122,13 @@ class SoftbookProject extends Command
                         }
                     }
                 }
+
+                $message = 'success';
             } catch (\Exception $e) {
-                $this->error($e->getMessage());
+                $message = $e->getMessage();
+//                $this->error($e->getMessage());
             }
+            $this->info('end: ' . $message);
         }
 
         fclose($handle);

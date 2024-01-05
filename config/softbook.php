@@ -129,5 +129,13 @@ return [
             'name' => '工程安全',
             'value' => '/static/back/login-back14.jpg',
         ],
+        [
+            'name' => '医疗DNA',
+            'value' => '/static/back/login-back15.jpg',
+        ],
+        [
+            'name' => '科技VR',
+            'value' => '/static/back/login-back16.jpg',
+        ],
     ],
 ];
