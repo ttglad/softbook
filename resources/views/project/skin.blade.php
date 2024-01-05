@@ -25,6 +25,11 @@
         .full-opacity-hover:hover {
             border: 1px solid #f00;
         }
+
+         .list-unstyled {
+             overflow-y: scroll;
+             height: 400px;
+         }
     </style>
 </head>
 <body class="gray-bg">
@@ -39,6 +44,26 @@
         </a>
         <p class="text-center">蓝</p>
     </li>
+    <li style="float:left; width: 33.33333%; padding: 5px;">
+        <a href="javascript:" data-skin="skin-blue|theme-light"
+           style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover">
+            <span style="width: 20%; float: left; height: 13px; background: #367fa9"></span>
+            <span style="width: 80%; float: left; height: 13px; background: #3c8dbc"></span>
+            <span style="width: 20%; float: left; height: 30px; background: #f9fafc"></span>
+            <span style="width: 80%; float: left; height: 30px; background: #f4f5f7"></span>
+        </a>
+        <p class="text-center">蓝灰</p>
+    </li>
+    <li style="float:left; width: 33.33333%; padding: 5px;">
+        <a href="javascript:" data-skin="skin-blue|theme-blue"
+           style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover">
+            <span style="width: 20%; float: left; height: 13px; background: #367fa9"></span>
+            <span style="width: 80%; float: left; height: 13px; background: #3c8dbc"></span>
+            <span style="width: 20%; float: left; height: 30px; background: rgba(15,41,80,1)"></span>
+            <span style="width: 80%; float: left; height: 30px; background: #f4f5f7"></span>
+        </a>
+        <p class="text-center">蓝浅（新）</p>
+    </li>
 
     <li style="float:left; width: 33.33333%; padding: 5px;">
         <a href="javascript:" data-skin="skin-green|theme-dark"
@@ -49,6 +74,26 @@
             <span style="width: 80%; float: left; height: 30px; background: #f4f5f7"></span>
         </a>
         <p class="text-center">绿</p>
+    </li>
+    <li style="float:left; width: 33.33333%; padding: 5px;">
+        <a href="javascript:" data-skin="skin-green|theme-light"
+           style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover">
+            <span style="width: 20%; float: left; height: 13px; background: #008d4c"></span>
+            <span style="width: 80%; float: left; height: 13px; background: #00a65a"></span>
+            <span style="width: 20%; float: left; height: 30px; background: #f9fafc"></span>
+            <span style="width: 80%; float: left; height: 30px; background: #f4f5f7"></span>
+        </a>
+        <p class="text-center">绿灰</p>
+    </li>
+    <li style="float:left; width: 33.33333%; padding: 5px;">
+        <a href="javascript:" data-skin="skin-green|theme-blue"
+           style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover">
+            <span style="width: 20%; float: left; height: 13px; background: #008d4c"></span>
+            <span style="width: 80%; float: left; height: 13px; background: #00a65a"></span>
+            <span style="width: 20%; float: left; height: 30px; background: rgba(15,41,80,1)"></span>
+            <span style="width: 80%; float: left; height: 30px; background: #f4f5f7"></span>
+        </a>
+        <p class="text-center">绿浅（新）</p>
     </li>
 
     <li style="float:left; width: 33.33333%; padding: 5px;">
@@ -63,6 +108,27 @@
     </li>
 
     <li style="float:left; width: 33.33333%; padding: 5px;">
+        <a href="javascript:" data-skin="skin-purple|theme-light"
+           style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover">
+            <span style="width: 20%; float: left; height: 13px; background: #555299"></span>
+            <span style="width: 80%; float: left; height: 13px; background: #605ca8"></span>
+            <span style="width: 20%; float: left; height: 30px; background: #f9fafc"></span>
+            <span style="width: 80%; float: left; height: 30px; background: #f4f5f7"></span>
+        </a>
+        <p class="text-center">紫灰</p>
+    </li>
+    <li style="float:left; width: 33.33333%; padding: 5px;">
+        <a href="javascript:" data-skin="skin-purple|theme-blue"
+           style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover">
+            <span style="width: 20%; float: left; height: 13px; background: #555299"></span>
+            <span style="width: 80%; float: left; height: 13px; background: #605ca8"></span>
+            <span style="width: 20%; float: left; height: 30px; background: rgba(15,41,80,1)"></span>
+            <span style="width: 80%; float: left; height: 30px; background: #f4f5f7"></span>
+        </a>
+        <p class="text-center">紫浅（新）</p>
+    </li>
+
+    <li style="float:left; width: 33.33333%; padding: 5px;">
         <a href="javascript:" data-skin="skin-red|theme-dark"
            style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover">
             <span style="width: 20%; float: left; height: 13px; background: #dd4b39"></span>
@@ -71,6 +137,26 @@
             <span style="width: 80%; float: left; height: 30px; background: #f4f5f7"></span>
         </a>
         <p class="text-center">红</p>
+    </li>
+    <li style="float:left; width: 33.33333%; padding: 5px;">
+        <a href="javascript:" data-skin="skin-red|theme-light"
+           style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover">
+            <span style="width: 20%; float: left; height: 13px; background: #dd4b39"></span>
+            <span style="width: 80%; float: left; height: 13px; background: #d73925"></span>
+            <span style="width: 20%; float: left; height: 30px; background: #f9fafc"></span>
+            <span style="width: 80%; float: left; height: 30px; background: #f4f5f7"></span>
+        </a>
+        <p class="text-center">红灰</p>
+    </li>
+    <li style="float:left; width: 33.33333%; padding: 5px;">
+        <a href="javascript:" data-skin="skin-red|theme-blue"
+           style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover">
+            <span style="width: 20%; float: left; height: 13px; background: #dd4b39"></span>
+            <span style="width: 80%; float: left; height: 13px; background: #d73925"></span>
+            <span style="width: 20%; float: left; height: 30px; background: rgba(15,41,80,1)"></span>
+            <span style="width: 80%; float: left; height: 30px; background: #f4f5f7"></span>
+        </a>
+        <p class="text-center">红浅（新）</p>
     </li>
 
     <li style="float:left; width: 33.33333%; padding: 5px;">
@@ -83,51 +169,6 @@
         </a>
         <p class="text-center">黄</p>
     </li>
-
-    <li style="float:left; width: 33.33333%; padding: 5px;">
-        <a href="javascript:" data-skin="skin-blue|theme-light"
-           style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover">
-            <span style="width: 20%; float: left; height: 13px; background: #367fa9"></span>
-            <span style="width: 80%; float: left; height: 13px; background: #3c8dbc"></span>
-            <span style="width: 20%; float: left; height: 30px; background: #f9fafc"></span>
-            <span style="width: 80%; float: left; height: 30px; background: #f4f5f7"></span>
-        </a>
-        <p class="text-center">蓝灰</p>
-    </li>
-
-    <li style="float:left; width: 33.33333%; padding: 5px;">
-        <a href="javascript:" data-skin="skin-green|theme-light"
-           style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover">
-            <span style="width: 20%; float: left; height: 13px; background: #008d4c"></span>
-            <span style="width: 80%; float: left; height: 13px; background: #00a65a"></span>
-            <span style="width: 20%; float: left; height: 30px; background: #f9fafc"></span>
-            <span style="width: 80%; float: left; height: 30px; background: #f4f5f7"></span>
-        </a>
-        <p class="text-center">绿灰</p>
-    </li>
-
-    <li style="float:left; width: 33.33333%; padding: 5px;">
-        <a href="javascript:" data-skin="skin-purple|theme-light"
-           style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover">
-            <span style="width: 20%; float: left; height: 13px; background: #555299"></span>
-            <span style="width: 80%; float: left; height: 13px; background: #605ca8"></span>
-            <span style="width: 20%; float: left; height: 30px; background: #f9fafc"></span>
-            <span style="width: 80%; float: left; height: 30px; background: #f4f5f7"></span>
-        </a>
-        <p class="text-center">紫灰</p>
-    </li>
-
-    <li style="float:left; width: 33.33333%; padding: 5px;">
-        <a href="javascript:" data-skin="skin-red|theme-light"
-           style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover">
-            <span style="width: 20%; float: left; height: 13px; background: #dd4b39"></span>
-            <span style="width: 80%; float: left; height: 13px; background: #d73925"></span>
-            <span style="width: 20%; float: left; height: 30px; background: #f9fafc"></span>
-            <span style="width: 80%; float: left; height: 30px; background: #f4f5f7"></span>
-        </a>
-        <p class="text-center">红灰</p>
-    </li>
-
     <li style="float:left; width: 33.33333%; padding: 5px;">
         <a href="javascript:" data-skin="skin-yellow|theme-light"
            style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover">
@@ -137,47 +178,6 @@
             <span style="width: 80%; float: left; height: 30px; background: #f4f5f7"></span>
         </a>
         <p class="text-center">黄灰</p>
-    </li>
-
-    <li style="float:left; width: 33.33333%; padding: 5px;">
-        <a href="javascript:" data-skin="skin-blue|theme-blue"
-           style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover">
-            <span style="width: 20%; float: left; height: 13px; background: #367fa9"></span>
-            <span style="width: 80%; float: left; height: 13px; background: #3c8dbc"></span>
-            <span style="width: 20%; float: left; height: 30px; background: rgba(15,41,80,1)"></span>
-            <span style="width: 80%; float: left; height: 30px; background: #f4f5f7"></span>
-        </a>
-        <p class="text-center">蓝浅（新）</p>
-    </li>
-    <li style="float:left; width: 33.33333%; padding: 5px;">
-        <a href="javascript:" data-skin="skin-green|theme-blue"
-           style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover">
-            <span style="width: 20%; float: left; height: 13px; background: #008d4c"></span>
-            <span style="width: 80%; float: left; height: 13px; background: #00a65a"></span>
-            <span style="width: 20%; float: left; height: 30px; background: rgba(15,41,80,1)"></span>
-            <span style="width: 80%; float: left; height: 30px; background: #f4f5f7"></span>
-        </a>
-        <p class="text-center">绿浅（新）</p>
-    </li>
-    <li style="float:left; width: 33.33333%; padding: 5px;">
-        <a href="javascript:" data-skin="skin-purple|theme-blue"
-           style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover">
-            <span style="width: 20%; float: left; height: 13px; background: #555299"></span>
-            <span style="width: 80%; float: left; height: 13px; background: #605ca8"></span>
-            <span style="width: 20%; float: left; height: 30px; background: rgba(15,41,80,1)"></span>
-            <span style="width: 80%; float: left; height: 30px; background: #f4f5f7"></span>
-        </a>
-        <p class="text-center">紫浅（新）</p>
-    </li>
-    <li style="float:left; width: 33.33333%; padding: 5px;">
-        <a href="javascript:" data-skin="skin-red|theme-blue"
-           style="display: block; box-shadow: 0 0 3px rgba(0,0,0,0.4)" class="clearfix full-opacity-hover">
-            <span style="width: 20%; float: left; height: 13px; background: #dd4b39"></span>
-            <span style="width: 80%; float: left; height: 13px; background: #d73925"></span>
-            <span style="width: 20%; float: left; height: 30px; background: rgba(15,41,80,1)"></span>
-            <span style="width: 80%; float: left; height: 30px; background: #f4f5f7"></span>
-        </a>
-        <p class="text-center">红浅（新）</p>
     </li>
     <li style="float:left; width: 33.33333%; padding: 5px;">
         <a href="javascript:" data-skin="skin-yellow|theme-blue"

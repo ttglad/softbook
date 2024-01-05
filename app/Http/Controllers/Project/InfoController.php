@@ -140,7 +140,7 @@ class InfoController extends ProjectController
             $model->project_feature = $request->post('projectFeature');
             $model->project_skill = $request->post('projectSkill');
             $model->remark = $request->post('remark');
-            $model->create_by = auth()->user()->login_name;
+            $model->update_by = auth()->user()->login_name;
 
             // 主题样式列表
             $model->project_skin = Arr::random($this->skins);
