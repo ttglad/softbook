@@ -199,7 +199,7 @@
     var ctx = "/";
     // 皮肤缓存
     // history（表示去掉地址的#）否则地址以"#"形式展示
-    var mode = "history";
+    var mode = "#";
     // 历史访问路径缓存
     var historyPath = storage.get("historyPath");
     // 是否页签与菜单联动
