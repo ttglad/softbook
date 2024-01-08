@@ -48,7 +48,7 @@ class ProjectDocService extends ProjectService
                 if (file_exists($zipFile)) {
                     unlink($zipFile);
                 }
-                $this->makeZipFolder($zipFile, $docPath);
+                $this->zipDirectory($zipFile, $docPath);
             }
 
         } catch (\Exception $e) {
@@ -102,7 +102,6 @@ class ProjectDocService extends ProjectService
             }
 
         } catch (\Exception $e) {
-            print_r($e->getMessage());
         }
         return $zipFile;
     }
@@ -773,7 +772,7 @@ class ProjectDocService extends ProjectService
      * @param $folderPath
      * @return void
      */
-    private function makeZipFolder($zipPath = '', $folderPath = '')
+    private function zipDirectory($zipPath, $folderPath)
     {
         // Initialize archive object
         $zip = new \ZipArchive();
@@ -805,13 +804,19 @@ class ProjectDocService extends ProjectService
         $zip->close();
     }
 
+    /**
+     * 压缩文件包含目录
+     * @param $zipFilePath
+     * @param $directories
+     * @return void
+     */
     private function zipDirectories($zipFilePath, $directories)
     {
         $zip = new \ZipArchive();
 
         $zip->open($zipFilePath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
 
-        foreach ($directories as $folderPath) {
+        foreach ($directories as $dir => $folderPath) {
             $rootPath = realpath($folderPath);
 
             // 获取目录下所有文件
@@ -819,10 +824,10 @@ class ProjectDocService extends ProjectService
                 new \RecursiveDirectoryIterator($rootPath),
                 \RecursiveIteratorIterator::LEAVES_ONLY
             );
-//                $zip->addEmptyDir($dir);
 
+            $zip->addEmptyDir($dir);
 
-            foreach ($files as $name => $file) {
+            foreach ($files as $file) {
                 // 跳过目录
                 if (!$file->isDir()) {
                     // Get real and relative path for current file
@@ -830,95 +835,10 @@ class ProjectDocService extends ProjectService
                     $relativePath = substr($filePath, strlen($rootPath) + 1);
 
                     // Add current file to archive
-                    $zip->addFile($filePath, $name . '/' . $relativePath);
+                    $zip->addFile($filePath, $dir . '/' . $relativePath);
                 }
             }
         }
         $zip->close();
-//            exit;
-    }
-
-
-    /**
-     * 批量压缩目录
-     * @param $zipPath
-     * @param $folderPaths
-     * @return void
-     */
-    private function makeZipFolderArray($zipPath = '', $folderPaths = [])
-    {
-        // Initialize archive object
-        $zip = new \ZipArchive();
-        $zip->open($zipPath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
-
-        foreach ($folderPaths as $projectName => $folderPath) {
-
-//            // Get real path for our folder
-            $rootPath = realpath($folderPath);
-            echo '$folderPath ' . $folderPath;
-            echo '</br>';
-
-            // Create recursive directory iterator
-            /** @var SplFileInfo[] $files */
-            $files = new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator($rootPath),
-                \RecursiveIteratorIterator::LEAVES_ONLY
-            );
-
-            foreach ($files as $file) {
-                // Skip directories (they would be added automatically)
-                if (!$file->isDir()) {
-                    // Get real and relative path for current file
-                    $filePath = $file->getRealPath();
-                    echo 'getPathname' . $file->getPathname();
-                    echo '</br>';
-                    echo 'file--' . $filePath;
-                    echo '</br>';
-                    $relativePath = './' . $projectName . '/' . substr($filePath, strlen($rootPath) + 1);
-                    echo 'relativ--' . $relativePath;
-                    echo '</br>';
-
-                    // Add current file to archive
-                    $zip->addFile($filePath, $relativePath);
-                } else {
-//                    $zip->addEmptyDir(str_replace($file . '/', '', $file->getPathname()));
-                }
-            }
-        }
-
-
-        // Zip archive will be created only after closing object
-        $zip->close();
-        exit;
-//        $zip = new \ZipArchive();
-//
-//        if ($zip->open($zipPath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === true) {
-//            foreach ($folderPaths as $directory) {
-//                // 去除目录路径末尾的斜杠，以确保相对路径的一致性
-////                $directory = rtrim($directory, '/\\');
-//                $rootPath = realpath($directory);
-//
-//                if (is_dir($directory)) {
-//                    // 递归添加目录中的所有文件
-//                    $files = new \RecursiveIteratorIterator(
-//                        new \RecursiveDirectoryIterator($directory),
-//                        \RecursiveIteratorIterator::LEAVES_ONLY
-//                    );
-//
-//                    foreach ($files as $file) {
-////                        $relativePath = substr($file->getPathname(), strlen($directory) + 1);
-////                        print_r($relativePath);
-////                        $zip->addFile($file->getPathname(), $relativePath);
-//                        $filePath = $file->getRealPath();
-//                        $relativePath = substr($filePath, strlen($rootPath) + 1);
-//
-//                        // Add current file to archive
-//                        $zip->addFile($filePath, $relativePath);
-//                    }
-//                }
-//            }
-//
-//            $zip->close();
-//        }
     }
 }

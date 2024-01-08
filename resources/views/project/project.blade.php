@@ -43,6 +43,9 @@
         </div>
 
         <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-info" onclick="batchDownload()">
+                <i class="fa fa-download"></i> 批量下载
+            </a>
             <a class="btn btn-success" onclick="projectSubmit()">
                 <i class="fa fa-check-circle"></i> 提交
             </a>
@@ -177,8 +180,9 @@
             $.modal.alertWarning("请选择要生成的数据");
             return;
         }
-        $.modal.confirm("确认要提交选中的" + rows.length + "条数据吗?", function () {
-            $.operate.get(prefix + "/batchDownload?ids=" + rows);
+        $.modal.confirm("确认要下载选中的" + rows.length + "条数据吗?", function () {
+            var url = prefix + "/batchDownload?ids=" + rows;
+            window.open(url);
         });
     }
 </script>

@@ -295,7 +295,7 @@ class InfoController extends ProjectController
                 return response()->download($file, date('Ymd') . '.zip')->deleteFileAfterSend();
             }
         } catch (\Exception $e) {
-//            print_r($e->getMessage());
+            print_r($e->getMessage());
             abort(404);
         }
     }
