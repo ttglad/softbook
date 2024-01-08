@@ -169,6 +169,18 @@
             $.operate.get(prefix + "/submit?ids=" + rows);
         });
     }
+
+    // 批量下载
+    function batchDownload() {
+        var rows = $.table.selectColumns("project_id");
+        if (rows.length == 0) {
+            $.modal.alertWarning("请选择要生成的数据");
+            return;
+        }
+        $.modal.confirm("确认要提交选中的" + rows.length + "条数据吗?", function () {
+            $.operate.get(prefix + "/batchDownload?ids=" + rows);
+        });
+    }
 </script>
 </body>
 </html>

@@ -100,24 +100,12 @@
                 <div class="form-group">
                     <label class="col-sm-4 control-label is-required">登录页背景图：</label>
                     <div class="col-sm-8">
-                        <select name="loginImage" class="form-control m-b">
-                            @foreach($loginImages as $image)
-                                <option value="{{ $image['value'] }}" @if($image['value'] == $data->login_image) selected @endif>{{ $image['name'] }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label class="col-sm-4 control-label">项目状态：</label>
-                    <div class="col-sm-8">
-                        <label class="toggle-switch switch-solid">
-                            <input type="checkbox" id="status" @if($data->status == '0') checked @endif>
-                            <span></span>
-                        </label>
+                        <input name="loginImage" placeholder="请输入登录背景图" class="form-control" type="text" value="{{ $data->login_image }}">
+{{--                        <select name="loginImage" class="form-control m-b">--}}
+{{--                            @foreach($loginImages as $image)--}}
+{{--                                <option value="{{ $image['value'] }}" @if($image['value'] == $data->login_image) selected @endif>{{ $image['name'] }}</option>--}}
+{{--                            @endforeach--}}
+{{--                        </select>--}}
                     </div>
                 </div>
             </div>
@@ -185,6 +173,16 @@
             title : "选择主题",
             area : ["530px", "482px"],
             content : [prefix + "/switchSkin", 'no']
+        });
+    });
+
+    $("input[name='loginImage']").focus(function() {
+        layer.open({
+            type : 2,
+            shadeClose : true,
+            title : "选择背景图",
+            area : ["630px", "482px"],
+            content : [prefix + "/switchImage", 'no']
         });
     });
 

@@ -39,6 +39,17 @@ class InfoController extends ProjectController
     }
 
     /**
+     * 选择主题
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function switchImage()
+    {
+        return view('project.back', [
+            'loginImages' => config('softbook.login_images'),
+        ]);
+    }
+
+    /**
      * 新增项目
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -69,7 +80,7 @@ class InfoController extends ProjectController
             $model->project_version = $request->post('projectVersion');
             $model->project_category = $request->post('projectCategory');
             $model->code_line = $request->post('codeLine');
-            $model->status = $request->post('status');
+//            $model->status = $request->post('status');
             $model->develop_purpose = $request->post('developPurpose');
             $model->project_feature = $request->post('projectFeature');
             $model->project_skill = $request->post('projectSkill');
@@ -135,7 +146,7 @@ class InfoController extends ProjectController
             $model->project_version = $request->post('projectVersion');
             $model->project_category = $request->post('projectCategory');
             $model->code_line = $request->post('codeLine');
-            $model->status = $request->post('status');
+//            $model->status = $request->post('status');
             $model->develop_purpose = $request->post('developPurpose');
             $model->project_feature = $request->post('projectFeature');
             $model->project_skill = $request->post('projectSkill');
@@ -252,6 +263,39 @@ class InfoController extends ProjectController
                 return response()->download($file, $project->project_title . '.zip')->deleteFileAfterSend();
             }
         } catch (\Exception $e) {
+            abort(404);
+        }
+    }
+
+    /**
+     * 下载文档
+     * @param Request $request
+     * @param $id
+     * @return void
+     */
+    public function batchDownload(Request $request)
+    {
+        try {
+            $ids = explode(',', trim($request->get('ids')));
+            $downProjects = [];
+            if (!empty($ids)) {
+                foreach ($ids as $id) {
+                    $project = ProjectInfo::findOrFail($id);
+                    if (!auth()->user()->isAdmin() && auth()->user()->login_name != $project->create_by) {
+                        continue;
+                    }
+                    $downProjects[] = $project;
+                }
+            }
+            if (empty($downProjects)) {
+                throw new \Exception('目录为空', 1001);
+            }
+            $docService = new ProjectDocService();
+            if ($file = $docService->saveDocByProjectIds($downProjects, true)) {
+                return response()->download($file, date('Ymd') . '.zip')->deleteFileAfterSend();
+            }
+        } catch (\Exception $e) {
+//            print_r($e->getMessage());
             abort(404);
         }
     }
