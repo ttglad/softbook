@@ -1,7 +1,21 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    @include('admin.include.header', ['title' => $business->table_comment])
+    <!-- 通用CSS -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ $project->project_title }} - {{ $business->menu_name }}@if(!empty($project->project_author)) - {{ $project->project_author  }}@endif</title>
+    <link href="/static/css/bootstrap.min.css?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}" rel="stylesheet"/>
+    <link href="/static/css/font-awesome.min.css?v={{ rand(1, 2) }}.{{ rand(0, 20) }}.{{rand(0, 9)}}" rel="stylesheet"/>
+    <!-- bootstrap-table 表格插件样式 -->
+    <link href="/static/ajax/libs/bootstrap-table/bootstrap-table.min.css?v={{ rand(1, 2) }}.{{ rand(0, 20) }}.{{rand(0, 9)}}" rel="stylesheet"/>
+    <link href="/static/css/animate.min.css?v={{ rand(1, 2) }}.{{ rand(0, 20) }}.{{rand(0, 9)}}" rel="stylesheet"/>
+    <link href="/static/css/style.min.css?v={{ rand(1, 2) }}.{{ rand(0, 20) }}.{{rand(0, 9)}}" rel="stylesheet"/>
+    <link href="/static/ruoyi/css/soft-ui.css?v={{ rand(1, 2) }}.{{ rand(0, 20) }}.{{rand(0, 9)}}" rel="stylesheet"/>
 </head>
 <body class="gray-bg">
 <div class="container-div">
@@ -49,7 +63,25 @@
     </div>
 </div>
 
-@include("admin.include.footer")
+<script>
+    var ctx = "/";
+</script>
+<a id="scroll-up" href="#" class="btn btn-sm display"><i class="fa fa-angle-double-up"></i></a>
+<script src="/static/js/jquery.min.js?v={{ rand(1, 2) }}.{{ rand(0, 20) }}.{{rand(0, 9)}}"></script>
+<script src="/static/js/bootstrap.min.js?v={{ rand(1, 2) }}.{{ rand(0, 20) }}.{{rand(0, 9)}}"></script>
+<script src="/static/ajax/libs/bootstrap-table/bootstrap-table.min.js?v={{ rand(1, 2) }}.{{ rand(0, 20) }}.{{rand(0, 9)}}"></script>
+<script src="/static/ajax/libs/bootstrap-table/locale/bootstrap-table-zh-CN.min.js?v={{ rand(1, 2) }}.{{ rand(0, 20) }}.{{rand(0, 9)}}"></script>
+<script src="/static/ajax/libs/bootstrap-table/extensions/mobile/bootstrap-table-mobile.js?v={{ rand(1, 2) }}.{{ rand(0, 20) }}.{{rand(0, 9)}}"></script>
+<script src="/static/ajax/libs/validate/jquery.validate.min.js?v={{ rand(1, 2) }}.{{ rand(0, 20) }}.{{rand(0, 9)}}"></script>
+<script src="/static/ajax/libs/validate/jquery.validate.extend.js?v={{ rand(1, 2) }}.{{ rand(0, 20) }}.{{rand(0, 9)}}"></script>
+<script src="/static/ajax/libs/validate/messages_zh.js?v={{ rand(1, 2) }}.{{ rand(0, 20) }}.{{rand(0, 9)}}"></script>
+<script src="/static/ajax/libs/bootstrap-table/extensions/tree/bootstrap-table-tree.min.js?v={{ rand(1, 2) }}.{{ rand(0, 20) }}.{{rand(0, 9)}}"></script>
+<script src="/static/ajax/libs/blockUI/jquery.blockUI.js?v={{ rand(1, 2) }}.{{ rand(0, 20) }}.{{rand(0, 9)}}"></script>
+<script src="/static/ajax/libs/iCheck/icheck.min.js?v={{ rand(1, 2) }}.{{ rand(0, 20) }}.{{rand(0, 9)}}"></script>
+<script src="/static/ajax/libs/layer/layer.min.js?v={{ rand(1, 2) }}.{{ rand(0, 20) }}.{{rand(0, 9)}}"></script>
+<script src="/static/ajax/libs/layui/layui.min.js?v={{ rand(1, 2) }}.{{ rand(0, 20) }}.{{rand(0, 9)}}"></script>
+<script src="/static/ruoyi/js/common.js?v={{ rand(1, 2) }}.{{ rand(0, 20) }}.{{rand(0, 9)}}"></script>
+<script src="/static/ruoyi/js/soft-ui.js?v={{ rand(1, 2) }}.{{ rand(0, 20) }}.{{rand(0, 9)}}"></script>
 
 <script>
     var editFlag = true;

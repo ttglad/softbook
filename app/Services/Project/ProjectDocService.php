@@ -163,7 +163,7 @@ class ProjectDocService extends ProjectService
             'spaceAfter' => 30,
         ]);
 
-        $section->addText('该平台主要功能包括', $fontStyle, $pageStyle);
+        $section->addText($project->project_title . '主要功能包括', $fontStyle, $pageStyle);
 
         $phpWord->addNumberingStyle(
             'multilevel',
@@ -204,7 +204,7 @@ class ProjectDocService extends ProjectService
                 $itemOrder = '四、';
             }
             $section->addListItem($itemOrder . $menu['menu_name'], 0, $fontStyle, 'multilevel');
-            $section->addText('这个一级菜单主要包括两个二级菜单，本一级菜单具体功能介绍如下：', $fontStyle, $pageStyle);
+            $section->addText('一级菜单' . $menu['menu_name'] . '主要包括两个二级菜单，本一级菜单具体功能介绍如下：', $fontStyle, $pageStyle);
 
             if (!isset($menu['children'])) {
                 continue;
@@ -722,6 +722,7 @@ class ProjectDocService extends ProjectService
 
                     $content .= view('project.business.show', [
                         'business' => $business,
+                        'project' => $project,
                         'businessColumn' => $businessColumn,
                     ]);
                 }

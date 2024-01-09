@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Project;
 
 use App\Models\Project\ProjectBusiness;
 use App\Models\Project\ProjectColumn;
+use App\Models\Project\ProjectInfo;
 use App\Models\Project\ProjectMenu;
 use App\Services\Project\ProjectBusinessService;
 use Illuminate\Http\Request;
@@ -26,6 +27,7 @@ class BusinessController extends ProjectController
     public function show(Request $request, $id)
     {
         $business = ProjectMenu::findOrFail($id);
+        $project = ProjectInfo::findOrFail($business->project_id);
 
         $businessColumn = ProjectColumn::where('project_id', $business->project_id)
             ->where('menu_id', $business->menu_id)
@@ -34,6 +36,7 @@ class BusinessController extends ProjectController
 
         return view('project.business.show', [
             'business' => $business,
+            'project' => $project,
             'businessColumn' => $businessColumn,
         ]);
     }
