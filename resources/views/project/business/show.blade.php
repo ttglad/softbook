@@ -89,6 +89,13 @@
     var prefix = ctx + "project/business/" + @json($business->menu_id);
 
     $(function () {
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
         var options = {
             url: prefix + "/list",
             createUrl: prefix + "/add",
