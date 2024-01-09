@@ -137,5 +137,13 @@ return [
             'name' => '科技VR',
             'value' => '/static/back/login-back16.jpg',
         ],
+        [
+            'name' => '艺术舞台',
+            'value' => '/static/back/login-back17.jpg',
+        ],
+        [
+            'name' => '食品安全',
+            'value' => '/static/back/login-back18.jpg',
+        ],
     ],
 ];
