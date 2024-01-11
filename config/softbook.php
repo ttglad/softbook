@@ -145,5 +145,9 @@ return [
             'name' => '食品安全',
             'value' => '/static/back/login-back18.jpg',
         ],
+        [
+            'name' => '物流运输',
+            'value' => '/static/back/login-back19.jpg',
+        ],
     ],
 ];

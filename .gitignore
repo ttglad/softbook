@@ -2,6 +2,7 @@
 /node_modules
 /public/hot
 /public/storage
+/public/faces
 /storage/*.key
 /vendor
 .env

@@ -6,8 +6,8 @@ use App\Models\Project\ProjectInfo;
 use App\Models\Project\ProjectMenu;
 use App\Models\SysConfig;
 use App\Services\SysMenuService;
+use Faker\Factory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 /**
  *
@@ -136,12 +136,27 @@ class PreviewController extends ProjectController
             $mainClass = 'tagsview-hide';
         }
 
-        return view('project.preview.home', [
+        // 随机头像
+        $headerImage = '/faces/' . rand(1, 21551) . '.png';
+
+        // 随机用户
+        $faker = Factory::create();
+
+        // 10% 概率横屏
+        $view = 'project.preview.home';
+        if (rand(1, 10) % 7 == 0) {
+            $view = 'project.preview.home-topnav';
+        }
+
+        return view($view, [
             'menus' => $menus,
             'footer' => $footer,
             'tagsView' => $tagsView,
             'mainClass' => $mainClass,
             'project' => $project,
+            'headerImage' => $headerImage,
+            'adminName' => $faker->lastName,
+            'isRandom' => false,
         ]);
     }
 }

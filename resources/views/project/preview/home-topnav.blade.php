@@ -11,12 +11,16 @@
     @if ($isRandom)
         <link href="/static/css/bootstrap.min.css?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}"
               rel="stylesheet"/>
-        <link href="/static/css/jquery.contextMenu.min.css?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}" rel="stylesheet"/>
-        <link href="/static/css/font-awesome.min.css?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}" rel="stylesheet"/>
-        <link href="/static/css/animate.min.css?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}" rel="stylesheet"/>
+        <link href="/static/css/jquery.contextMenu.min.css?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}"
+              rel="stylesheet"/>
+        <link href="/static/css/font-awesome.min.css?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}"
+              rel="stylesheet"/>
+        <link href="/static/css/animate.min.css?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}"
+              rel="stylesheet"/>
         <link href="/static/css/style.min.css?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}" rel="stylesheet"/>
         <link href="/static/css/skins.css?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}" rel="stylesheet"/>
-        <link href="/static/ruoyi/css/soft-ui.css?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}" rel="stylesheet"/>
+        <link href="/static/ruoyi/css/soft-ui.css?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}"
+              rel="stylesheet"/>
     @else
         <link href="/static/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="/static/css/jquery.contextMenu.min.css" rel="stylesheet"/>
@@ -26,6 +30,11 @@
         <link href="/static/css/skins.css" rel="stylesheet"/>
         <link href="/static/ruoyi/css/soft-ui.css" rel="stylesheet"/>
     @endif
+    <style>
+        .fixed-sidebar .nav:not(.navbar-toolbar) > li.active {
+            border-left: 0px !important;
+        }
+    </style>
 </head>
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow: hidden">
 <div id="wrapper">
@@ -40,95 +49,85 @@
                 <span class="logo-lg">{{ $project->project_name }}</span>
             </li>
         </a>
-        <div class="sidebar-collapse">
-            <ul class="nav" id="side-menu">
-                @if(rand(1, 100) % 5 != 0)
-                    <li>
-                        <div class="user-panel">
-                            <a class="menuItem noactive" title="个人中心" href="/system/user/profile">
-                                <div class="hide" text="个人中心"></div>
-                                <div class="pull-left image">
-                                    <img src="{{ $headerImage }}" onerror="this.src='/static/img/profile.jpg'"
-                                         class="img-circle" alt="User Image">
-                                </div>
-                            </a>
-                            <div class="pull-left info">
-                                <p>{{ $adminName }}</p>
-                                <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
-                                <a href="/loginOut" style="padding-left:5px;"><i class="fa fa-sign-out text-danger"></i>
-                                    注销</a>
-                            </div>
+        <div class="sidebar-collapse tab-content" id="side-menu">
+            @if(rand(1, 100) % 5 != 0)
+                <div class="user-panel">
+                    <a class="menuItem noactive" title="个人中心" href="/system/user/profile">
+                        <div class="hide" text="个人中心"></div>
+                        <div class="pull-left image">
+                            <img src="{{ $headerImage }}" onerror="this.src='/static/img/profile.jpg'"
+                                 class="img-circle" alt="User Image">
                         </div>
-                    </li>
-                @endif
-                @if(count($menus) > 0)
-                    {{-- 一级菜单 --}}
-                    @foreach($menus as $firstMenu)
-                        <li>
-                            <a class="@if(!empty($firstMenu['url']) && $firstMenu['url'] != '#') {{ $firstMenu['target'] }} @endif {{ $firstMenu['class'] }}"
-                               href="{{ $firstMenu['url'] ?? '#'  }}"
-                               data-refresh="{{ $firstMenu['is_refresh'] == 0 ? 'ture' : 'false' }}">
-                                <i class="{{ $firstMenu['icon'] }}"></i>
-                                <span class="nav-label"
-                                      text="{{ $firstMenu['menu_name'] }}">{{ $firstMenu['menu_name'] }}</span>
-                                <span
-                                    class="@if(!empty($firstMenu['url']) || $firstMenu['url'] == '#') fa arrow @endif"></span>
-                            </a>
-                            <ul class="nav nav-second-level collapse">
-                                @if(isset($firstMenu['children']) && count($firstMenu['children']) > 0)
-                                    {{-- 二级菜单 --}}
-                                    @foreach($firstMenu['children'] as $secondMenu)
-                                        <li>
-                                            @if(empty($secondMenu['children']))
-                                                <a class="@if(empty($secondMenu['target'])) menuItem @else {{ $secondMenu['target'] }} @endif {{ $secondMenu['class'] }}"
-                                                   href="{{ $secondMenu['url'] }}"
-                                                   data-refresh="{{ $secondMenu['is_refresh'] == 0 ? 'ture' : 'false' }}">{{ $secondMenu['menu_name'] }}</a>
-                                            @else
-                                                <a href="#">{{ $secondMenu['menu_name'] }}<span class="fa arrow"></span></a>
-                                                <ul class="nav nav-third-level">
-                                                    @if(isset($secondMenu['children']) && count($secondMenu['children']) > 0)
-                                                        {{-- 三级菜单 --}}
-                                                        @foreach($secondMenu['children'] as $thirdMenu)
-                                                            <li>
-                                                                @if(empty($thirdMenu['children']))
-                                                                    <a class="@if(empty($thirdMenu['target'])) menuItem @else {{ $thirdMenu['target'] }} @endif {{ $thirdMenu['class'] }}"
-                                                                       href="{{ $thirdMenu['url'] }}"
-                                                                       data-refresh="{{ $thirdMenu['is_refresh'] == 0 ? 'ture' : 'false' }}">{{ $thirdMenu['menu_name'] }}</a>
-                                                                @else
-                                                                    <a href="#">{{ $thirdMenu['menu_name'] }}<span
-                                                                            class="fa arrow"></span></a>
-                                                                    <ul class="nav nav-third-level">
-                                                                        @if(isset($thirdMenu['children']) && count($thirdMenu['children']) > 0)
-                                                                            {{-- 四级菜单 --}}
-                                                                            @foreach($thirdMenu['children'] as $fourthMenu)
-                                                                                <li>
-                                                                                    @if(empty($fourthMenu['children']))
-                                                                                        <a class="@if(empty($fourthMenu['target'])) menuItem @else {{ $fourthMenu['target'] }} @endif {{ $fourthMenu['class'] }}"
-                                                                                           href="{{ $fourthMenu['url'] }}"
-                                                                                           data-refresh="{{ $fourthMenu['is_refresh'] == 0 ? 'ture' : 'false' }}">{{ $fourthMenu['menu_name'] }}</a>
-                                                                                    @else
-                                                                                        <a href="#">{{ $fourthMenu['menu_name'] }}
-                                                                                            <span
-                                                                                                class="fa arrow"></span></a>
-                                                                                    @endif
-                                                                                </li>
-                                                                            @endforeach
-                                                                        @endif
-                                                                    </ul>
-                                                                @endif
-                                                            </li>
-                                                        @endforeach
-                                                    @endif
-                                                </ul>
-                                            @endif
-                                        </li>
-                                    @endforeach
-                                @endif
-                            </ul>
-                        </li>
-                    @endforeach
-                @endif
-            </ul>
+                    </a>
+                    <div class="pull-left info">
+                        <p>{{ $adminName }}</p>
+                        <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
+                        <a href="/loginOut" style="padding-left:5px;"><i class="fa fa-sign-out text-danger"></i>
+                            注销</a>
+                    </div>
+                </div>
+            @endif
+
+            @if(count($menus) > 0)
+                {{-- 一级菜单 --}}
+                @foreach($menus as $firstMenu)
+                    <div class="tab-pane fade height-full active in" id="menu_{{ $firstMenu['menu_id'] }}">
+                        <ul class="nav in">
+                            @if(isset($firstMenu['children']) && count($firstMenu['children']) > 0)
+                                @foreach($firstMenu['children'] as $secondMenu)
+                                    <li>
+                                        @if(empty($secondMenu['children']))
+                                            <a class="menu-content @if(empty($secondMenu['target'])) menuItem @else {{ $secondMenu['target'] }} @endif {{ $secondMenu['class'] }}"
+                                               href="{{ $secondMenu['url'] }}"
+                                               data-refresh="{{ $secondMenu['is_refresh'] == 0 ? 'ture' : 'false' }}">
+                                                <i class="{{ $secondMenu['icon']}} fa-fw"></i>
+                                                <span class="nav-label">{{ $secondMenu['menu_name'] }}</span>
+                                            </a>
+                                        @else
+                                            <a class="menu-content" href="#">
+                                                <i class="{{ $secondMenu['icon'] }} fa-fw"></i>
+                                                <span class="nav-label">{{ $secondMenu['menu_name'] }}</span>
+                                                <span class="fa arrow"></span>
+                                            </a>
+                                            <ul class="nav nav-second-level collapse">
+                                                @foreach($secondMenu['children'] as $thirdMenu)
+                                                    <li>
+                                                        @if(empty($thirdMenu['children']))
+                                                            <a class="menu-content @if(empty($thirdMenu['target'])) menuItem @else {{ $thirdMenu['target'] }} @endif {{ $thirdMenu['class'] }}"
+                                                               href="{{ $thirdMenu['url'] }}"
+                                                               data-refresh="{{ $thirdMenu['is_refresh'] == 0 ? 'ture' : 'false' }}">
+                                                                <i class="{{ $thirdMenu['icon']}} fa-fw"></i> <span
+                                                                    class="nav-label">{{ $thirdMenu['menu_name'] }}</span>
+                                                            </a>
+                                                        @else
+                                                            <a class="menu-content" href="#">
+                                                                <i class="{{ $thirdMenu['icon'] }} fa-fw"></i>
+                                                                <span
+                                                                    class="nav-label">{{ $thirdMenu['menu_name'] }}</span>
+                                                                <span class="fa arrow"></span>
+                                                            </a>
+                                                            <ul class="nav nav-third-level collapse">
+                                                                @foreach($thirdMenu['children'] as $fourthMenu)
+                                                                    <li>
+                                                                        <a class="@if(empty($fourthMenu['target'])) menuItem @else {{ $fourthMenu['target'] }} @endif {{ $fourthMenu['class'] }}"
+                                                                           href="{{ $fourthMenu['url'] }}"
+                                                                           data-refresh="{{ $fourthMenu['is_refresh'] == 0 ? 'ture' : 'false' }}">{{ $fourthMenu['menu_name'] }}</a>
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        @endif
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                    </li>
+                                @endforeach
+                            @endif
+                        </ul>
+                    </div>
+                @endforeach
+            @endif
+
         </div>
     </nav>
     <!--左侧导航结束-->
@@ -142,6 +141,25 @@
                         <i class="fa fa-bars"></i>
                     </a>
                 </div>
+                <!-- 顶部栏 -->
+                <div id="navMenu">
+                    <ul class="nav navbar-toolbar nav-tabs navbar-left hidden-xs">
+                        @if(count($menus) > 0)
+                            {{-- 顶部菜单列表 --}}
+                            @foreach($menus as $firstMenu)
+                                <li role="presentation" id="tab_{{ $firstMenu['menu_id'] }}">
+                                    <a data-toggle="tab"
+                                       class="@if(!empty($firstMenu['url']) && $firstMenu['url'] != '#') {{ $firstMenu['target'] }} @endif {{ $firstMenu['class'] }}"
+                                       href="{{ $firstMenu['url'] != '#' ? $firstMenu['url'] : '#menu_' . $firstMenu['menu_id']}}">
+                                        <i class="{{ $firstMenu['icon'] }}"></i>
+                                        <span>{{ $firstMenu['menu_name'] }}</span>
+                                    </a>
+                                </li>
+                            @endforeach
+                        @endif
+                    </ul>
+                </div>
+                <!-- 右侧栏 -->
                 <ul class="nav navbar-top-links navbar-right welcome-message">
                     <!--                    <li><a data-toggle="tooltip" data-trigger="hover" data-placement="bottom" title="锁定屏幕" href="#" id="lockScreen"><i class="fa fa-lock"></i> 锁屏</a></li>-->
                     <!--	                <li><a data-toggle="tooltip" data-trigger="hover" data-placement="bottom" title="全屏显示" href="#" id="fullScreen"><i class="fa fa-arrows-alt"></i> 全屏</a></li>-->
@@ -178,6 +196,7 @@
                 </ul>
             </nav>
         </div>
+
         <div class="row content-tabs @if(!$tagsView) hide @endif">
             <button class="roll-nav roll-left tabLeft">
                 <i class="fa fa-backward"></i>
@@ -209,6 +228,22 @@
     <!--右侧部分结束-->
 </div>
 <!-- 全局js -->
+<script src="/static/js/jquery.min.js?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}"></script>
+<script src="/static/js/bootstrap.min.js?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}"></script>
+<script
+    src="/static/js/plugins/metisMenu/jquery.metisMenu.js?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}"></script>
+<script
+    src="/static/js/plugins/slimscroll/jquery.slimscroll.min.js?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}"></script>
+<script src="/static/js/jquery.contextMenu.min.js?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}"></script>
+<script src="/static/ajax/libs/blockUI/jquery.blockUI.js?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}"></script>
+<script src="/static/ajax/libs/layer/layer.min.js?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}"></script>
+<script src="/static/ruoyi/js/soft-ui.js?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}"></script>
+<script src="/static/ruoyi/js/common.js?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}"></script>
+<script src="/static/ruoyi/index.js?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}"></script>
+<script
+    src="/static/ajax/libs/fullscreen/jquery.fullscreen.js?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}"></script>
+
+
 @if($isRandom)
     <script src="/static/js/jquery.min.js?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}"></script>
     <script src="/static/js/bootstrap.min.js?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}"></script>
@@ -225,6 +260,7 @@
     <script src="/static/ruoyi/index.js?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}"></script>
     <script
         src="/static/ajax/libs/fullscreen/jquery.fullscreen.js?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}"></script>
+    <script src="/static/js/resize-tabs.js?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}"></script>
 @else
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
@@ -237,6 +273,7 @@
     <script src="/static/ruoyi/js/common.js"></script>
     <script src="/static/ruoyi/index.js"></script>
     <script src="/static/ajax/libs/fullscreen/jquery.fullscreen.js"></script>
+    <script src="/static/js/resize-tabs.js"></script>
 @endif
 <script>
     // 方式后退
@@ -274,9 +311,16 @@
 
     /** 刷新时访问路径页签 */
     function applyPath(url) {
-        $('a[href$="' + decodeURI(url) + '"]').click();
-        if (!$('a[href$="' + url + '"]').hasClass("noactive")) {
-            $('a[href$="' + url + '"]').parent("li").addClass("selected").parents("li").addClass("active").end().parents("ul").addClass("in");
+        var $dataObj = $('a[href$="' + decodeURI(url) + '"]');
+        $dataObj.click();
+        if (!$dataObj.hasClass("noactive")) {
+            $dataObj.parent("li").addClass("selected").parents("li").addClass("active").end().parents("ul").addClass("in");
+        }
+        var tabStr = $dataObj.parents(".tab-pane").attr("id");
+        if ($.common.isNotEmpty(tabStr)) {
+            var sepIndex = tabStr.lastIndexOf('_');
+            var menuId = tabStr.substring(sepIndex + 1, tabStr.length);
+            $("#tab_" + menuId + " a").click();
         }
     }
 

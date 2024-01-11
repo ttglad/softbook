@@ -83,7 +83,7 @@ function syncMenuTab(dataId) {
             $(".nav ul li, .nav li").removeClass("selected");
             $dataObj.parent("li").addClass("selected");
             setIframeUrl(dataId);
-            
+
             // 顶部菜单同步处理
             var tabStr = $dataObj.parents(".tab-pane").attr("id");
             if ($.common.isNotEmpty(tabStr)) {
@@ -275,6 +275,14 @@ $(function() {
             $dataObj.parents("ul").css('height', 'auto').height();
             $(".nav ul li, .nav li").removeClass("selected");
             $(this).parent("li").addClass("selected");
+
+            // 顶部菜单同步处理
+            var tabStr = $dataObj.parents(".tab-pane").attr("id");
+            if ($.common.isNotEmpty(tabStr)) {
+                var sepIndex = tabStr.lastIndexOf('_');
+                var menuId = tabStr.substring(sepIndex + 1, tabStr.length);
+                $("#tab_" + menuId + " a").click();
+            }
         }
         setIframeUrl(dataUrl);
         if (dataUrl == undefined || $.trim(dataUrl).length == 0) return false;
@@ -503,7 +511,7 @@ $(function() {
     $('#fullScreen').on('click', function () {
     	$(document).toggleFullScreen();
     });
-    
+
     // 锁定屏幕
     $('#lockScreen').on('click', function () {
     	storage.set('lockPath', $('.page-tabs-content').find('.active').attr('data-id'));
