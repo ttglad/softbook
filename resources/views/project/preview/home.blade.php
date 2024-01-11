@@ -26,6 +26,14 @@
         <link href="/static/css/skins.css" rel="stylesheet"/>
         <link href="/static/ruoyi/css/soft-ui.css" rel="stylesheet"/>
     @endif
+
+    @if (strlen($project->project_name) > 8)
+        <style>
+            nav .logo {
+                font-size: 18px;
+            }
+        </style>
+    @endif
 </head>
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow: hidden">
 <div id="wrapper">

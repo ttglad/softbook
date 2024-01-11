@@ -34,6 +34,12 @@
         .fixed-sidebar .nav:not(.navbar-toolbar) > li.active {
             border-left: 0px !important;
         }
+
+        @if (strlen($project->project_name) > 8)
+        nav .logo {
+            font-size: 18px;
+        }
+        @endif
     </style>
 </head>
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow: hidden">
