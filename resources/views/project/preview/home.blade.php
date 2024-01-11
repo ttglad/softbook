@@ -27,12 +27,18 @@
         <link href="/static/ruoyi/css/soft-ui.css" rel="stylesheet"/>
     @endif
 
-    @if (strlen($project->project_name) > 8)
+    @if (strlen($project->project_name) > 8 && strlen($project->project_name) < 10)
         <style>
             nav .logo {
                 font-size: 18px;
             }
         </style>
+    @elseif(strlen($project->project_name) >= 10)
+    <style>
+        nav .logo {
+            font-size: 17px;
+        }
+    </style>
     @endif
 </head>
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow: hidden">

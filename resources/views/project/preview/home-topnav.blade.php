@@ -35,9 +35,13 @@
             border-left: 0px !important;
         }
 
-        @if (strlen($project->project_name) > 8)
+        @if (strlen($project->project_name) > 8 && strlen($project->project_name) < 10)
         nav .logo {
             font-size: 18px;
+        }
+        @elseif(strlen($project->project_name) >= 10)
+        nav .logo {
+            font-size: 17px;
         }
         @endif
     </style>
