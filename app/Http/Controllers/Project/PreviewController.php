@@ -144,7 +144,7 @@ class PreviewController extends ProjectController
 
         // 10% 概率横屏
         $view = 'project.preview.home';
-        if (rand(1, 10) % 7 == 0) {
+        if (rand(0, 25) % 5 == 0) {
             $view = 'project.preview.home-topnav';
         }
 
