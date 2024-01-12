@@ -436,43 +436,45 @@ class MenuController extends ProjectController
             $childKeys = $post['childKeys'];
 
             // 数据校验
-            if (sizeof($menus) != 3) {
+            if (sizeof($menus) < 3) {
                 throw new \Exception('一级目录数量不正确', 1002);
             }
-            if (sizeof($childMenus) != 6) {
+            if (sizeof($childMenus) < 6) {
                 throw new \Exception('二级目录数量不正确', 1002);
             }
-            if (sizeof($childKeys) != 6) {
+            if (sizeof($childKeys) < 6) {
                 throw new \Exception('二级目录字段数量不正确', 1002);
             }
 
             // 明细校验
-            foreach ($menus as &$menu) {
+            foreach ($menus as $i => &$menu) {
                 $menu = trim($menu);
-                if (empty($menu)) {
+                if ($i <= 3 && empty($menu)) {
                     throw new \Exception('一级目录不能为空', 1002);
                 }
             }
-            foreach ($childMenus as &$menu2) {
+            foreach ($childMenus as $i => &$menu2) {
                 $menu2 = trim($menu2);
-                if (empty($menu2)) {
+                if ($i <= 3 && empty($menu2)) {
                     throw new \Exception('二级目录不能为空', 1002);
                 }
                 $childKeyArr = array_merge($childKeyArr, [$menu2]);
             }
-            foreach ($childKeys as &$menu3) {
+            foreach ($childKeys as $i => &$menu3) {
                 $menu3 = trim(trim($menu3), $this->keySplitChar);
-                if (empty($menu3)) {
+                if ($i <= 3 && empty($menu3)) {
                     throw new \Exception('二级目录字段不能为空', 1002);
                 }
-                $menu3 = explode($this->keySplitChar, $menu3);
-                if (sizeof($menu3) < 5) {
-                    throw new \Exception('二级目录字段不能小于5个', 1002);
+                if (!empty($menu3)) {
+                    $menu3 = explode($this->keySplitChar, $menu3);
+                    if (sizeof($menu3) < 5) {
+                        throw new \Exception('二级目录字段不能小于5个', 1002);
+                    }
+                    foreach ($menu3 as &$_menu) {
+                        $_menu = trim($_menu);
+                    }
+                    $childKeyArr = array_merge($childKeyArr, $menu3);
                 }
-                foreach ($menu3 as &$_menu) {
-                    $_menu = trim($_menu);
-                }
-                $childKeyArr = array_merge($childKeyArr, $menu3);
             }
 
             unset($menu, $menu2, $menu3);
@@ -481,6 +483,9 @@ class MenuController extends ProjectController
             $dictArr = ProjectDictService::getDictArray($childKeyArr);
 
             foreach ($menus as $sort => $itemMenu) {
+                if (empty($itemMenu)) {
+                    continue;
+                }
                 // 父菜单创建
                 $menuModel = new ProjectMenu();
                 $menuModel->project_id = $project->project_id;
@@ -495,6 +500,9 @@ class MenuController extends ProjectController
                 $menuModel->menu_type = 'M';
                 if ($menuModel->save()) {
                     for ($i = $sort * 2; $i < ($sort + 1) * 2; $i++) {
+                        if (!isset($childMenus[$i]) || empty($childMenus[$i])) {
+                            continue;
+                        }
                         $childMenu = new ProjectMenu();
                         $childMenu->project_id = $project->project_id;
                         $childMenu->parent_id = $menuModel->menu_id;

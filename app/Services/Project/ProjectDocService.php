@@ -358,9 +358,14 @@ class ProjectDocService extends ProjectService
         $contents = $this->getCodes($project);
 
         $codeArray = explode("\n", $contents);
+        $i = 0;
         foreach ($codeArray as $code) {
             if (empty($code)) {
                 continue;
+            }
+            // 3300行代码自动截断
+            if ($i++ > 3300 && strpos($code, '<?php') !== false) {
+                break;
             }
             $section->addText(htmlspecialchars($code), $fontStyle);
         }
