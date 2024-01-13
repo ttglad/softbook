@@ -449,20 +449,20 @@ class MenuController extends ProjectController
             // 明细校验
             foreach ($menus as $i => &$menu) {
                 $menu = trim($menu);
-                if ($i <= 3 && empty($menu)) {
+                if ($i < 3 && empty($menu)) {
                     throw new \Exception('一级目录不能为空', 1002);
                 }
             }
             foreach ($childMenus as $i => &$menu2) {
                 $menu2 = trim($menu2);
-                if ($i <= 3 && empty($menu2)) {
+                if ($i < 3 && empty($menu2)) {
                     throw new \Exception('二级目录不能为空', 1002);
                 }
                 $childKeyArr = array_merge($childKeyArr, [$menu2]);
             }
             foreach ($childKeys as $i => &$menu3) {
                 $menu3 = trim(trim($menu3), $this->keySplitChar);
-                if ($i <= 3 && empty($menu3)) {
+                if ($i < 3 && empty($menu3)) {
                     throw new \Exception('二级目录字段不能为空', 1002);
                 }
                 if (!empty($menu3)) {

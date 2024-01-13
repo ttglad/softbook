@@ -14,6 +14,19 @@ use PhpOffice\PhpWord\SimpleType\Jc;
 class ProjectDocService extends ProjectService
 {
 
+    private $chatNum = [
+        '1' => '一',
+        '2' => '二',
+        '3' => '三',
+        '4' => '四',
+        '5' => '五',
+        '6' => '六',
+        '7' => '七',
+        '8' => '八',
+        '9' => '九',
+        '10' => '十',
+    ];
+
     /**
      * 生成项目文档
      * @param $projectId
@@ -118,6 +131,7 @@ class ProjectDocService extends ProjectService
     private function saveProjectInfo($project, $imagePath, $savePath, $basePath)
     {
         $imageNum = 0;
+        $titleNum = 0;
 
         /**
          * 生成使用说明
@@ -176,7 +190,7 @@ class ProjectDocService extends ProjectService
             ]
         );
 
-        $section->addListItem('一、用户登录', 0, $fontStyle, 'multilevel');
+        $section->addListItem($this->chatNum[++$titleNum] . '、用户登录', 0, $fontStyle, 'multilevel');
         $section->addText('如图1所示，用户在账号登录框输入用户名和密码即可进入系统。', $fontStyle, $pageStyle);
         $section->addText('功能介绍：系统设置了不同的管理权限，由超级管理员分配用户权限和设置账号密码，不同用户账号之间存在权限区别，如用户是否能够查看详细运行数据的权限等。',
             $fontStyle, $pageStyle);
@@ -193,17 +207,17 @@ class ProjectDocService extends ProjectService
         $section->addText('图' . ++$imageNum . '  用户登录', $fontStyle, $pageImageStyle);
 
         $menus = $this->getMenuTrees($project->project_id);
-        foreach ($menus as $item => $menu) {
-            if ($item == 0) {
-                $itemOrder = '二、';
-            }
-            if ($item == 1) {
-                $itemOrder = '三、';
-            }
-            if ($item == 2) {
-                $itemOrder = '四、';
-            }
-            $section->addListItem($itemOrder . $menu['menu_name'], 0, $fontStyle, 'multilevel');
+        foreach ($menus as $menu) {
+//            if ($item == 0) {
+//                $itemOrder = '二、';
+//            }
+//            if ($item == 1) {
+//                $itemOrder = '三、';
+//            }
+//            if ($item == 2) {
+//                $itemOrder = '四、';
+//            }
+            $section->addListItem($this->chatNum[++$titleNum] . '、' . $menu['menu_name'], 0, $fontStyle, 'multilevel');
             $section->addText('一级菜单' . $menu['menu_name'] . '主要包括两个二级菜单，本一级菜单具体功能介绍如下：', $fontStyle, $pageStyle);
 
             if (!isset($menu['children'])) {
@@ -272,7 +286,7 @@ class ProjectDocService extends ProjectService
         // 获取临时的序号
         $tempImageNum = $imageNum;
 
-        $section->addListItem('五、用户管理', 0, $fontStyle, 'multilevel');
+        $section->addListItem($this->chatNum[++$titleNum] . '、用户管理', 0, $fontStyle, 'multilevel');
         $section->addText('功能入口：点击左部菜单系统管理-用户管理，即可进入该界面。', $fontStyle, $pageStyle);
         $section->addText('功能介绍：系统设置，可以管理用户信息等，通过对系统中的用户进行创建、删除、修
 改和权限控制等操作，确保系统安全性和有效性。旨在提供合法用户访问系统、限制用户操作范围和访问权限、管理用户个人信息以及收集用户行为数据等功能。如图' . ++$tempImageNum . '所示。',
@@ -286,7 +300,7 @@ class ProjectDocService extends ProjectService
         }
         $section->addText('图' . ++$imageNum . '  用户管理', $fontStyle, $pageImageStyle);
 
-        $section->addListItem('六、角色管理', 0, $fontStyle, 'multilevel');
+        $section->addListItem($this->chatNum[++$titleNum] . '、角色管理', 0, $fontStyle, 'multilevel');
         $section->addText('功能入口：点击左部菜单系统管理-角色管理，即可进入该界面。', $fontStyle, $pageStyle);
         $section->addText('功能介绍：系统设置，可以管理角色信息等，通过将用户分配到不同的角色中，每个角色具有不同的权限和功能，来实现对系统中用户权限的控制和管理。方便系统进行细粒度的权限控制，确保用户只能访问其具备权限的资源，提高系统的安全性和可管理性。如图' . ++$tempImageNum . '所示。',
             $fontStyle, $pageStyle);
@@ -301,7 +315,7 @@ class ProjectDocService extends ProjectService
 
         $section->addText('图' . ++$imageNum . '  角色管理', $fontStyle, $pageImageStyle);
 
-        $section->addListItem('七、系统监控', 0, $fontStyle, 'multilevel');
+        $section->addListItem($this->chatNum[++$titleNum] . '、系统监控', 0, $fontStyle, 'multilevel');
         $section->addText('功能入口：点击左侧菜单栏系统监控，可以查看各个维度的监控数据，实时监测系统的运行状态、资源利用率、响应时间等指标，及时发现并解决潜在的问题，提高系统的运行效率和可用性。',
             $fontStyle, $pageStyle);
         if (is_file($basePath . 'monitor.png')) {
