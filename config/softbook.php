@@ -263,5 +263,9 @@ return [
             'name' => '城市大数据',
             'value' => '/static/back/login-back25.jpg',
         ],
+        [
+            'name' => '商务办公',
+            'value' => '/static/back/login-back26.jpg',
+        ],
     ],
 ];
