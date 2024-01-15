@@ -259,5 +259,9 @@ return [
             'name' => '信息安全',
             'value' => '/static/back/login-back24.jpg',
         ],
+        [
+            'name' => '城市大数据',
+            'value' => '/static/back/login-back25.jpg',
+        ],
     ],
 ];
