@@ -10,9 +10,7 @@
     <link href="/static/css/style.min.css?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}" rel="stylesheet"/>
     <link href="/static/css/login.min.css?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}" rel="stylesheet"/>
     <link href="/static/ruoyi/css/soft-ui.css?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}" rel="stylesheet"/>
-    <!-- 360浏览器急速模式 -->
     <meta name="renderer" content="webkit">
-    <!-- 避免IE使用兼容模式 -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="/static/favicon.ico"/>
@@ -87,9 +85,7 @@
     var ctx = "<?php echo '/project/preview/' . $project->project_id . '/'; ?>";
     var captchaType = <?php echo "captchaType"; ?>;
 </script>
-<!--[if lte IE 8]>
 <script>window.location.href = ctx + 'html/ie.html';</script><![endif]-->
-<!-- 全局js -->
 <script src="/static/js/jquery.min.js?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}"></script>
 <script src="/static/ajax/libs/validate/jquery.validate.min.js?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}"></script>
 <script src="/static/ajax/libs/layer/layer.min.js?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}"></script>
