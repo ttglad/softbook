@@ -8,6 +8,7 @@ use TtgladModelNamespace\TtgladClass;
  * Class TtgladClassService
  *
  * @package TtgladServiceNamespace
+ * @author TtgladAuthor
  */
 class TtgladClassService extends BusinessService
 {

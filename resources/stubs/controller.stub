@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 /**
  * TtgladTableComment控制器
  *
- * @author SoftBook
+ * @author TtgladAuthor
  */
 class TtgladClassController extends BusinessController
 {
@@ -30,7 +30,6 @@ class TtgladClassController extends BusinessController
      */
     public function add(Request $request)
     {
-
         return view('business.TtgladView.add');
     }
 

@@ -7,6 +7,7 @@ use App\Models\Project\ProjectMenu;
 use App\Models\SysConfig;
 use App\Models\SysDictData;
 use App\Services\ResourceService;
+use Faker\Factory;
 use Illuminate\Support\Arr;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
@@ -762,6 +763,9 @@ class ProjectDocService extends ProjectService
 //            $content .= file_get_contents(app_path('Http/Controllers/Admin/UserController.php'));
             $content .= file_get_contents(app_path('Models/SysUser.php'));
 
+            // 随机用户
+            $faker = Factory::create();
+
             // 获取服务代码
             foreach ($menus as $menu) {
                 if (empty($menu['children'])) {
@@ -777,9 +781,9 @@ class ProjectDocService extends ProjectService
                         ->get();
 
                     // 获取model代码
-                    $content .= $resourceService->getControllerContent($business, $businessColumn);
-                    $content .= $resourceService->getModelContent($business, $businessColumn);
-                    $content .= $resourceService->getServiceContent($business, $businessColumn);
+                    $content .= $resourceService->getControllerContent($business, $businessColumn, $faker);
+                    $content .= $resourceService->getModelContent($business, $businessColumn, $faker);
+                    $content .= $resourceService->getServiceContent($business, $businessColumn, $faker);
                 }
             }
         } catch (\Exception $e) {

@@ -85,7 +85,6 @@
     var ctx = "<?php echo '/project/preview/' . $project->project_id . '/'; ?>";
     var captchaType = <?php echo "captchaType"; ?>;
 </script>
-<script>window.location.href = ctx + 'html/ie.html';</script><![endif]-->
 <script src="/static/js/jquery.min.js?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}"></script>
 <script src="/static/ajax/libs/validate/jquery.validate.min.js?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}"></script>
 <script src="/static/ajax/libs/layer/layer.min.js?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}"></script>

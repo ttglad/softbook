@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class TtgladClass
  * TtgladTableComment
  * @package TtgladModelNamespace
+ * @author TtgladAuthor
  */
 class TtgladClass extends Model
 {
