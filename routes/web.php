@@ -161,6 +161,9 @@ Route::group(['namespace' => 'Admin'], function () {
         // 系统监控
         Route::get('monitor/server', 'MonitorController@server');
 
+        // 日志列表
+        Route::get('log/login', 'LogController@login');
+        Route::post('log/login/list', 'LogController@loginList');
     });
 });
 
