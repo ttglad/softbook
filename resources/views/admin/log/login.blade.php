@@ -97,8 +97,16 @@
                     }
                 },
                 {
-                    field: 'user_agent',
-                    title: '客户agent'
+                    field: 'device',
+                    title: '设备'
+                },
+                {
+                    field: 'platform',
+                    title: '平台'
+                },
+                {
+                    field: 'browser',
+                    title: '浏览器'
                 },
                 {
                     field: 'status',

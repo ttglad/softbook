@@ -6,6 +6,7 @@ use App\Events\SystemLogEvent;
 use App\Models\SysConfig;
 use App\Services\SysMenuService;
 use Auth;
+use Jenssegers\Agent\Agent;
 
 /**
  * 后台管理员用户登录统一认证
@@ -74,6 +75,9 @@ class HomeController extends AdminController
             $mainClass = 'tagsview-hide';
         }
 
+        // 获取agent
+        $agent = new Agent();
+
         return view('admin.home.home', [
             'sideTheme' => $sideTheme,
             'skinName' => $skinName,
@@ -83,6 +87,7 @@ class HomeController extends AdminController
             'mainClass' => $mainClass,
             'softName' => $softName,
             'softShortName' => $softShortName,
+            'isMobile' => $agent->isMobile(),
         ]);
     }
 

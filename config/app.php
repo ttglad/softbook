@@ -176,8 +176,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        // ��֤��
+        // 验证码
         Mews\Captcha\CaptchaServiceProvider::class,
+
+        // agent
+        Jenssegers\Agent\AgentServiceProvider::class,
     ],
 
     /*
@@ -231,6 +234,9 @@ return [
 
         // 验证码
         'Captcha' => Mews\Captcha\Facades\Captcha::class,
+
+        // agent
+        'Agent' => Jenssegers\Agent\Facades\Agent::class,
     ],
 
 ];

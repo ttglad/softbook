@@ -16,7 +16,7 @@
     <link href="/static/css/skins.css" rel="stylesheet"/>
     <link href="/static/ruoyi/css/soft-ui.css?v=4.7.7" rel="stylesheet"/>
 </head>
-<body class="fixed-sidebar full-height-layout gray-bg" style="overflow: hidden">
+<body class="fixed-sidebar full-height-layout gray-bg @if($isMobile) canvas-menu @endif" style="overflow: hidden">
 <div id="wrapper">
 
     <!--左侧导航开始-->
