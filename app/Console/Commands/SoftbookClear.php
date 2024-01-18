@@ -36,15 +36,18 @@ class SoftbookClear extends Command
             $clearDoc = true;
         } elseif ($type == 'image') {
             $clearImage = true;
-        } else if($type == 'doc') {
+        } elseif ($type == 'doc') {
             $clearDoc = true;
         } else {
             $this->error('type[' . $type . '] is error.');
         }
         if ($clearImage) {
-            $files =  File::allFiles(resource_path('softbook/image'));
+            $files = File::allFiles(resource_path('softbook/image'));
             // 遍历并删除所有文件
             foreach ($files as $file) {
+                if ($file->getCTime() >= strtotime("-6 month")) {
+                    continue;
+                }
                 File::delete($file);
             }
         }

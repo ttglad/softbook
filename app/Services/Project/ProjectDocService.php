@@ -9,6 +9,7 @@ use App\Models\SysDictData;
 use App\Services\ResourceService;
 use Faker\Factory;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\File;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
 
@@ -73,6 +74,9 @@ class ProjectDocService extends ProjectService
                     unlink($zipFile);
                 }
                 $this->zipDirectory($zipFile, $docPath);
+
+                // 删除所有文件
+                File::deleteDirectory($docPath);
             }
 
         } catch (\Exception $e) {
@@ -123,6 +127,11 @@ class ProjectDocService extends ProjectService
                     unlink($zipFile);
                 }
                 $this->zipDirectories($zipFile, $docPaths);
+
+                // 删除生成的文件
+                foreach($docPaths as $docPath) {
+                    File::deleteDirectory($docPath);
+                }
             }
 
         } catch (\Exception $e) {
