@@ -198,10 +198,10 @@
         });
     });
 
-    $("input[name='projectName']").on('change', function() {
-        var projectName = $(this).val();
-        if (projectName) {
-            $.operate.post(prefix + "/getProjectCode", {"projectName": projectName}, function (data) {
+    $("input[name='projectSector']").on('change', function() {
+        var projectSector = $(this).val();
+        if (projectSector) {
+            $.operate.post(prefix + "/getProjectCode", {"projectName": projectSector}, function (data) {
                 if (data.code == 0) {
                     $("input[name='projectCode']").val(data.projectCode);
                 }
