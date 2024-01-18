@@ -184,6 +184,7 @@ Route::group(['namespace' => 'Project', 'middleware' => ['auth']], function () {
     Route::get('project/batchDownload', 'InfoController@batchDownload');
     Route::post('project/uploadImage', 'InfoController@uploadImage');
     Route::get('project/submit', 'InfoController@submit');
+    Route::post('project/getProjectCode', 'InfoController@getProjectCode');
 
 
     // 项目菜单

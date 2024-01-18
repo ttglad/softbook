@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Project;
 
 use App\Models\Project\ProjectInfo;
 use App\Models\SysDictData;
+use App\Services\Project\ProjectDictService;
 use App\Services\Project\ProjectDocService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -370,6 +371,30 @@ class InfoController extends ProjectController
                     $return['next_id'] = $project->project_id;
                 }
             }
+        } catch (\Exception $e) {
+            $return['code'] = $e->getCode();
+            $return['msg'] = $e->getMessage();
+        }
+        return $return;
+    }
+
+    /**
+     * @param Request $request
+     * @return array|mixed
+     */
+    public function getProjectCode(Request $request)
+    {
+        $return = $this->ajaxReturn;
+        try {
+            $projectName = trim($request->post('projectName'));
+            if (empty($projectName)) {
+                throw new \Exception('项目简称不能为空', 1001);
+            }
+            $code = ProjectDictService::getDictValue($projectName);
+            if (empty($code)) {
+                throw new \Exception('项目编码获取失败', 1002);
+            }
+            $return['projectCode'] = $code;
         } catch (\Exception $e) {
             $return['code'] = $e->getCode();
             $return['msg'] = $e->getMessage();
