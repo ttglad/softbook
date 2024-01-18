@@ -267,5 +267,13 @@ return [
             'name' => '商务办公',
             'value' => '/static/back/login-back26.jpg',
         ],
+        [
+            'name' => '网络设备',
+            'value' => '/static/back/login-back27.jpg',
+        ],
+        [
+            'name' => '汽车美容',
+            'value' => '/static/back/login-back28.jpg',
+        ],
     ],
 ];
