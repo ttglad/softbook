@@ -275,5 +275,9 @@ return [
             'name' => '汽车美容',
             'value' => '/static/back/login-back28.jpg',
         ],
+        [
+            'name' => '自助洗车',
+            'value' => '/static/back/login-back29.jpg',
+        ],
     ],
 ];
