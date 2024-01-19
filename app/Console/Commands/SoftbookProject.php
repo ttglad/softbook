@@ -62,14 +62,22 @@ class SoftbookProject extends Command
                     $keys = [];
                     foreach ($menu as $itemMenu) {
                         foreach ($itemMenu['child'] as $item) {
-                            $keys = array_merge($keys, [$item['name']]);
-                            $keys = array_merge($keys, $item['keys']);
+                            if (!empty($item['name'])) {
+                                $keys = array_merge($keys, [$item['name']]);
+                            }
+                            if (!empty($item['keys'])) {
+                                $keys = array_merge($keys, $item['keys']);
+                            }
                         }
                     }
 //                    $this->info(print_r($keys, true));
                     $dictArr = ProjectDictService::getDictArray(array_unique($keys));
 
                     foreach ($menu as $itemMenu) {
+                        // 防止为空则跳出
+                        if (empty($itemMenu['name'])) {
+                            continue;
+                        }
                         // 父菜单创建
                         $menu = new ProjectMenu();
                         $menu->project_id = $project->project_id;
@@ -126,7 +134,7 @@ class SoftbookProject extends Command
                 $message = 'success';
             } catch (\Exception $e) {
                 $message = $e->getMessage();
-//                $this->error($e->getMessage());
+                $this->error($e->getMessage());
             }
             $this->info('end: ' . $message);
         }
@@ -313,6 +321,81 @@ class SoftbookProject extends Command
                 ]
             ]
         ];
+
+        if (isset($info[30])) {
+            // 目录4
+            $menu_4 = $info[30];
+            $menu_4_1 = $info[31];
+            if (!empty($menu_4) && empty($menu_4_1)) {
+                throw new \Exception('二级目录4.1不能为空', 1001);
+            }
+            $menu_4_2 = $info[33];
+            if (!empty($menu_4) && empty($menu_4_2)) {
+                throw new \Exception('二级目录4.2不能为空', 1001);
+            }
+            $key_4_1 = $info[32] ? explode('|', $info[32]) : '';
+            if (!empty($menu_4_1) && (empty($key_4_1) || sizeof($key_4_1) < 5)) {
+                throw new \Exception('二级目录4.1字段为空或者数量小于5个', 1001);
+            }
+            $key_4_2 = $info[34] ? explode('|', $info[34]) : '';
+            if (!empty($menu_4_2) && (empty($key_4_2) || sizeof($key_4_2) < 5)) {
+                throw new \Exception('二级目录4.2字段为空或者数量小于5个', 1001);
+            }
+            $menu[] = [
+                'name' => $menu_4,
+                'sort' => 3,
+                'child' => [
+                    [
+                        'name' => $menu_4_1,
+                        'sort' => 1,
+                        'keys' => $key_4_1
+                    ],
+                    [
+                        'name' => $menu_4_2,
+                        'sort' => 2,
+                        'keys' => $key_4_2
+                    ]
+                ]
+            ];
+        }
+        
+        if (isset($info[35])) {
+            // 目录5
+            $menu_5 = isset($info[35]) ? $info[35] : '';
+            $menu_5_1 = $info[36];
+            if (!empty($menu_5) && empty($menu_5_1)) {
+                throw new \Exception('二级目录5.1不能为空', 1001);
+            }
+            $menu_5_2 = $info[38];
+            if (!empty($menu_5) && empty($menu_5_2)) {
+                throw new \Exception('二级目录5.2不能为空', 1001);
+            }
+            $key_5_1 = $info[37] ? explode('|', $info[37]) : '';
+            if (!empty($menu_5_1) && (empty($key_5_1) || sizeof($key_5_1) < 5)) {
+                throw new \Exception('二级目录5.1字段为空或者数量小于5个', 1001);
+            }
+            $key_5_2 = $info[39] ? explode('|', $info[39]) : '';
+            if (!empty($menu_5_2) && (empty($key_5_2) || sizeof($key_5_2) < 5)) {
+                throw new \Exception('二级目录5.2字段为空或者数量小于5个', 1001);
+            }
+            $menu[] = [
+                'name' => $menu_5,
+                'sort' => 3,
+                'child' => [
+                    [
+                        'name' => $menu_5_1,
+                        'sort' => 1,
+                        'keys' => $key_5_1
+                    ],
+                    [
+                        'name' => $menu_5_2,
+                        'sort' => 2,
+                        'keys' => $key_5_2
+                    ]
+                ]
+            ];
+
+        }
 
         return $menu;
     }

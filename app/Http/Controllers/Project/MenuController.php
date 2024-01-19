@@ -244,7 +244,7 @@ class MenuController extends ProjectController
                         // 清空字段
                         ProjectColumn::where('project_id', $project->project_id)
                             ->where('menu_id', $model->menu_id)
-                            ->where('dict_name', 'not in', "'" . implode("','", $textArr) . "'")
+                            ->whereNotIn('dict_name', $textArr)
                             ->delete();
 
                         $dictArr = ProjectDictService::getDictArray($textArr);
