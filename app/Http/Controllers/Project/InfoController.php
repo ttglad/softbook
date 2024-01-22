@@ -56,7 +56,9 @@ class InfoController extends ProjectController
      */
     public function add()
     {
+        $projectMenuType = SysDictData::where('dict_type', 'project_menu_type')->orderBy('dict_sort')->get();
         return view('project.add', [
+            'projectMenuType' => $projectMenuType,
             'codeLines' => rand(61000, 69000),
             'loginImages' => config('softbook.login_images'),
         ]);
@@ -82,6 +84,7 @@ class InfoController extends ProjectController
             $model->project_category = $request->post('projectCategory');
             $model->code_line = $request->post('codeLine');
 //            $model->status = $request->post('status');
+            $model->menu_type = $request->post('menuType', '0');
             $model->develop_purpose = $request->post('developPurpose');
             $model->project_feature = $request->post('projectFeature');
             $model->project_skill = $request->post('projectSkill');
@@ -119,8 +122,12 @@ class InfoController extends ProjectController
         if (!auth()->user()->isAdmin() && auth()->user()->login_name != $data->create_by) {
             abort(404);
         }
+
+        $projectMenuType = SysDictData::where('dict_type', 'project_menu_type')->orderBy('dict_sort')->get();
+
         return view('project.edit', [
             'data' => $data,
+            'projectMenuType' => $projectMenuType,
             'loginImages' => config('softbook.login_images'),
         ]);
     }
@@ -148,6 +155,7 @@ class InfoController extends ProjectController
             $model->project_category = $request->post('projectCategory');
             $model->code_line = $request->post('codeLine');
 //            $model->status = $request->post('status');
+            $model->menu_type = $request->post('menuType', '0');
             $model->develop_purpose = $request->post('developPurpose');
             $model->project_feature = $request->post('projectFeature');
             $model->project_skill = $request->post('projectSkill');

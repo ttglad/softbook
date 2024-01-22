@@ -30,18 +30,18 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="col-sm-4 control-label is-required">项目编码：</label>
+                    <label class="col-sm-4 control-label is-required">所属行业：</label>
                     <div class="col-sm-8">
-                        <input name="projectCode" placeholder="请输入项目编码" class="form-control" type="text"
+                        <input name="projectSector" type="text" placeholder="请输入所属行业" class="form-control"
                                required>
                     </div>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="col-sm-4 control-label is-required">所属行业：</label>
+                    <label class="col-sm-4 control-label is-required">项目编码：</label>
                     <div class="col-sm-8">
-                        <input name="projectSector" type="text" placeholder="请输入所属行业" class="form-control"
+                        <input name="projectCode" placeholder="请输入项目编码" class="form-control" type="text"
                                required>
                     </div>
                 </div>
@@ -105,6 +105,20 @@
 {{--                                <option value="{{ $image['value'] }}">{{ $image['name'] }}</option>--}}
 {{--                            @endforeach--}}
 {{--                        </select>--}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">页面版型：</label>
+                    <div class="col-sm-8">
+                        <select name="menuType" class="form-control m-b">
+                            @foreach($projectMenuType as $type)
+                                <option value="{{ $type->dict_value }}" @if($type->is_default == 'Y') selected @endif>{{ $type->dict_label }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
             </div>

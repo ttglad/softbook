@@ -142,9 +142,9 @@ class PreviewController extends ProjectController
         // 随机用户
         $faker = Factory::create();
 
-        // 10% 概率横屏
+        // 概率横屏
         $view = 'project.preview.home';
-        if (rand(0, 25) % 5 == 0) {
+        if ($project->menu_type == 2 || ($project->menu_type == 0 && rand(0, 9) % 2 == 0)) {
             $view = 'project.preview.home-topnav';
         }
 
