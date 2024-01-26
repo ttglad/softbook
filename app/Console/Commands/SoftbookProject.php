@@ -37,6 +37,9 @@ class SoftbookProject extends Command
         $handle = fopen($file, 'rb');
 
         while (($row = fgetcsv($handle)) !== false) {
+            if (empty($row)) {
+                continue;
+            }
             $info = array_map(function ($value) {
                 // 去除特殊字符和空格（可以根据需求进行修改）
 //                $cleanedValue = preg_replace('/[^\p{L}\p{N}\s]/u', '', $value);
@@ -53,6 +56,19 @@ class SoftbookProject extends Command
             try {
                 $project = $this->checkInfo($info, $author);
                 $menu = $this->checkMenu($info);
+
+                // 检验项目是否存在
+                $projectExistModel = new ProjectInfo();
+                $projectExistModel = $projectExistModel->where('project_title', $project->project_title);
+                $projectExistModel = $projectExistModel->where('project_code', $project->project_code);
+                // 判断作者
+                if (!empty($project->project_author)) {
+                    $projectExistModel = $projectExistModel->where('project_author', $project->project_author);
+                }
+                if ($projectExistModel->count() > 0) {
+                    $this->info('project is exist!');
+                    continue;
+                }
 
 //                $this->info(print_r($project->toArray(), true));
 //                $this->info(print_r($menu, true));
@@ -160,13 +176,17 @@ class SoftbookProject extends Command
         if (empty($model->project_name)) {
             throw new \Exception('项目简称不能为空', 1000);
         }
-        $model->project_code = $info[2];
-        if (empty($model->project_code)) {
-            throw new \Exception('项目编码不能为空', 1000);
-        }
         $model->project_sector = $info[3];
         if (empty($model->project_sector)) {
             throw new \Exception('项目行业不能为空', 1000);
+        }
+        $model->project_code = $info[2];
+        if (empty($model->project_code)) {
+            $code = ProjectDictService::getDictValue($model->project_sector);
+            if (empty($code)) {
+                throw new \Exception('项目编码获取失败', 1002);
+            }
+            $model->project_code = $code;
         }
         $model->project_author = $info[4];
         $model->project_version = $info[5] ?: 'V1.0';
@@ -223,11 +243,11 @@ class SoftbookProject extends Command
         if (empty($menu_1_2)) {
             throw new \Exception('二级目录1.2不能为空', 1001);
         }
-        $key_1_1 = $info[17] ? explode('|', $info[17]) : '';
+        $key_1_1 = $info[17] ? explode('|', $info[17]) : [];
         if (empty($key_1_1) || sizeof($key_1_1) < 5) {
             throw new \Exception('二级目录1.1字段为空或者数量小于5个', 1001);
         }
-        $key_1_2 = $info[19] ? explode('|', $info[19]) : '';
+        $key_1_2 = $info[19] ? explode('|', $info[19]) : [];
         if (empty($key_1_2) || sizeof($key_1_2) < 5) {
             throw new \Exception('二级目录1.2字段为空或者数量小于5个', 1001);
         }
@@ -238,12 +258,12 @@ class SoftbookProject extends Command
                 [
                     'name' => $menu_1_1,
                     'sort' => 1,
-                    'keys' => $key_1_1
+                    'keys' => array_map('trim', $key_1_1),
                 ],
                 [
                     'name' => $menu_1_2,
                     'sort' => 2,
-                    'keys' => $key_1_2
+                    'keys' => array_map('trim', $key_1_2),
                 ]
             ]
         ];
@@ -260,11 +280,11 @@ class SoftbookProject extends Command
         if (empty($menu_2_2)) {
             throw new \Exception('二级目录2.2不能为空', 1001);
         }
-        $key_2_1 = $info[22] ? explode('|', $info[22]) : '';
+        $key_2_1 = $info[22] ? explode('|', $info[22]) : [];
         if (empty($key_2_1) || sizeof($key_2_1) < 5) {
             throw new \Exception('二级目录2.1字段为空或者数量小于5个', 1001);
         }
-        $key_2_2 = $info[24] ? explode('|', $info[24]) : '';
+        $key_2_2 = $info[24] ? explode('|', $info[24]) : [];
         if (empty($key_2_2) || sizeof($key_2_2) < 5) {
             throw new \Exception('二级目录2.2字段为空或者数量小于5个', 1001);
         }
@@ -275,12 +295,12 @@ class SoftbookProject extends Command
                 [
                     'name' => $menu_2_1,
                     'sort' => 1,
-                    'keys' => $key_2_1
+                    'keys' => array_map('trim', $key_2_1),
                 ],
                 [
                     'name' => $menu_2_2,
                     'sort' => 2,
-                    'keys' => $key_2_2
+                    'keys' => array_map('trim', $key_2_2),
                 ]
             ]
         ];
@@ -297,11 +317,11 @@ class SoftbookProject extends Command
         if (empty($menu_3_2)) {
             throw new \Exception('二级目录3.2不能为空', 1001);
         }
-        $key_3_1 = $info[27] ? explode('|', $info[27]) : '';
+        $key_3_1 = $info[27] ? explode('|', $info[27]) : [];
         if (empty($key_3_1) || sizeof($key_3_1) < 5) {
             throw new \Exception('二级目录3.1字段为空或者数量小于5个', 1001);
         }
-        $key_3_2 = $info[29] ? explode('|', $info[29]) : '';
+        $key_3_2 = $info[29] ? explode('|', $info[29]) : [];
         if (empty($key_3_2) || sizeof($key_3_2) < 5) {
             throw new \Exception('二级目录3.2字段为空或者数量小于5个', 1001);
         }
@@ -312,12 +332,12 @@ class SoftbookProject extends Command
                 [
                     'name' => $menu_3_1,
                     'sort' => 1,
-                    'keys' => $key_3_1
+                    'keys' => array_map('trim', $key_3_1),
                 ],
                 [
                     'name' => $menu_3_2,
                     'sort' => 2,
-                    'keys' => $key_3_2
+                    'keys' => array_map('trim', $key_3_2),
                 ]
             ]
         ];
@@ -333,11 +353,11 @@ class SoftbookProject extends Command
             if (!empty($menu_4) && empty($menu_4_2)) {
                 throw new \Exception('二级目录4.2不能为空', 1001);
             }
-            $key_4_1 = $info[32] ? explode('|', $info[32]) : '';
+            $key_4_1 = $info[32] ? explode('|', $info[32]) : [];
             if (!empty($menu_4_1) && (empty($key_4_1) || sizeof($key_4_1) < 5)) {
                 throw new \Exception('二级目录4.1字段为空或者数量小于5个', 1001);
             }
-            $key_4_2 = $info[34] ? explode('|', $info[34]) : '';
+            $key_4_2 = $info[34] ? explode('|', $info[34]) : [];
             if (!empty($menu_4_2) && (empty($key_4_2) || sizeof($key_4_2) < 5)) {
                 throw new \Exception('二级目录4.2字段为空或者数量小于5个', 1001);
             }
@@ -348,17 +368,17 @@ class SoftbookProject extends Command
                     [
                         'name' => $menu_4_1,
                         'sort' => 1,
-                        'keys' => $key_4_1
+                        'keys' => array_map('trim', $key_4_1),
                     ],
                     [
                         'name' => $menu_4_2,
                         'sort' => 2,
-                        'keys' => $key_4_2
+                        'keys' => array_map('trim', $key_4_2),
                     ]
                 ]
             ];
         }
-        
+
         if (isset($info[35])) {
             // 目录5
             $menu_5 = isset($info[35]) ? $info[35] : '';
@@ -370,11 +390,11 @@ class SoftbookProject extends Command
             if (!empty($menu_5) && empty($menu_5_2)) {
                 throw new \Exception('二级目录5.2不能为空', 1001);
             }
-            $key_5_1 = $info[37] ? explode('|', $info[37]) : '';
+            $key_5_1 = $info[37] ? explode('|', $info[37]) : [];
             if (!empty($menu_5_1) && (empty($key_5_1) || sizeof($key_5_1) < 5)) {
                 throw new \Exception('二级目录5.1字段为空或者数量小于5个', 1001);
             }
-            $key_5_2 = $info[39] ? explode('|', $info[39]) : '';
+            $key_5_2 = $info[39] ? explode('|', $info[39]) : [];
             if (!empty($menu_5_2) && (empty($key_5_2) || sizeof($key_5_2) < 5)) {
                 throw new \Exception('二级目录5.2字段为空或者数量小于5个', 1001);
             }
@@ -385,12 +405,12 @@ class SoftbookProject extends Command
                     [
                         'name' => $menu_5_1,
                         'sort' => 1,
-                        'keys' => $key_5_1
+                        'keys' => array_map('trim', $key_5_1),
                     ],
                     [
                         'name' => $menu_5_2,
                         'sort' => 2,
-                        'keys' => $key_5_2
+                        'keys' => array_map('trim', $key_5_2),
                     ]
                 ]
             ];
