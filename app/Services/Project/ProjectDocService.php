@@ -53,7 +53,7 @@ class ProjectDocService extends ProjectService
             $basePath = rtrim(env('SOFTBOOK_BASE_DIR', resource_path('softbook')), '/') . '/';
             $savePath = rtrim(env('SOFTBOOK_SAVE_DIR', resource_path('softbook/project')), '/') . '/';
 
-            $docPath = $savePath . $project->project_title . '/';
+            $docPath = $savePath . str_replace(['/'], '', $project->project_title) . '/';
             if (!is_dir($docPath)) {
                 // 创建目录
                 mkdir($docPath, 0777, true);
@@ -101,7 +101,7 @@ class ProjectDocService extends ProjectService
 
             $docPaths = [];
             foreach ($projects as $project) {
-                $docPath = $savePath . $project->project_title . '/';
+                $docPath = $savePath . str_replace(['/'], '', $project->project_title) . '/';
                 if (!is_dir($docPath)) {
                     // 创建目录
                     mkdir($docPath, 0777, true);
@@ -117,7 +117,7 @@ class ProjectDocService extends ProjectService
                 $this->saveInfoTable($project, $docPath);
 
                 if ($isZipFile) {
-                    $docPaths[$project->project_title] = $docPath;
+                    $docPaths[str_replace(['/'], '', $project->project_title)] = $docPath;
                 }
             }
 
@@ -129,7 +129,7 @@ class ProjectDocService extends ProjectService
                 $this->zipDirectories($zipFile, $docPaths);
 
                 // 删除生成的文件
-                foreach($docPaths as $docPath) {
+                foreach ($docPaths as $docPath) {
                     File::deleteDirectory($docPath);
                 }
             }
@@ -238,7 +238,8 @@ class ProjectDocService extends ProjectService
 //                $itemOrder = '四、';
 //            }
             $section->addListItem($this->charNum[++$titleNum] . '、' . $menu['menu_name'], 0, $fontStyle, 'multilevel');
-            $section->addText('一级菜单' . $menu['menu_name'] . '主要包括两个二级菜单，本一级菜单具体功能介绍如下：', $fontStyle, $pageStyle);
+            $section->addText('一级菜单' . $menu['menu_name'] . '主要包括两个二级菜单，本一级菜单具体功能介绍如下：',
+                $fontStyle, $pageStyle);
 
             if (!isset($menu['children'])) {
                 continue;
@@ -347,7 +348,7 @@ class ProjectDocService extends ProjectService
         }
         $section->addText('图' . ++$imageNum . '  系统监控', $fontStyle, $pageImageStyle);
 
-        $phpWord->save($savePath . $project->project_title . '使用说明.docx');
+        $phpWord->save($savePath . str_replace(['/'], '', $project->project_title) . '使用说明.docx');
     }
 
 
@@ -404,7 +405,7 @@ class ProjectDocService extends ProjectService
             $section->addText(htmlspecialchars($code), $fontStyle);
         }
 
-        $phpWord->save($savePath . $project->project_title . '代码.docx');
+        $phpWord->save($savePath . str_replace(['/'], '', $project->project_title) . '代码.docx');
     }
 
     /**
@@ -649,7 +650,7 @@ class ProjectDocService extends ProjectService
         $cell = $table->addCell($tableRightWidth);
         $cell->addText($project->project_skill, $fontStyle, $pageStyle);
 
-        $phpWord->save($savePath . $project->project_title . '信息采集表.docx');
+        $phpWord->save($savePath . str_replace(['/'], '', $project->project_title) . '信息采集表.docx');
     }
 
 

@@ -269,7 +269,8 @@ class InfoController extends ProjectController
             }
             $docService = new ProjectDocService();
             if ($file = $docService->saveDocByProjectId($project, true)) {
-                return response()->download($file, $project->project_title . '.zip')->deleteFileAfterSend();
+                return response()->download($file,
+                    str_replace(['/'], '', $project->project_title) . '.zip')->deleteFileAfterSend();
             }
         } catch (\Exception $e) {
             abort(404);
