@@ -399,7 +399,7 @@ class ProjectDocService extends ProjectService
                 continue;
             }
             // 3300行代码自动截断
-            if ($i++ > 3300 && strpos($code, '<?php') !== false) {
+            if ($i++ > 3150 && strpos($code, '<?php') !== false) {
                 break;
             }
             $section->addText(htmlspecialchars($code), $fontStyle);
