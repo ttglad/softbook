@@ -238,8 +238,13 @@ class ProjectDocService extends ProjectService
 //                $itemOrder = '四、';
 //            }
             $section->addListItem($this->charNum[++$titleNum] . '、' . $menu['menu_name'], 0, $fontStyle, 'multilevel');
-            $section->addText('一级菜单' . $menu['menu_name'] . '主要包括两个二级菜单，本一级菜单具体功能介绍如下：',
-                $fontStyle, $pageStyle);
+            if (!empty($menu['remark'])) {
+                $section->addText('一级菜单' . $menu['menu_name'] . '功能描述：' .$menu['remark'],
+                    $fontStyle, $pageStyle);
+            } else {
+                $section->addText('一级菜单' . $menu['menu_name'] . '主要包括两个二级菜单，本一级菜单具体功能介绍如下：',
+                    $fontStyle, $pageStyle);
+            }
 
             if (!isset($menu['children'])) {
                 continue;
@@ -267,6 +272,9 @@ class ProjectDocService extends ProjectService
 
                 $section->addListItem($child['menu_name'], 1, $fontStyle, 'multilevel');
                 $section->addText('功能入口：点击左部菜单中，即可进入该菜单界面查看其信息内容。', $fontStyle, $pageStyle);
+                if (!empty($child['remark'])) {
+                    $section->addText('功能描述：' . $child['remark'], $fontStyle, $pageStyle);
+                }
                 $section->addText('功能介绍：该菜单设计了通过名称智能查找、对各字段的新增、编辑和删除处理，具体操作如图' . ++$tempImageNum . '所示。' . $tableColumnDesc,
                     $fontStyle, $pageStyle);
 
@@ -679,6 +687,7 @@ class ProjectDocService extends ProjectService
                         'order_num' => $item->order_num,
                         'url' => $item->url,
                         'target' => $item->target,
+                        'remark' => $item->remark,
                     ];
                 }
             }
@@ -693,6 +702,7 @@ class ProjectDocService extends ProjectService
                         'order_num' => $item->order_num,
                         'url' => $item->url,
                         'target' => $item->target,
+                        'remark' => $item->remark,
                     ];
                 }
             }

@@ -21,6 +21,16 @@
         <div class="row">
             <div class="col-sm-10">
                 <div class="form-group">
+                    <label class="col-sm-4 control-label is-required">一级目录 1 功能描述：</label>
+                    <div class="col-sm-8">
+                        <textarea name="remark[]" placeholder="功能描述" maxlength="500" class="form-control" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="form-group">
                     <label class="col-sm-5 control-label is-required">二级目录 1.1：</label>
                     <div class="col-sm-7">
                         <input name="childMenus[]" placeholder="请输入目录名称" class="form-control" type="text"
@@ -35,6 +45,16 @@
                     <label class="col-sm-5 control-label is-required">二级目录 1.1 字段：</label>
                     <div class="col-sm-7">
                         <textarea name="childKeys[]" placeholder="目录字段不少于5个，使用|分割，例如 名称|编号|性别|年龄|状态" maxlength="100" class="form-control" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <label class="col-sm-5 control-label is-required">二级目录 1.1 功能描述：</label>
+                    <div class="col-sm-7">
+                        <textarea name="childRemark[]" placeholder="功能描述" maxlength="100" class="form-control" rows="2"></textarea>
                     </div>
                 </div>
             </div>
@@ -60,6 +80,16 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <label class="col-sm-5 control-label is-required">二级目录 1.2 功能描述：</label>
+                    <div class="col-sm-7">
+                        <textarea name="childRemark[]" placeholder="功能描述" maxlength="100" class="form-control" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-sm-10">
@@ -68,6 +98,16 @@
                     <div class="col-sm-8">
                         <input name="menus[]" placeholder="请输入目录名称" class="form-control" type="text"
                                required>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label is-required">一级目录 2 功能描述：</label>
+                    <div class="col-sm-8">
+                        <textarea name="remark[]" placeholder="功能描述" maxlength="500" class="form-control" rows="2"></textarea>
                     </div>
                 </div>
             </div>
@@ -96,6 +136,16 @@
         <div class="row">
             <div class="col-sm-10">
                 <div class="form-group">
+                    <label class="col-sm-5 control-label is-required">二级目录 2.1 功能描述：</label>
+                    <div class="col-sm-7">
+                        <textarea name="childRemark[]" placeholder="功能描述" maxlength="100" class="form-control" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="form-group">
                     <label class="col-sm-5 control-label is-required">二级目录 2.2：</label>
                     <div class="col-sm-7">
                         <input name="childMenus[]" placeholder="请输入目录名称" class="form-control" type="text"
@@ -114,6 +164,16 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <label class="col-sm-5 control-label is-required">二级目录 2.2 功能描述：</label>
+                    <div class="col-sm-7">
+                        <textarea name="childRemark[]" placeholder="功能描述" maxlength="100" class="form-control" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-sm-10">
@@ -122,6 +182,16 @@
                     <div class="col-sm-8">
                         <input name="menus[]" placeholder="请输入目录名称" class="form-control" type="text"
                                required>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label is-required">一级目录 3 功能描述：</label>
+                    <div class="col-sm-8">
+                        <textarea name="remark[]" placeholder="功能描述" maxlength="500" class="form-control" rows="2"></textarea>
                     </div>
                 </div>
             </div>
@@ -150,6 +220,16 @@
         <div class="row">
             <div class="col-sm-10">
                 <div class="form-group">
+                    <label class="col-sm-5 control-label is-required">二级目录 3.1 功能描述：</label>
+                    <div class="col-sm-7">
+                        <textarea name="childRemark[]" placeholder="功能描述" maxlength="100" class="form-control" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="form-group">
                     <label class="col-sm-5 control-label is-required">二级目录 3.2：</label>
                     <div class="col-sm-7">
                         <input name="childMenus[]" placeholder="请输入目录名称" class="form-control" type="text"
@@ -168,6 +248,16 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <label class="col-sm-5 control-label is-required">二级目录 3.2 功能描述：</label>
+                    <div class="col-sm-7">
+                        <textarea name="childRemark[]" placeholder="功能描述" maxlength="100" class="form-control" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-sm-10">
@@ -176,6 +266,16 @@
                     <div class="col-sm-8">
                         <input name="menus[]" placeholder="请输入目录名称" class="form-control" type="text"
                                required>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label is-required">一级目录 4 功能描述：</label>
+                    <div class="col-sm-8">
+                        <textarea name="remark[]" placeholder="功能描述" maxlength="500" class="form-control" rows="2"></textarea>
                     </div>
                 </div>
             </div>
@@ -204,6 +304,16 @@
         <div class="row">
             <div class="col-sm-10">
                 <div class="form-group">
+                    <label class="col-sm-5 control-label is-required">二级目录 4.1 功能描述：</label>
+                    <div class="col-sm-7">
+                        <textarea name="childRemark[]" placeholder="功能描述" maxlength="100" class="form-control" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="form-group">
                     <label class="col-sm-5 control-label is-required">二级目录 4.2：</label>
                     <div class="col-sm-7">
                         <input name="childMenus[]" placeholder="请输入目录名称" class="form-control" type="text"
@@ -222,6 +332,16 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <label class="col-sm-5 control-label is-required">二级目录 4.2 功能描述：</label>
+                    <div class="col-sm-7">
+                        <textarea name="childRemark[]" placeholder="功能描述" maxlength="100" class="form-control" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-sm-10">
@@ -230,6 +350,16 @@
                     <div class="col-sm-8">
                         <input name="menus[]" placeholder="请输入目录名称" class="form-control" type="text"
                                required>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label is-required">一级目录 5 功能描述：</label>
+                    <div class="col-sm-8">
+                        <textarea name="remark[]" placeholder="功能描述" maxlength="500" class="form-control" rows="2"></textarea>
                     </div>
                 </div>
             </div>
@@ -258,6 +388,16 @@
         <div class="row">
             <div class="col-sm-10">
                 <div class="form-group">
+                    <label class="col-sm-5 control-label is-required">二级目录 5.1 功能描述：</label>
+                    <div class="col-sm-7">
+                        <textarea name="childRemark[]" placeholder="功能描述" maxlength="100" class="form-control" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="form-group">
                     <label class="col-sm-5 control-label is-required">二级目录 5.2：</label>
                     <div class="col-sm-7">
                         <input name="childMenus[]" placeholder="请输入目录名称" class="form-control" type="text"
@@ -272,6 +412,16 @@
                     <label class="col-sm-5 control-label is-required">二级目录 5.2 字段：</label>
                     <div class="col-sm-7">
                         <textarea name="childKeys[]" placeholder="目录字段不少于5个，使用|分割，例如 名称|编号|性别|年龄|状态" maxlength="100" class="form-control" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <label class="col-sm-5 control-label is-required">二级目录 5.2 功能描述：</label>
+                    <div class="col-sm-7">
+                        <textarea name="childRemark[]" placeholder="功能描述" maxlength="100" class="form-control" rows="2"></textarea>
                     </div>
                 </div>
             </div>
