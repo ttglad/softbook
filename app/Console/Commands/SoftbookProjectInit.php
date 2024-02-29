@@ -30,7 +30,7 @@ class SoftbookProjectInit extends Command
         $id = $this->argument('id');
 
         $projectService = new ProjectInfoService();
-        $projectService->projectInit($id);
-
+        $projectService->projectDataInit($id);
+        $projectService->projectMenuDescInit($id);
     }
 }

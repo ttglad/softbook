@@ -2,6 +2,7 @@
 
 namespace App\Services\Project;
 
+use App\Models\Project\ProjectBusiness;
 use App\Models\Project\ProjectColumn;
 use App\Models\Project\ProjectInfo;
 use App\Models\Project\ProjectMenu;
@@ -12,7 +13,79 @@ use Illuminate\Support\Facades\Log;
 
 class ProjectInfoService extends ProjectService
 {
-    public function projectInit($projectId)
+    /**
+     * 初始化菜单数据
+     * @param $projectId
+     * @return void
+     * @throws \Exception
+     */
+    public function projectDataInit($projectId)
+    {
+        $project = ProjectInfo::findOrFail($projectId);
+
+        ProjectBusiness::where('project_id', $projectId)->delete();
+
+        $menuService = new SysMenuService();
+        $projectMenu = ProjectMenu::where('project_id', $project->project_id)
+            ->where('visible', '0')
+            ->orderBy('order_num')
+            ->orderBy('menu_id')
+            ->get()
+            ->toArray();
+        $menus = $menuService->getChildPerms($projectMenu, 0);
+
+        foreach ($menus as $menu) {
+            if (isset($menu['children']) && !empty($menu['children'])) {
+                foreach ($menu['children'] as $child) {
+                    // 获取该菜单的列数
+                    $businessColumnList = ProjectColumn::where('project_id', $project->project_id)
+                        ->where('menu_id', $child['menu_id'])
+                        ->orderBy('sort')
+                        ->get();
+                    // ，该菜单下的字段有(`风险名称`,`风险类型`,`影响程度`,`风险状态`,`风险描述`)，请枚举出10条此菜单的测试数据
+                    $questionDesc = '系统为`' . $project->project_title . '`,菜单为';
+                    $questionDesc .= '`' . $child['menu_name'] . '`,';
+                    $questionDesc .= '该菜单下的字段有(';
+                    foreach ($businessColumnList as $column) {
+                        $questionDesc .= '`' . $column->dict_name . '`,';
+                    }
+                    $questionDesc = substr($questionDesc, 0, -1);
+                    $questionDesc .= '),请枚举出10条此菜单的测试数据,测试数据用|分隔,10条数据分10行展示,去除数据前的序号,去除菜单的字段名.';
+                    $answer = $this->getMenuRemark($questionDesc);
+                    $answerArray = explode("\n", $answer);
+                    if (!empty($answerArray)) {
+                        foreach ($answerArray as $item) {
+                            $itemArr = explode('|', trim($item, '|'));
+                            $businessData = new ProjectBusiness();
+                            $businessData->project_id = $project->project_id;
+                            $businessData->menu_id = $child['menu_id'];
+                            $businessData->create_by = 'softbook';
+
+                            $columnNums = 0;
+                            foreach ($businessColumnList as $column) {
+                                if ($columnNums >= 10) {
+                                    throw new \Exception('业务参数过多', 1002);
+                                }
+                                $columnNums++;
+                                $key = 'column_' . $columnNums;
+                                $value = 'value_' . $columnNums;
+                                $businessData->$key = $column->dict_value;
+                                $businessData->$value = isset($itemArr[$columnNums-1]) ? $itemArr[$columnNums-1] : ('测试' . $column->dict_name . $columnNums);
+                            }
+                            $businessData->save();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 初始化备注字段
+     * @param $projectId
+     * @return void
+     */
+    public function projectMenuDescInit($projectId)
     {
         $project = ProjectInfo::findOrFail($projectId);
 
@@ -92,6 +165,10 @@ class ProjectInfoService extends ProjectService
             $xf = new XfyunService();
             $remark = $xf->getMessage($menuDesc);
             sleep(1);
+        }
+
+        if (mb_strlen($remark) > 500) {
+            $remark = mb_substr($remark, 0, 500);
         }
         return $remark;
     }
