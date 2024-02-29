@@ -20,82 +20,93 @@
 <body>
 <div class="page">
     <!-- Navbar -->
-    <header class="navbar navbar-expand-md navbar-light d-print-none">
+    <header class="navbar navbar-expand-md navbar-dark navbar-overlap d-print-none">
         <div class="container-xl">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu"
                     aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
-                {{ $project->project_name }}
-            </h1>
+{{--            <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">--}}
+{{--                {{ $project->project_name }}--}}
+{{--            </h1>--}}
             <div class="navbar-nav flex-row order-md-last">
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown"
-                       aria-label="Open user menu">
-                        <span class="avatar avatar-sm" style="background-image: url({{ $headerImage }})"></span>
-                        <div class="d-none d-xl-block ps-2">
-                            <div>{{ $adminName }}</div>
-                            <div class="mt-1 small text-muted">在线</div>
+                <div class="d-none d-md-flex">
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown"
+                           aria-label="Open user menu">
+                            <span class="avatar avatar-sm" style="background-image: url({{ $headerImage }})"></span>
+                            <div class="d-none d-xl-block ps-2">
+                                <div>{{ $adminName }}</div>
+                                <div class="mt-1 small text-muted">在线</div>
+                            </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                            <a class="dropdown-item">注销</a>
                         </div>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                        <a class="dropdown-item">注销</a>
+                    </div>
+                </div>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <div class="d-flex flex-column flex-md-row flex-fill align-items-stretch align-items-md-center">
+                    <div class="container-xl">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link">
+                                <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                    <i class="ti ti-home"></i>
+                                </span>
+                                    <span class="nav-link-title">首页</span>
+                                </a>
+                            </li>
+                            @foreach($menus as $firstMenu)
+                                <li class="nav-item dropdown @isset($firstMenu['check']) active @endisset">
+                                    <a class="nav-link @if(isset($firstMenu['children']) && count($firstMenu['children']) > 0) dropdown-toggle @endif {{ $firstMenu['class'] }}"
+                                       href="#" data-bs-toggle="dropdown"
+                                       data-bs-auto-close="outside" role="button" aria-expanded="false">
+                                        @if (!empty($firstMenu['icon']))
+                                            <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                            <i class="ti {{ $firstMenu['icon'] }}"></i>
+                                        </span>
+                                        @endif
+                                        <span class="nav-link-title">
+                                    {{ $firstMenu['menu_name'] }}
+                                    </span>
+                                    </a>
+                                    @if(isset($firstMenu['children']) && count($firstMenu['children']) > 0)
+                                        <div class="dropdown-menu">
+                                            <div class="dropdown-menu-columns">
+                                                <div class="dropdown-menu-column">
+                                                    @foreach($firstMenu['children'] as $secondMenu)
+                                                        <a href="/project/book/{{ $secondMenu['menu_id'] }}"
+                                                           class="dropdown-item {{ $secondMenu['class'] }} @if(empty($secondMenu['target'])) menuItem @else {{ $secondMenu['target'] }} @endif"
+                                                           data-href="{{ $secondMenu['url'] }}">
+                                                            {{ $secondMenu['menu_name'] }}
+                                                        </a>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </header>
-    <div class="navbar-expand-md">
-        <div class="collapse navbar-collapse" id="navbar-menu">
-            <div class="navbar navbar-light">
-                <div class="container-xl">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link">
-                                <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                    <i class="ti ti-home"></i>
-                                </span>
-                                <span class="nav-link-title">首页</span>
-                            </a>
-                        </li>
-                        @foreach($menus as $firstMenu)
-                            <li class="nav-item dropdown @isset($firstMenu['check']) active @endisset">
-                                <a class="nav-link @if(isset($firstMenu['children']) && count($firstMenu['children']) > 0) dropdown-toggle @endif {{ $firstMenu['class'] }}"
-                                   href="#" data-bs-toggle="dropdown"
-                                   data-bs-auto-close="outside" role="button" aria-expanded="false">
-                                    @if (!empty($firstMenu['icon']))
-                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                            <i class="ti {{ $firstMenu['icon'] }}"></i>
-                                        </span>
-                                    @endif
-                                    <span class="nav-link-title">
-                                    {{ $firstMenu['menu_name'] }}
-                                    </span>
-                                </a>
-                                @if(isset($firstMenu['children']) && count($firstMenu['children']) > 0)
-                                    <div class="dropdown-menu">
-                                        <div class="dropdown-menu-columns">
-                                            <div class="dropdown-menu-column">
-                                                @foreach($firstMenu['children'] as $secondMenu)
-                                                    <a href="/project/book/{{ $secondMenu['menu_id'] }}"
-                                                       class="dropdown-item {{ $secondMenu['class'] }} @if(empty($secondMenu['target'])) menuItem @else {{ $secondMenu['target'] }} @endif"
-                                                       data-href="{{ $secondMenu['url'] }}">
-                                                        {{ $secondMenu['menu_name'] }}
-                                                    </a>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
-                            </li>
-                        @endforeach
-                    </ul>
+    <div class="page-wrapper">
+        <div class="page-header d-print-none text-white">
+            <div class="container-xl">
+                <div class="row g-2 align-items-center">
+                    <div class="col">
+                        <h2 class="page-title">
+                            {{ $project->project_title }}
+                        </h2>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="page-wrapper">
         <!-- Page body -->
         <div class="page-body">
             <div class="container-xl mainContent">

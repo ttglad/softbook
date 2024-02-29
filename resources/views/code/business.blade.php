@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="{{ $business->remark }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $project->project_title }} - {{ $business->menu_name }}@if(!empty($project->project_author)) - {{ $project->project_author }}@endif</title>
     <link href="/{{ $project->project_code }}/css/home.min.css?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}" rel="stylesheet"/>

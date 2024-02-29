@@ -201,7 +201,7 @@ class SoftbookProject extends Command
         $model->project_category = $info[6] ?: '应用软件';
         $model->code_line = $info[7] ?: rand(61000, 69000);
         $model->status = 0;
-        $model->menu_type = Arr::random([3, 4]);
+        $model->menu_type = Arr::random([3, 4, 5]);
         $model->project_skin = Arr::random($skins);
         $model->project_theme = Arr::random($themes);
         if (in_array($info[8], $skins)) {

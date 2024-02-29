@@ -144,6 +144,9 @@ class BusinessNewController extends ProjectController
             case 4:
                 $view = 'project.business.book-vertical';
                 break;
+            case 5:
+                $view = 'project.business.book-overlap';
+                break;
             default:
                 break;
         }

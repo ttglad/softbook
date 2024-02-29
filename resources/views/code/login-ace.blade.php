@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <title>登录 - {{ $project->project_title }}@if(!empty($project->project_author)) - {{ $project->project_author  }} @endif</title>
-    <link href="/{{ $project->project_code }}/css/login.min.css?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}" rel="stylesheet"/>
+    <title>登录 - {{ $project->project_title }}@if(!empty($project->project_author)) - {{ $project->project_author }} @endif</title>
+    <link href="/{{ $project->project_code }}/css/login-ace.min.css?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}" rel="stylesheet"/>
 </head>
 <body>
 <div class="login-box">

@@ -4,9 +4,8 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <meta name="description" content="{{ $business->remark }}">
     <title>{{ $project->project_title }} - {{ $business->menu_name }}@if(!empty($project->project_author)) - {{ $project->project_author }}@endif</title>
-    <link href="/{{ $project->project_code }}/css/business.min.css?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}" rel="stylesheet"/>
+    <link href="/{{ $project->project_code }}/css/business-horizontal.min.css?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}" rel="stylesheet"/>
 </head>
 <body>
 <div class="page">

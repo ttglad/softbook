@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>登录 - {{ $project->project_title }} @if(!empty($project->project_author)) - {{ $project->project_author  }} @endif</title>
-    <link href="/{{ $project->project_code }}/css/login.min.css?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}" rel="stylesheet"/>
+    <link href="/{{ $project->project_code }}/css/login-tabler.min.css?v={{ rand(1, 2) }}.{{ rand(0, 9) }}.{{rand(0, 9)}}" rel="stylesheet"/>
 </head>
 <body>
 <div class="page page-center {{ $backType }}">
