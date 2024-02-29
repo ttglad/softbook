@@ -54,8 +54,16 @@ class ProjectInfoService extends ProjectService
                     $answer = $this->getMenuRemark($questionDesc);
                     $answerArray = explode("\n", $answer);
                     if (!empty($answerArray)) {
-                        foreach ($answerArray as $item) {
+                        foreach ($answerArray as $itemNum => $item) {
+                            // 默认丢弃第一行数据
+                            if ($itemNum == 0) {
+                                continue;
+                            }
                             $itemArr = explode('|', trim($item, '|'));
+                            // 如何根据'|'解析的数据太少，则更换分隔符为','
+                            if (sizeof($itemArr) <= 1) {
+                                $itemArr = explode(',', trim($item, ','));
+                            }
                             $businessData = new ProjectBusiness();
                             $businessData->project_id = $project->project_id;
                             $businessData->menu_id = $child['menu_id'];
