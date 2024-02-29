@@ -155,7 +155,7 @@ class PreviewController extends ProjectController
         $headerImage = '/faces/' . rand(1, 21551) . '.png';
 
         // 随机用户
-        $faker = Factory::create();
+        $faker = Factory::create('zh_CN');
 
         // 概率横屏
         $view = 'project.preview.home';

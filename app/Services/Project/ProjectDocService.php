@@ -848,7 +848,7 @@ class ProjectDocService extends ProjectService
 //            $content .= file_get_contents(app_path('Models/SysUser.php'));
 //
 //            // 随机用户
-            $faker = Factory::create();
+            $faker = Factory::create('zh_CN');
 //
 //            // 获取服务代码
             foreach ($menuArray as $menu) {

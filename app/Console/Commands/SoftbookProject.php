@@ -227,7 +227,7 @@ class SoftbookProject extends Command
         $model->create_by = $author;
 
         // 新增管理员
-        $faker = Factory::create();
+        $faker = Factory::create('zh_CN');
         $model->project_admin = $faker->lastName;
         $model->project_admin_image = '/faces/' . rand(1, 21551) . '.png';
 

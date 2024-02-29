@@ -13,6 +13,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Arr;
 
 class ProjectDataInit implements ShouldQueue
 {
@@ -97,21 +98,35 @@ class ProjectDataInit implements ShouldQueue
      */
     private function getFakerValue($dictName)
     {
-        $faker = Factory::create();
+        $faker = Factory::create('zh_CN');
         if (strpos($dictName, '时间') !== false) {
             $value = $faker->dateTime;
+        } elseif (strpos($dictName, '性别') !== false) {
+            $value = Arr::random(['男', '女']);
+        } elseif (strpos($dictName, '年龄') !== false) {
+            $value = $faker->randomNumber(2, true);
+        } elseif (strpos($dictName, '编号') !== false || strpos(strtoupper($dictName), 'ID') !== false) {
+            $value = $faker->randomNumber(5, true);
+        } elseif (strpos($dictName, '参数值') !== false) {
+            $value = $faker->randomFloat(2, 0, 100);
+        } elseif (strpos($dictName, '状态') !== false) {
+            $value = Arr::random(['成功', '失败']);
         } elseif (strpos($dictName, '日期') !== false) {
             $value = $faker->date('Y-m-d', 'now');
-        } elseif (strpos($dictName, '姓名') !== false) {
+        } elseif (strpos($dictName, '用户名') !== false || strpos($dictName, '姓名') !== false || strpos($dictName, '人员') !== false) {
             $value = $faker->unique()->name;
         } elseif (strpos($dictName, '邮箱') !== false) {
             $value = $faker->email;
-        } elseif (strpos($dictName, '地址') !== false) {
-            $value = $faker->address;
+        } elseif (strpos($dictName, '公司名') !== false) {
+            $value = $faker->company;
+        } elseif (strpos($dictName, '职称') !== false || strpos($dictName, '岗位') !== false) {
+            $value = $faker->jobTitle;
         } elseif (strpos($dictName, '手机号') !== false || strpos($dictName, '联系方式') !== false) {
             $value = $faker->phoneNumber;
         } elseif (strpos(strtoupper($dictName), 'IP') !== false) {
             $value = $faker->localIpv4;
+        } elseif (strpos($dictName, '地址') !== false || strpos($dictName, '住址') !== false) {
+            $value = $faker->address;
         } else {
             $value = $faker->text(rand(16, 32));
         }
