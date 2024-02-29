@@ -6,7 +6,10 @@ use App\Models\Project\ProjectBusiness;
 use App\Models\Project\ProjectColumn;
 use App\Models\Project\ProjectInfo;
 use App\Models\Project\ProjectMenu;
+use App\Models\SysConfig;
 use App\Services\Project\ProjectBusinessService;
+use App\Services\SysMenuService;
+use Faker\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -15,7 +18,7 @@ use Illuminate\Support\Facades\File;
  *
  * @author SoftBook
  */
-class BusinessController extends ProjectController
+class BusinessNewController extends ProjectController
 {
 
     /**
@@ -29,16 +32,150 @@ class BusinessController extends ProjectController
         $business = ProjectMenu::findOrFail($id);
         $project = ProjectInfo::findOrFail($business->project_id);
 
-        $businessColumn = ProjectColumn::where('project_id', $business->project_id)
+        $businessColumnList = ProjectColumn::where('project_id', $business->project_id)
             ->where('menu_id', $business->menu_id)
             ->orderBy('sort')
             ->get();
 
-        return view('project.business.show', [
+        $businessColumn = [];
+        foreach ($businessColumnList as $item) {
+            $businessColumn[$item->dict_value] = $item;
+        }
+
+        $businessServices = new ProjectBusinessService();
+        $businessData = $businessServices->businessQuery($business, $businessColumnList, $request);
+
+        $businessData = $businessServices->businessDataFormat($businessData['data']);
+
+        return view('project.business.show-tabler', [
             'business' => $business,
             'project' => $project,
             'businessColumn' => $businessColumn,
-        ]);
+            'businessData' => $businessData,
+        ])->render();
+    }
+
+    /**
+     * 展示页面
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\View\View
+     */
+    public function book(Request $request, $id)
+    {
+        $business = ProjectMenu::findOrFail($id);
+        $project = ProjectInfo::findOrFail($business->project_id);
+
+        if (!auth()->user()->isAdmin() && auth()->user()->login_name != $project->create_by) {
+            abort(404);
+        }
+
+        if (empty($project->project_skin)) {
+            // 页面主题
+            $sysConfig = SysConfig::where('config_key', 'sys.index.sideTheme')->first();
+            $sideTheme = is_null($sysConfig) ? false : $sysConfig->config_value;
+            $project->project_skin = $sideTheme;
+        }
+        if (empty($project->project_theme)) {
+            // 皮肤
+            $sysConfig = SysConfig::where('config_key', 'sys.index.skinName')->first();
+            $skinName = is_null($sysConfig) ? false : $sysConfig->config_value;
+            $project->project_theme = $skinName;
+        }
+
+        // 获取菜单
+        $defaultMenu = ProjectMenu::where('project_id', 0)
+            ->where('visible', '0')
+            ->orderBy('order_num')
+            ->get()
+            ->toArray();
+
+        $menuService = new SysMenuService();
+        $projectMenu = ProjectMenu::where('project_id', $project->project_id)
+            ->where('visible', '0')
+            ->orderBy('order_num')
+            ->orderBy('menu_id')
+            ->get()
+            ->toArray();
+        $menus = $menuService->getChildPerms(array_merge($projectMenu, $defaultMenu), 0);
+
+        foreach ($menus as &$menu) {
+            if ($menu['menu_id'] == $id) {
+                $menu['check'] = true;
+            } else {
+                if (isset($menu['children'])) {
+                    foreach ($menu['children'] as &$child) {
+                        if ($child['menu_id'] == $id) {
+                            $child['check'] = true;
+                            $menu['check'] = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        // 是否开启页脚
+        $sysConfig = SysConfig::where('config_key', 'sys.index.footer')->first();
+        $footer = is_null($sysConfig) ? true : $sysConfig->config_value;
+
+        // 是否开启页签
+        $sysConfig = SysConfig::where('config_key', 'sys.index.tagsView')->first();
+        $tagsView = is_null($sysConfig) ? true : $sysConfig->config_value;
+
+        // 主页样式
+        $mainClass = '';
+        if (!$footer && !$tagsView) {
+            $mainClass = 'tagsview-footer-hide';
+        } elseif (!$footer) {
+            $mainClass = 'footer-hide';
+        } elseif (!$tagsView) {
+            $mainClass = 'tagsview-hide';
+        }
+
+        // 随机头像
+        $headerImage = '/faces/' . rand(1, 21551) . '.png';
+
+        // 随机用户
+        $faker = Factory::create();
+
+        // 概率横屏
+        $view = 'project.business.book-horizontal';
+        switch ($project->menu_type) {
+            case 4:
+                $view = 'project.business.book-vertical';
+                break;
+            default:
+                break;
+        }
+
+        $businessColumnList = ProjectColumn::where('project_id', $business->project_id)
+            ->where('menu_id', $business->menu_id)
+            ->orderBy('sort')
+            ->get();
+
+        $businessColumn = [];
+        foreach ($businessColumnList as $item) {
+            $businessColumn[$item->dict_value] = $item;
+        }
+
+        $businessServices = new ProjectBusinessService();
+        $businessData = $businessServices->businessQuery($business, $businessColumnList, $request);
+
+        $businessData = $businessServices->businessDataFormat($businessData['data']);
+
+        return view($view, [
+            'business' => $business,
+            'businessColumn' => $businessColumn,
+            'businessData' => $businessData,
+            'menus' => $menus,
+            'footer' => $footer,
+            'tagsView' => $tagsView,
+            'mainClass' => $mainClass,
+            'project' => $project,
+            'headerImage' => !empty($project->project_admin_image) ? $project->project_admin_image : $headerImage,
+            'adminName' => !empty($project->project_admin) ? $project->project_admin : $faker->lastName,
+            'isRandom' => false,
+        ])->render();
     }
 
     /**
@@ -98,20 +235,6 @@ class BusinessController extends ProjectController
                 }
             }
             $businessData->save();
-
-            $businessColumnArray = [];
-            foreach ($businessColumn as $item) {
-                $businessColumnArray[$item->dict_value] = $item;
-            }
-
-            $businessService = new ProjectBusinessService();
-
-            $return['html'] = view('project.business.add-row-tabler',  [
-                'business' => $business,
-                'businessColumn' => $businessColumnArray,
-                'businessData' => $businessService->businessDataFormatSingle($businessData, $businessColumn),
-            ])->render();
-
         } catch (\Exception $e) {
             $return['code'] = $e->getCode();
             $return['msg'] = $e->getMessage();
@@ -158,14 +281,14 @@ class BusinessController extends ProjectController
      * @param $id
      * @return array|mixed
      */
-    public function editPost(Request $request, $id)
+    public function editPost(Request $request, $id, $did)
     {
         $return = $this->ajaxReturn;
         try {
             $business = ProjectMenu::findOrFail($id);
 
-            $dataId = $request->post('id');
-            $businessData = ProjectBusiness::findOrFail($dataId);
+//            $dataId = $request->post('id');
+            $businessData = ProjectBusiness::findOrFail($did);
             if ($businessData->menu_id != $business->menu_id) {
                 throw new \Exception('数据权限不正确', 1002);
             }
@@ -199,6 +322,33 @@ class BusinessController extends ProjectController
         }
 
         return $return;
+    }
+
+    /**
+     * 修改页面
+     * @param Request $request
+     * @param $id
+     * @param $did
+     * @return \Illuminate\View\View
+     */
+    public function detail(Request $request, $id, $did)
+    {
+        $business = ProjectMenu::findOrFail($id);
+
+        $businessColumn = ProjectColumn::where('project_id', $business->project_id)
+            ->where('menu_id', $business->menu_id)
+            ->orderBy('sort')
+            ->get();
+
+        $businessData = ProjectBusiness::findOrFail($did);
+        if ($businessData->menu_id != $business->menu_id) {
+            abort(404);
+        }
+
+        $businessService = new ProjectBusinessService();
+        $businessData = $businessService->businessDataFormatSingle($businessData, $businessColumn);
+
+        return $businessData;
     }
 
     /**

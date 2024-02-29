@@ -16,7 +16,8 @@
         "linfo/linfo": "^4.0",
         "mews/captcha": "^3.3",
         "phpoffice/phpword": "^1.1",
-        "tencentcloud/tencentcloud-sdk-php": "^3.0"
+        "tencentcloud/tencentcloud-sdk-php": "^3.0",
+        "textalk/websocket": "^1.5"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

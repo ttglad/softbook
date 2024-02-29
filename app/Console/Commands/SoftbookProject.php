@@ -2,10 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\ProjectDataInit;
+use App\Jobs\ProjectMenuDescInit;
 use App\Models\Project\ProjectColumn;
 use App\Models\Project\ProjectInfo;
 use App\Models\Project\ProjectMenu;
 use App\Services\Project\ProjectDictService;
+use Faker\Factory;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
 
@@ -148,6 +151,11 @@ class SoftbookProject extends Command
                 }
 
                 $message = 'success';
+
+                // 加入队列
+                ProjectDataInit::dispatch($project->project_id);
+                ProjectMenuDescInit::dispatch($project->project_id);
+
             } catch (\Exception $e) {
                 $message = $e->getMessage();
                 $this->error($e->getMessage());
@@ -193,6 +201,7 @@ class SoftbookProject extends Command
         $model->project_category = $info[6] ?: '应用软件';
         $model->code_line = $info[7] ?: rand(61000, 69000);
         $model->status = 0;
+        $model->menu_type = Arr::random([3, 4]);
         $model->project_skin = Arr::random($skins);
         $model->project_theme = Arr::random($themes);
         if (in_array($info[8], $skins)) {
@@ -216,6 +225,12 @@ class SoftbookProject extends Command
         }
         $model->remark = $info[14];
         $model->create_by = $author;
+
+        // 新增管理员
+        $faker = Factory::create();
+        $model->project_admin = $faker->lastName;
+        $model->project_admin_image = '/faces/' . rand(1, 21551) . '.png';
+
 
         return $model;
     }

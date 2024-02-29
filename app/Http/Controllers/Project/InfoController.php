@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Project;
 
 use App\Models\Project\ProjectInfo;
+use App\Models\Project\ProjectMenu;
 use App\Models\SysDictData;
 use App\Services\Project\ProjectDictService;
 use App\Services\Project\ProjectDocService;
+use App\Services\SysMenuService;
+use Faker\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
@@ -90,6 +93,10 @@ class InfoController extends ProjectController
             $model->project_skill = $request->post('projectSkill');
             $model->remark = $request->post('remark');
             $model->create_by = auth()->user()->login_name;
+
+            $faker = Factory::create();
+            $model->project_admin = $faker->lastName;
+            $model->project_admin_image = '/faces/' . rand(1, 21551) . '.png';
 
             // 主题样式列表
             $model->project_skin = Arr::random($this->skins);
@@ -321,14 +328,27 @@ class InfoController extends ProjectController
         try {
             $file = $request->post('file');
             $name = $request->post('name');
+            $type = $request->post('type');
+            $projectId = $request->post('projectId');
+            $menuId = $request->post('menuId');
+
+            if ($type == 'login' && $projectId > 0) {
+                $project = ProjectInfo::findOrFail($projectId);
+            } else {
+                if ($type == 'menu') {
+                    $menu = ProjectMenu::findOrFail($menuId);
+                    $project = ProjectInfo::findOrFail($menu->project_id);
+                }
+            }
+
             if (empty($file) || empty($name)) {
                 throw new \Exception('图片内容或者名称不能为空', 1001);
             }
             if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $file, $res)) {
                 //获取图片类型
-                $type = $res[2];
+                $imageType = $res[2];
                 $imagePath = rtrim(env('SOFTBOOK_IMAGE_DIR', resource_path('softbook/image')), '/');
-                $fileName = $imagePath . '/' . $name . '.' . $type;
+                $fileName = $imagePath . '/' . $name . '.' . $imageType;
                 if (file_exists($fileName)) {
                     unlink($fileName);
                 }
@@ -336,6 +356,61 @@ class InfoController extends ProjectController
                     throw new \Exception('图片保存失败', 1002);
                 }
             }
+
+            if ($type == 'login') {
+                if ($project->menu_type == 3) {
+                    // 查询第一个菜单页
+                    $menuService = new SysMenuService();
+                    $projectMenu = ProjectMenu::where('project_id', $project->project_id)
+                        ->where('visible', '0')
+                        ->orderBy('order_num')
+                        ->orderBy('menu_id')
+                        ->get()
+                        ->toArray();
+                    $menus = $menuService->getChildPerms($projectMenu, 0);
+                    if (isset($menus[0]['children']) && isset($menus[0]['children'][0])) {
+                        $return['url'] = '/project/book/' . $menus[0]['children'][0]['menu_id'];
+                    }
+                } else {
+                    $return['url'] = '/project/preview/' . $project->project_id . '/index';
+                }
+            } else {
+                if ($type == 'menu') {
+                    // 查询第一个菜单页
+                    $menuService = new SysMenuService();
+                    $projectMenu = ProjectMenu::where('project_id', $project->project_id)
+                        ->where('visible', '0')
+                        ->orderBy('order_num')
+                        ->orderBy('menu_id')
+                        ->get()
+                        ->toArray();
+                    $menus = $menuService->getChildPerms($projectMenu, 0);
+                    $returnMenu = false;
+                    $returnMenuId = 0;
+                    foreach ($menus as $menu) {
+                        if (!isset($menu['children']) || empty($menu['children'])) {
+                            continue;
+                        }
+                        if ($returnMenuId > 0) {
+                            break;
+                        }
+                        foreach ($menu['children'] as $child) {
+                            if ($returnMenu == true) {
+                                $returnMenuId = $child['menu_id'];
+                                break;
+                            }
+                            if (!$returnMenu && $child['menu_id'] == $menuId) {
+                                $returnMenu = true;
+                            }
+                        }
+                    }
+                    if ($returnMenuId) {
+                        $return['url'] = '/project/book/' . $returnMenuId;
+                    }
+                }
+            }
+
+            $return['project_id'] = $project->project_id;
         } catch (\Exception $e) {
             $return['code'] = $e->getCode();
             $return['msg'] = $e->getMessage();

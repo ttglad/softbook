@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Project;
 
+use App\Jobs\ProjectDataInit;
+use App\Jobs\ProjectMenuDescInit;
 use App\Models\Project\ProjectColumn;
 use App\Models\Project\ProjectInfo;
 use App\Models\Project\ProjectMenu;
@@ -542,6 +544,10 @@ class MenuController extends ProjectController
                     }
                 }
             }
+
+            // 加入队列
+            ProjectDataInit::dispatch($project->project_id);
+            ProjectMenuDescInit::dispatch($project->project_id);
 
         } catch (\Exception $e) {
             $return['code'] = $e->getCode();

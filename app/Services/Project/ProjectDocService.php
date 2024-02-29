@@ -5,8 +5,8 @@ namespace App\Services\Project;
 use App\Models\Project\ProjectColumn;
 use App\Models\Project\ProjectMenu;
 use App\Models\SysConfig;
-use App\Models\SysDictData;
 use App\Services\ResourceService;
+use App\Services\SysMenuService;
 use Faker\Factory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
@@ -164,7 +164,7 @@ class ProjectDocService extends ProjectService
 
         $fontStyle = [
             'name' => '宋体(正文)',  // 字体
-            'size' => 10.5,       // 字体大小
+            'size' => 12,       // 字体大小
         ];
 
         $pageStyle = [
@@ -178,19 +178,49 @@ class ProjectDocService extends ProjectService
             'spaceAfter' => 60,
         ];
 
+        $headerSize = rand(9, 10);
         // 添加页眉
         $header = $section->addHeader();
-        $header->addText($project->project_title, [
+        $header->addText($project->project_title . $project->project_version, [
             'name' => '宋体(正文)',  // 字体
-            'size' => 9,       // 字体大小
+            'size' => $headerSize,       // 字体大小
+        ], [
+            'alignment' => Jc::CENTER,
         ]);
 
         // 添加页脚
         $footer = $section->addFooter();
         $footer->addPreserveText('{PAGE}', [
             'name' => '宋体(正文)',  // 字体
-            'size' => 9,       // 字体大小
+            'size' => $headerSize,       // 字体大小
         ], ['alignment' => Jc::CENTER]);
+
+        // 添加首页
+        $firstPageSize = rand(28, 40);
+        $section->addTextBreak(15);
+        $section->addText($project->project_title, [
+            'name' => '宋体(正文)',  // 字体
+            'size' => $firstPageSize,       // 字体大小
+            'bold' => true,
+        ], [
+            'alignment' => Jc::CENTER,
+            'spaceAfter' => 30,
+        ]);
+        $section->addText('使用说明', [
+            'name' => '宋体(正文)',  // 字体
+            'size' => $firstPageSize - 2,       // 字体大小
+        ], [
+            'alignment' => Jc::CENTER,
+            'spaceAfter' => 30,
+        ]);
+        $section->addPageBreak();
+
+        // 添加目录
+//        $styleTOC = array('tabLeader'=>TOC::TAB_LEADER_DOT);
+//        $styleFont = array('spaceAfter'=>60, 'name'=>'Tahoma', 'size'=>12);
+//        $section->addTOC($styleFont, $styleTOC);
+
+//        $section->addPageBreak();
 
         $section->addText('概述', $fontStyle, [
             'alignment' => Jc::CENTER,
@@ -239,8 +269,13 @@ class ProjectDocService extends ProjectService
 //            }
             $section->addListItem($this->charNum[++$titleNum] . '、' . $menu['menu_name'], 0, $fontStyle, 'multilevel');
             if (!empty($menu['remark'])) {
-                $section->addText('一级菜单' . $menu['menu_name'] . '功能描述：' .$menu['remark'],
-                    $fontStyle, $pageStyle);
+                $remarkArr = explode("\n", $menu['remark']);
+                foreach ($remarkArr as $remark) {
+                    if (empty($remark)) {
+                        continue;
+                    }
+                    $section->addText($remark, $fontStyle, $pageStyle);
+                }
             } else {
                 $section->addText('一级菜单' . $menu['menu_name'] . '主要包括两个二级菜单，本一级菜单具体功能介绍如下：',
                     $fontStyle, $pageStyle);
@@ -271,12 +306,20 @@ class ProjectDocService extends ProjectService
                 $tempImageNum = $imageNum;
 
                 $section->addListItem($child['menu_name'], 1, $fontStyle, 'multilevel');
-                $section->addText('功能入口：点击左部菜单中，即可进入该菜单界面查看其信息内容。', $fontStyle, $pageStyle);
+//                $section->addText('功能入口：点击左部菜单中，即可进入该菜单界面查看其信息内容。', $fontStyle, $pageStyle);
                 if (!empty($child['remark'])) {
-                    $section->addText('功能描述：' . $child['remark'], $fontStyle, $pageStyle);
+//                    $section->addText($child['remark'], $fontStyle, $pageStyle);
+                    $remarkArr = explode("\n", $child['remark']);
+                    foreach ($remarkArr as $remark) {
+                        if (empty($remark)) {
+                            continue;
+                        }
+                        $section->addText($remark, $fontStyle, $pageStyle);
+                    }
+                } else {
+                    $section->addText('功能介绍：该菜单设计了通过名称智能查找、对各字段的新增、编辑和删除处理，具体操作如图' . ++$tempImageNum . '所示。' . $tableColumnDesc,
+                        $fontStyle, $pageStyle);
                 }
-                $section->addText('功能介绍：该菜单设计了通过名称智能查找、对各字段的新增、编辑和删除处理，具体操作如图' . ++$tempImageNum . '所示。' . $tableColumnDesc,
-                    $fontStyle, $pageStyle);
 
                 if (is_file($imagePath . $child['menu_id'] . '-01.png')) {
                     $section->addImage($imagePath . $child['menu_id'] . '-01.png', $imageStyle, false);
@@ -313,48 +356,48 @@ class ProjectDocService extends ProjectService
         }
 
         // 获取临时的序号
-        $tempImageNum = $imageNum;
-
-        $section->addListItem($this->charNum[++$titleNum] . '、用户管理', 0, $fontStyle, 'multilevel');
-        $section->addText('功能入口：点击左部菜单系统管理-用户管理，即可进入该界面。', $fontStyle, $pageStyle);
-        $section->addText('功能介绍：系统设置，可以管理用户信息等，通过对系统中的用户进行创建、删除、修
-改和权限控制等操作，确保系统安全性和有效性。旨在提供合法用户访问系统、限制用户操作范围和访问权限、管理用户个人信息以及收集用户行为数据等功能。如图' . ++$tempImageNum . '所示。',
-            $fontStyle, $pageStyle);
-        if (is_file($basePath . 'user.png')) {
-            $section->addImage($basePath . 'user.png', [
-                'alignment' => Jc::CENTER,
-                'width' => 400,  // 设置图片宽度为100%页面宽度
-                'height' => 250, // 设置图片高度为100%页面高度
-            ], false);
-        }
-        $section->addText('图' . ++$imageNum . '  用户管理', $fontStyle, $pageImageStyle);
-
-        $section->addListItem($this->charNum[++$titleNum] . '、角色管理', 0, $fontStyle, 'multilevel');
-        $section->addText('功能入口：点击左部菜单系统管理-角色管理，即可进入该界面。', $fontStyle, $pageStyle);
-        $section->addText('功能介绍：系统设置，可以管理角色信息等，通过将用户分配到不同的角色中，每个角色具有不同的权限和功能，来实现对系统中用户权限的控制和管理。方便系统进行细粒度的权限控制，确保用户只能访问其具备权限的资源，提高系统的安全性和可管理性。如图' . ++$tempImageNum . '所示。',
-            $fontStyle, $pageStyle);
-
-        if (is_file($basePath . 'role.png')) {
-            $section->addImage($basePath . 'role.png', [
-                'alignment' => Jc::CENTER,
-                'width' => 400,  // 设置图片宽度为100%页面宽度
-                'height' => 250, // 设置图片高度为100%页面高度
-            ], false);
-        }
-
-        $section->addText('图' . ++$imageNum . '  角色管理', $fontStyle, $pageImageStyle);
-
-        $section->addListItem($this->charNum[++$titleNum] . '、系统监控', 0, $fontStyle, 'multilevel');
-        $section->addText('功能入口：点击左侧菜单栏系统监控，可以查看各个维度的监控数据，实时监测系统的运行状态、资源利用率、响应时间等指标，及时发现并解决潜在的问题，提高系统的运行效率和可用性。',
-            $fontStyle, $pageStyle);
-        if (is_file($basePath . 'monitor.png')) {
-            $section->addImage($basePath . 'monitor.png', [
-                'alignment' => Jc::CENTER,
-                'width' => 400,  // 设置图片宽度为100%页面宽度
-                'height' => 250, // 设置图片高度为100%页面高度
-            ], false);
-        }
-        $section->addText('图' . ++$imageNum . '  系统监控', $fontStyle, $pageImageStyle);
+//        $tempImageNum = $imageNum;
+//
+//        $section->addListItem($this->charNum[++$titleNum] . '、用户管理', 0, $fontStyle, 'multilevel');
+//        $section->addText('功能入口：点击左部菜单系统管理-用户管理，即可进入该界面。', $fontStyle, $pageStyle);
+//        $section->addText('功能介绍：系统设置，可以管理用户信息等，通过对系统中的用户进行创建、删除、修
+//改和权限控制等操作，确保系统安全性和有效性。旨在提供合法用户访问系统、限制用户操作范围和访问权限、管理用户个人信息以及收集用户行为数据等功能。如图' . ++$tempImageNum . '所示。',
+//            $fontStyle, $pageStyle);
+//        if (is_file($basePath . 'user.png')) {
+//            $section->addImage($basePath . 'user.png', [
+//                'alignment' => Jc::CENTER,
+//                'width' => 400,  // 设置图片宽度为100%页面宽度
+//                'height' => 250, // 设置图片高度为100%页面高度
+//            ], false);
+//        }
+//        $section->addText('图' . ++$imageNum . '  用户管理', $fontStyle, $pageImageStyle);
+//
+//        $section->addListItem($this->charNum[++$titleNum] . '、角色管理', 0, $fontStyle, 'multilevel');
+//        $section->addText('功能入口：点击左部菜单系统管理-角色管理，即可进入该界面。', $fontStyle, $pageStyle);
+//        $section->addText('功能介绍：系统设置，可以管理角色信息等，通过将用户分配到不同的角色中，每个角色具有不同的权限和功能，来实现对系统中用户权限的控制和管理。方便系统进行细粒度的权限控制，确保用户只能访问其具备权限的资源，提高系统的安全性和可管理性。如图' . ++$tempImageNum . '所示。',
+//            $fontStyle, $pageStyle);
+//
+//        if (is_file($basePath . 'role.png')) {
+//            $section->addImage($basePath . 'role.png', [
+//                'alignment' => Jc::CENTER,
+//                'width' => 400,  // 设置图片宽度为100%页面宽度
+//                'height' => 250, // 设置图片高度为100%页面高度
+//            ], false);
+//        }
+//
+//        $section->addText('图' . ++$imageNum . '  角色管理', $fontStyle, $pageImageStyle);
+//
+//        $section->addListItem($this->charNum[++$titleNum] . '、系统监控', 0, $fontStyle, 'multilevel');
+//        $section->addText('功能入口：点击左侧菜单栏系统监控，可以查看各个维度的监控数据，实时监测系统的运行状态、资源利用率、响应时间等指标，及时发现并解决潜在的问题，提高系统的运行效率和可用性。',
+//            $fontStyle, $pageStyle);
+//        if (is_file($basePath . 'monitor.png')) {
+//            $section->addImage($basePath . 'monitor.png', [
+//                'alignment' => Jc::CENTER,
+//                'width' => 400,  // 设置图片宽度为100%页面宽度
+//                'height' => 250, // 设置图片高度为100%页面高度
+//            ], false);
+//        }
+//        $section->addText('图' . ++$imageNum . '  系统监控', $fontStyle, $pageImageStyle);
 
         $phpWord->save($savePath . str_replace(['/'], '', $project->project_title) . '使用说明.docx');
     }
@@ -383,18 +426,19 @@ class ProjectDocService extends ProjectService
             'size' => 10.5,       // 字体大小
         ];
 
+        $headerSize = rand(9, 10);
         // 添加页眉
         $header = $section->addHeader();
-        $header->addText($project->project_title, [
+        $header->addText($project->project_title . $project->project_version, [
             'name' => '宋体(正文)',  // 字体
-            'size' => 9,       // 字体大小
-        ]);
+            'size' => $headerSize,       // 字体大小
+        ], ['alignment' => Jc::CENTER]);
 
         // 添加页脚
         $footer = $section->addFooter();
         $footer->addPreserveText('{PAGE}', [
             'name' => '宋体(正文)',  // 字体
-            'size' => 9,       // 字体大小
+            'size' => $headerSize,       // 字体大小
         ], ['alignment' => Jc::CENTER]);
 
         // 获取代码
@@ -732,7 +776,7 @@ class ProjectDocService extends ProjectService
     {
         $content = '';
         try {
-            $menus = $this->getMenuTrees($project->project_id);
+            $menuArray = $this->getMenuTrees($project->project_id);
             $resourceService = new ResourceService();
 
             // 获取登录页面 ######
@@ -741,23 +785,43 @@ class ProjectDocService extends ProjectService
             $rememberMe = true;
             $captchaEnabled = false;
 
-            $content .= view('project.preview.login', [
+            $backType = ['', 'bg-github-lt', 'bg-github'];
+            $loginViewArr = ['login', 'login-tabler', 'login-ace'];
+
+            $content .= view('code.' . Arr::random($loginViewArr), [
                 'registerValue' => $registerValue,
                 'rememberMe' => $rememberMe,
                 'captchaEnabled' => $captchaEnabled,
                 'project' => $project,
+                'backType' => Arr::random($backType),
             ]);
 
-            // 获取用户页 ######
-            // 获取菜单展示名称
-            $sysNormalDisable = SysDictData::where('dict_type', 'sys_normal_disable')->get();
-            $content .= view('admin.user.user', [
-                'sysNormalDisable' => $sysNormalDisable,
-            ])->render();
+//            // 获取用户页 ######
+//            // 获取菜单展示名称
+//            $sysNormalDisable = SysDictData::where('dict_type', 'sys_normal_disable')->get();
+//            $content .= view('admin.user.user', [
+//                'sysNormalDisable' => $sysNormalDisable,
+//            ])->render();
+//
+//            // 菜单业务列表
+            // 获取菜单
+            $defaultMenu = ProjectMenu::where('project_id', 0)
+                ->where('visible', '0')
+                ->orderBy('order_num')
+                ->get()
+                ->toArray();
 
-            // 菜单业务列表
+            $menuService = new SysMenuService();
+            $projectMenu = ProjectMenu::where('project_id', $project->project_id)
+                ->where('visible', '0')
+                ->orderBy('order_num')
+                ->orderBy('menu_id')
+                ->get()
+                ->toArray();
+            $menus = $menuService->getChildPerms(array_merge($projectMenu, $defaultMenu), 0);
+
             // 获取页面代码 ######
-            foreach ($menus as $menu) {
+            foreach ($menuArray as $menu) {
                 if (empty($menu['children'])) {
                     continue;
                 }
@@ -770,24 +834,24 @@ class ProjectDocService extends ProjectService
                         ->orderBy('sort')
                         ->get();
 
-                    $content .= view('project.business.show', [
+                    $content .= view('code.business-vertical', [
                         'business' => $business,
                         'project' => $project,
                         'businessColumn' => $businessColumn,
                     ]);
                 }
             }
-
-            // 获取登录+用户服务
-            $content .= file_get_contents(app_path('Http/Controllers/Admin/AuthorityController.php'));
-//            $content .= file_get_contents(app_path('Http/Controllers/Admin/UserController.php'));
-            $content .= file_get_contents(app_path('Models/SysUser.php'));
-
-            // 随机用户
+//
+//            // 获取登录+用户服务
+//            $content .= file_get_contents(app_path('Http/Controllers/Admin/AuthorityController.php'));
+////            $content .= file_get_contents(app_path('Http/Controllers/Admin/UserController.php'));
+//            $content .= file_get_contents(app_path('Models/SysUser.php'));
+//
+//            // 随机用户
             $faker = Factory::create();
-
-            // 获取服务代码
-            foreach ($menus as $menu) {
+//
+//            // 获取服务代码
+            foreach ($menuArray as $menu) {
                 if (empty($menu['children'])) {
                     continue;
                 }

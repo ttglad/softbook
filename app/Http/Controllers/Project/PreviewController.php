@@ -8,6 +8,7 @@ use App\Models\SysConfig;
 use App\Services\SysMenuService;
 use Faker\Factory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 /**
  *
@@ -26,6 +27,7 @@ class PreviewController extends ProjectController
     {
         // 获取项目信息
         $project = ProjectInfo::findOrFail($id);
+
         if (!auth()->user()->isAdmin() && auth()->user()->login_name != $project->create_by) {
             abort(404);
         }
@@ -34,11 +36,24 @@ class PreviewController extends ProjectController
         $rememberMe = true;
         $captchaEnabled = false;
 
-        return view('project.preview.login', [
+        $view = 'project.preview.login';
+        switch ($project->menu_type) {
+            case 3:
+            case 4:
+                $view = 'project.preview.login-tabler';
+                break;
+            default:
+                break;
+        }
+
+        $backType = ['', 'bg-github-lt', 'bg-github'];
+
+        return view($view, [
             'registerValue' => $registerValue,
             'rememberMe' => $rememberMe,
             'captchaEnabled' => $captchaEnabled,
             'project' => $project,
+            'backType' => Arr::random($backType),
         ]);
     }
 
@@ -144,8 +159,21 @@ class PreviewController extends ProjectController
 
         // 概率横屏
         $view = 'project.preview.home';
-        if ($project->menu_type == 2 || ($project->menu_type == 0 && rand(0, 9) % 2 == 0)) {
-            $view = 'project.preview.home-topnav';
+        switch ($project->menu_type) {
+            case 0:
+                if (rand(0, 9) % 2 == 0) {
+                    $view = 'project.preview.home-topnav';
+                }
+                break;
+            case 2:
+                $view = 'project.preview.home-topnav';
+                break;
+            case 3:
+            case 4:
+                $view = 'project.preview.home-tabler';
+                break;
+            default:
+                break;
         }
 
         return view($view, [
@@ -154,8 +182,8 @@ class PreviewController extends ProjectController
             'tagsView' => $tagsView,
             'mainClass' => $mainClass,
             'project' => $project,
-            'headerImage' => $headerImage,
-            'adminName' => $faker->lastName,
+            'headerImage' => !empty($project->project_admin_image) ? $project->project_admin_image : $headerImage,
+            'adminName' => !empty($project->project_admin) ? $project->project_admin : $faker->lastName,
             'isRandom' => false,
         ]);
     }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1057fc52dd4746a3932a4152c26b423a",
+    "content-hash": "b9e391b60d14917c94113876bb10759b",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -5040,6 +5040,55 @@
                 "source": "https://github.com/TencentCloud/tencentcloud-sdk-php/tree/3.0.1047"
             },
             "time": "2023-12-17T20:11:23+00:00"
+        },
+        {
+            "name": "textalk/websocket",
+            "version": "1.5.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Textalk/websocket-php.git",
+                "reference": "d05dbaa97500176447ffb1f1800573f23085ab13"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Textalk/websocket-php/zipball/d05dbaa97500176447ffb1f1800573f23085ab13",
+                "reference": "d05dbaa97500176447ffb1f1800573f23085ab13",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 | ^8.0",
+                "psr/log": "^1 | ^2 | ^3"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.0",
+                "phpunit/phpunit": "^8.0|^9.0",
+                "squizlabs/php_codesniffer": "^3.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WebSocket\\": "lib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "ISC"
+            ],
+            "authors": [
+                {
+                    "name": "Fredrik Liljegren"
+                },
+                {
+                    "name": "Sören Jensen",
+                    "email": "soren@abicart.se"
+                }
+            ],
+            "description": "WebSocket client and server",
+            "support": {
+                "issues": "https://github.com/Textalk/websocket-php/issues",
+                "source": "https://github.com/Textalk/websocket-php/tree/1.5.8"
+            },
+            "time": "2022-04-26T06:28:24+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",

@@ -236,6 +236,14 @@ Route::group(['namespace' => 'Project', 'middleware' => ['auth']], function () {
     Route::post('project/business/{id}/remove', 'BusinessController@remove');
     Route::post('project/business/{id}/download', 'BusinessController@download');
 
+    // 项目业务
+    Route::get('project/business/{id}/new', 'BusinessNewController@show');
+    Route::get('project/business/{id}/detail/{did}', 'BusinessNewController@detail');
+    Route::post('project/business/{id}/edit/{did}', 'BusinessNewController@editPost');
+
+    Route::get('project/book/{id}', 'BusinessNewController@book');
+
+
 });
 
 // 业务菜单统一处理
