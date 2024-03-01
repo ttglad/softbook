@@ -52,19 +52,27 @@ class ProjectInfoService extends ProjectService
                     $questionDesc = substr($questionDesc, 0, -1);
                     $questionDesc .= '),请枚举出10条此菜单的测试数据,测试数据用|分隔,10条数据分10行展示,去除数据前的序号,去除菜单的字段名.';
                     $answer = $this->getMenuRemark($questionDesc);
+                    Log::info('answer' . $answer);
                     $answerArray = explode("\n", $answer);
+                    Log::info('answer arr' . print_r($answerArray, true));
                     if (!empty($answerArray)) {
                         foreach ($answerArray as $itemNum => $item) {
                             // 默认丢弃第一行数据
-                            if ($itemNum == 0 || strpos($item, '---')) {
+                            if ($itemNum == 0 || strpos($item, '---') || empty($item)) {
                                 continue;
                             }
                             $item = trim($item, '|');
                             $item = trim($item, ',');
+                            Log::info('item:' . $item);
                             $itemArr = explode('|', $item);
+                            Log::info('itemArr:' . print_r($itemArr, true));
                             // 如何根据'|'解析的数据太少，则更换分隔符为','
                             if (sizeof($itemArr) <= 1) {
                                 $itemArr = explode(',', $item);
+                            }
+                            // 如果itemArr数据过少，则退出
+                            if (sizeof($itemArr) <= 1) {
+                                continue;
                             }
                             if (isset($itemArr[0])) {
                                 if (preg_match('/^\d+\./', $itemArr[0], $matches)) {
