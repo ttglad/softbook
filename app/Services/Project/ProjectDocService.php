@@ -316,6 +316,7 @@ class ProjectDocService extends ProjectService
                         }
                         $section->addText($remark, $fontStyle, $pageStyle);
                     }
+                    ++$tempImageNum;
                 } else {
                     $section->addText('功能介绍：该菜单设计了通过名称智能查找、对各字段的新增、编辑和删除处理，具体操作如图' . ++$tempImageNum . '所示。' . $tableColumnDesc,
                         $fontStyle, $pageStyle);
