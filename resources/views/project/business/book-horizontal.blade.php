@@ -138,7 +138,7 @@
                                 </div>
                             </div>
                             <div class="table-responsive">
-                                <table id="business-table" class="table table-vcenter table-mobile-md card-table">
+                                <table id="business-table" class="table table-vcenter table-mobile-md card-table {{ \Illuminate\Support\Arr::random(['', 'table-striped']) }}">
                                     <thead>
                                     <tr>
                                         <th class="w-1">
