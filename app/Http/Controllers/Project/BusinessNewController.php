@@ -176,7 +176,7 @@ class BusinessNewController extends ProjectController
             'mainClass' => $mainClass,
             'project' => $project,
             'headerImage' => !empty($project->project_admin_image) ? $project->project_admin_image : $headerImage,
-            'adminName' => !empty($project->project_admin) ? $project->project_admin : $faker->lastName,
+            'adminName' => !empty($project->project_admin) ? $project->project_admin : $faker->name,
             'isRandom' => false,
         ])->render();
     }

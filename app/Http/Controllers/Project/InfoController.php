@@ -95,7 +95,7 @@ class InfoController extends ProjectController
             $model->create_by = auth()->user()->login_name;
 
             $faker = Factory::create('zh_CN');
-            $model->project_admin = $faker->lastName;
+            $model->project_admin = $faker->name;
             $model->project_admin_image = '/faces/' . rand(1, 21551) . '.png';
 
             // 主题样式列表
