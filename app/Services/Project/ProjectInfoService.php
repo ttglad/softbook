@@ -56,13 +56,22 @@ class ProjectInfoService extends ProjectService
                     if (!empty($answerArray)) {
                         foreach ($answerArray as $itemNum => $item) {
                             // 默认丢弃第一行数据
-                            if ($itemNum == 0) {
+                            if ($itemNum == 0 || strpos($item, '---')) {
                                 continue;
                             }
-                            $itemArr = explode('|', trim($item, '|'));
+                            $item = trim($item, '|');
+                            $item = trim($item, ',');
+                            $itemArr = explode('|', $item);
                             // 如何根据'|'解析的数据太少，则更换分隔符为','
                             if (sizeof($itemArr) <= 1) {
-                                $itemArr = explode(',', trim($item, ','));
+                                $itemArr = explode(',', $item);
+                            }
+                            if (isset($itemArr[0])) {
+                                if (preg_match('/^\d+\./', $itemArr[0], $matches)) {
+                                    // 如果匹配成功，$matches[0] 将包含整个匹配到的字符串（即数字和点号开头的部分）
+                                    // 我们需要截取点号之后的字符串，所以使用 str_replace 函数去除掉匹配到的部分
+                                    $itemArr[0] = str_replace($matches[0], '', $itemArr[0]);
+                                }
                             }
                             $businessData = new ProjectBusiness();
                             $businessData->project_id = $project->project_id;
