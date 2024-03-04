@@ -46,6 +46,24 @@
 					<input class="form-control" type="text" name="menuName" id="menuName" required value="{{ $menu->menu_name }}">
 				</div>
 			</div>
+            @if ($menu->menu_type == 'C')
+            <div class="form-group">
+                <label class="col-sm-3 control-label is-required">数据类型：</label>
+                <div class="col-sm-8">
+                    <label class="radio-box"> <input type="radio" name="dataType" value="list" @if('list' == $menu->data_type) checked @endif/> 列表格式 </label>
+                    <label class="radio-box"> <input type="radio" name="dataType" value="chart" @if('chart' == $menu->data_type) checked @endif/> 图表格式 </label>
+                    <label class="radio-box"> <input type="radio" name="dataType" value="report" @if('report' == $menu->data_type) checked @endif/> 报表格式 </label>
+                </div>
+                <div class="col-sm-8">
+                    <select name="menuType" class="form-control">
+                        <option value="data" @if('data' == $menu->data_type) selected @endif>列表格式</option>
+                        <option value="chart-01" @if('chart-01' == $menu->data_type) selected @endif>图标 - 柱状图</option>
+                        <option value="chart-02" @if('chart-02' == $menu->data_type) selected @endif>图标 - 曲线图</option>
+                        <option value="chart-03" @if('chart-03' == $menu->data_type) selected @endif>图标 - 饼状图</option>
+                    </select>
+                </div>
+            </div>
+            @endif
 {{--			<div class="form-group">--}}
 {{--				<label class="col-sm-3 control-label" title="访问的请求地址，如：`/business/user`，如外网地址需内链访问则以`http(s)://`开头">请求地址：<i class="fa fa-question-circle-o"></i></label>--}}
 {{--				<div class="col-sm-8">--}}
@@ -1023,6 +1041,12 @@
                 <label class="col-sm-3 control-label is-required" title="字段管理，按照 | 隔开">字段管理：<i class="fa fa-question-circle-o"></i></label>
                 <div class="col-sm-8">
                     <textarea id="projectKey" name="projectKey" maxlength="500" class="form-control" rows="3" placeholder="字段管理，按照英文 | 隔开，最少需要5个，例如 设备编号|设备名称|设备状态">{{ $columnsText }}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" title="备注">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remart" maxlength="500" class="form-control" rows="3" placeholder="字段备注">{{ $menu->remark }}</textarea>
                 </div>
             </div>
 		</form>

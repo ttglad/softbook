@@ -45,6 +45,17 @@
 					<input class="form-control" type="text" name="menuName" id="menuName" required>
 				</div>
 			</div>
+            <div class="form-group">
+				<label class="col-sm-3 control-label is-required">数据类型：</label>
+                <div class="col-sm-8">
+                    <select name="menuType" class="form-control">
+                        <option value="data" selected>列表格式</option>
+                        <option value="chart-01">图标 - 柱状图</option>
+                        <option value="chart-02">图标 - 曲线图</option>
+                        <option value="chart-03">图标 - 饼状图</option>
+                    </select>
+                </div>
+			</div>
 {{--			<div class="form-group">--}}
 {{--				<label class="col-sm-3 control-label" title="访问的请求地址，如：`/business/user`，如外网地址需内链访问则以`http(s)://`开头">请求地址：<i class="fa fa-question-circle-o"></i></label>--}}
 {{--				<div class="col-sm-8">--}}
@@ -1022,6 +1033,12 @@
                 <label class="col-sm-3 control-label is-required" title="字段管理，按照 | 隔开">字段管理：<i class="fa fa-question-circle-o"></i></label>
                 <div class="col-sm-8">
                      <textarea id="projectKey" name="projectKey" maxlength="500" class="form-control" rows="3" placeholder="字段管理，按照英文 | 隔开，最少需要5个，例如 设备编号|设备名称|设备状态"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" title="备注">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remart" maxlength="500" class="form-control" rows="3" placeholder="字段备注"></textarea>
                 </div>
             </div>
 		</form>

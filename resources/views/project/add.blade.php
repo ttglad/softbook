@@ -19,7 +19,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="col-sm-4 control-label is-required">项目简称：</label>
+                    <label class="col-sm-4 control-label">项目简称：</label>
                     <div class="col-sm-8">
                         <input name="projectName" type="text" placeholder="请输入项目简称" class="form-control"
                                required>
@@ -89,7 +89,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="col-sm-4 control-label is-required">项目主题背景：</label>
+                    <label class="col-sm-4 control-label">项目主题背景：</label>
                     <div class="col-sm-8">
                         <input name="skinTheme" placeholder="请输入项目主题背景" class="form-control" type="text">
                     </div>
@@ -97,7 +97,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="col-sm-4 control-label is-required">登录页背景图：</label>
+                    <label class="col-sm-4 control-label">登录页背景图：</label>
                     <div class="col-sm-8">
                         <input name="loginImage" placeholder="请输入登录背景图" class="form-control" type="text">
 {{--                        <select name="loginImage" class="form-control m-b">--}}

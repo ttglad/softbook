@@ -40,6 +40,7 @@ class PreviewController extends ProjectController
         switch ($project->menu_type) {
             case 3:
             case 4:
+            case 5:
                 $view = 'project.preview.login-tabler';
                 break;
             default:
@@ -170,6 +171,7 @@ class PreviewController extends ProjectController
                 break;
             case 3:
             case 4:
+            case 5:
                 $view = 'project.preview.home-tabler';
                 break;
             default:

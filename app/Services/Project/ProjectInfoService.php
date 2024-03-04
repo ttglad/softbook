@@ -124,9 +124,9 @@ class ProjectInfoService extends ProjectService
         $menus = $menuService->getChildPerms($projectMenu, 0);
 
         foreach ($menus as $menu) {
-            $firstMenu = '根据菜单名`' . $menu['menu_name'] . '`,';
+            $firstMenu = '根据功能菜单名称为:`' . $menu['menu_name'] . '`,';
             if (isset($menu['children']) && !empty($menu['children'])) {
-                $firstMenu .= '包含子菜单,';
+                $firstMenu .= '包含功能(';
                 foreach ($menu['children'] as $child) {
 
                     // 获取该菜单的列数
@@ -135,7 +135,7 @@ class ProjectInfoService extends ProjectService
                         ->orderBy('sort')
                         ->get();
 
-                    $firstMenu .= '`' . $child['menu_name'] . '`';
+                    $firstMenu .= '`' . $child['menu_name'] . '`,';
                     $childMenu = '根据菜单名:' . $child['menu_name'];
 
                     if (!empty($businessColumnList)) {
@@ -160,11 +160,12 @@ class ProjectInfoService extends ProjectService
                         }
                     }
                 }
-//                $firstMenu = substr($firstMenu, 0, -1);
+                $firstMenu = substr($firstMenu, 0, -1);
+                $firstMenu .= ')';
             }
 
             if (empty($menu['remark'])) {
-                $firstAnswer = $this->getMenuRemark($firstMenu . ',生成300字数左右的菜单功能说明.内容需要贴合一级菜单和二级菜单.');
+                $firstAnswer = $this->getMenuRemark($firstMenu . ',生成300字数左右的此菜单功能说明.无需按照模块分开展示,汇总功能模块展示一个段落的功能说明.');
                 Log::info(sprintf('一级菜单:%s,返回的菜单说明为:%s', $child['menu_name'], $firstAnswer));
                 if ($firstAnswer) {
                     ProjectMenu::where('menu_id', $menu['menu_id'])->update([

@@ -104,6 +104,9 @@ class MenuController extends ProjectController
 
             if ($model->save()) {
                 if ($menuType == 'C') {
+                    if ($request->post('dataType')) {
+                        $model->data_type = trim($request->post('dataType'));
+                    }
                     if ($request->post('menuCode')) {
                         $model->menu_code = $request->post('menuCode');
                     } else {
@@ -230,6 +233,9 @@ class MenuController extends ProjectController
 
             if ($model->save()) {
                 if ($menuType == 'C') {
+                    if ($request->post('dataType')) {
+                        $model->data_type = trim($request->post('dataType'));
+                    }
                     if ($request->post('menuCode')) {
                         $model->menu_code = $request->post('menuCode');
                     } else {

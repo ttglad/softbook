@@ -327,32 +327,34 @@ class ProjectDocService extends ProjectService
                 }
                 $section->addText('图' . ++$imageNum . '  菜单查看', $fontStyle, $pageImageStyle);
 
-                $section->addText('添加功能：点击信息编辑栏中的“添加”按钮即可进行信息的添加，填写各字段信息，点击完成即可进行新增，具体操作如图' . ++$tempImageNum . '、图' . ++$tempImageNum . '所示。',
-                    $fontStyle, $pageStyle);
-                if (is_file($imagePath . $child['menu_id'] . '-02.png')) {
-                    $section->addImage($imagePath . $child['menu_id'] . '-02.png', $imageStyle, false);
-                }
-                $section->addText('图' . ++$imageNum . '  新增信息', $fontStyle, $pageImageStyle);
+                if ($child['data_type'] == 'list') {
+                    $section->addText('添加功能：点击信息编辑栏中的“添加”按钮即可进行信息的添加，填写各字段信息，点击完成即可进行新增，具体操作如图' . ++$tempImageNum . '、图' . ++$tempImageNum . '所示。',
+                        $fontStyle, $pageStyle);
+                    if (is_file($imagePath . $child['menu_id'] . '-02.png')) {
+                        $section->addImage($imagePath . $child['menu_id'] . '-02.png', $imageStyle, false);
+                    }
+                    $section->addText('图' . ++$imageNum . '  新增信息', $fontStyle, $pageImageStyle);
 
-                if (is_file($imagePath . $child['menu_id'] . '-03.png')) {
-                    $section->addImage($imagePath . $child['menu_id'] . '-03.png', $imageStyle, false);
-                }
-                $section->addText('图' . ++$imageNum . '  新增后界面', $fontStyle, $pageImageStyle);
+                    if (is_file($imagePath . $child['menu_id'] . '-03.png')) {
+                        $section->addImage($imagePath . $child['menu_id'] . '-03.png', $imageStyle, false);
+                    }
+                    $section->addText('图' . ++$imageNum . '  新增后界面', $fontStyle, $pageImageStyle);
 
-                $section->addText('编辑功能：点击信息编辑栏中的“编辑”按钮即可进行信息的编辑，更改各字段信息，点击完成即可进行编辑，具体操作如图' . ++$tempImageNum . '所示。',
-                    $fontStyle, $pageStyle);
-                if (is_file($imagePath . $child['menu_id'] . '-04.png')) {
-                    $section->addImage($imagePath . $child['menu_id'] . '-04.png', $imageStyle, false);
-                }
-                $section->addText('图' . ++$imageNum . '  编辑信息', $fontStyle, $pageImageStyle);
+                    $section->addText('编辑功能：点击信息编辑栏中的“编辑”按钮即可进行信息的编辑，更改各字段信息，点击完成即可进行编辑，具体操作如图' . ++$tempImageNum . '所示。',
+                        $fontStyle, $pageStyle);
+                    if (is_file($imagePath . $child['menu_id'] . '-04.png')) {
+                        $section->addImage($imagePath . $child['menu_id'] . '-04.png', $imageStyle, false);
+                    }
+                    $section->addText('图' . ++$imageNum . '  编辑信息', $fontStyle, $pageImageStyle);
 
-                $section->addText('删除功能：点击信息编辑栏中的“删除”按钮即可进行信息的删除，具体操作如图' . ++$tempImageNum . '所示。',
-                    $fontStyle, $pageStyle);
+                    $section->addText('删除功能：点击信息编辑栏中的“删除”按钮即可进行信息的删除，具体操作如图' . ++$tempImageNum . '所示。',
+                        $fontStyle, $pageStyle);
 
-                if (is_file($imagePath . $child['menu_id'] . '-05.png')) {
-                    $section->addImage($imagePath . $child['menu_id'] . '-05.png', $imageStyle, false);
+                    if (is_file($imagePath . $child['menu_id'] . '-05.png')) {
+                        $section->addImage($imagePath . $child['menu_id'] . '-05.png', $imageStyle, false);
+                    }
+                    $section->addText('图' . ++$imageNum . '  删除信息', $fontStyle, $pageImageStyle);
                 }
-                $section->addText('图' . ++$imageNum . '  删除信息', $fontStyle, $pageImageStyle);
             }
         }
 
@@ -730,6 +732,7 @@ class ProjectDocService extends ProjectService
                         'menu_name' => $item->menu_name,
                         'parent_id' => $item->parent_id,
                         'order_num' => $item->order_num,
+                        'data_type' => $item->data_type,
                         'url' => $item->url,
                         'target' => $item->target,
                         'remark' => $item->remark,
@@ -745,6 +748,7 @@ class ProjectDocService extends ProjectService
                         'menu_name' => $item->menu_name,
                         'parent_id' => $item->parent_id,
                         'order_num' => $item->order_num,
+                        'data_type' => $item->data_type,
                         'url' => $item->url,
                         'target' => $item->target,
                         'remark' => $item->remark,
