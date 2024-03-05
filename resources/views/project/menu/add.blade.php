@@ -48,7 +48,7 @@
             <div class="form-group">
 				<label class="col-sm-3 control-label is-required">数据类型：</label>
                 <div class="col-sm-8">
-                    <select name="menuType" class="form-control">
+                    <select name="dataType" class="form-control">
                         <option value="data" selected>列表格式</option>
                         <option value="chart-01">图标 - 柱状图</option>
                         <option value="chart-02">图标 - 曲线图</option>

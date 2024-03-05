@@ -50,12 +50,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label is-required">数据类型：</label>
                 <div class="col-sm-8">
-                    <label class="radio-box"> <input type="radio" name="dataType" value="list" @if('list' == $menu->data_type) checked @endif/> 列表格式 </label>
-                    <label class="radio-box"> <input type="radio" name="dataType" value="chart" @if('chart' == $menu->data_type) checked @endif/> 图表格式 </label>
-                    <label class="radio-box"> <input type="radio" name="dataType" value="report" @if('report' == $menu->data_type) checked @endif/> 报表格式 </label>
-                </div>
-                <div class="col-sm-8">
-                    <select name="menuType" class="form-control">
+                    <select name="dataType" class="form-control">
                         <option value="data" @if('data' == $menu->data_type) selected @endif>列表格式</option>
                         <option value="chart-01" @if('chart-01' == $menu->data_type) selected @endif>图标 - 柱状图</option>
                         <option value="chart-02" @if('chart-02' == $menu->data_type) selected @endif>图标 - 曲线图</option>
