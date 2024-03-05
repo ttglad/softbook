@@ -7,6 +7,7 @@ use App\Models\Project\ProjectMenu;
 use App\Models\SysDictData;
 use App\Services\Project\ProjectDictService;
 use App\Services\Project\ProjectDocService;
+use App\Services\Project\ProjectInfoService;
 use App\Services\SysMenuService;
 use Faker\Factory;
 use Illuminate\Http\Request;
@@ -479,6 +480,26 @@ class InfoController extends ProjectController
                 throw new \Exception('项目编码获取失败', 1002);
             }
             $return['projectCode'] = $code;
+        } catch (\Exception $e) {
+            $return['code'] = $e->getCode();
+            $return['msg'] = $e->getMessage();
+        }
+        return $return;
+    }
+
+    /**
+     * 截图上传保存
+     * @param Request $request
+     * @return array|mixed
+     */
+    public function dataInit(Request $request)
+    {
+        $return = $this->ajaxReturn;
+        try {
+            $projectId = $request->get('projectId');
+            $projectService = new ProjectInfoService();
+            $projectService->projectDataInit($projectId);
+            $projectService->projectMenuDescInit($projectId);
         } catch (\Exception $e) {
             $return['code'] = $e->getCode();
             $return['msg'] = $e->getMessage();

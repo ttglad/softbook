@@ -135,6 +135,7 @@
                         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.project_id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                         actions.push('<a class="btn btn-info btn-xs ' + menuFlag + '" href="javascript:void(0)" onclick="menu(\'' + row.project_id + '\')"><i class="fa fa-list-ul"></i>菜单</a> ');
                         actions.push('<a class="btn btn-info btn-xs ' + menuFlag + '" href="javascript:void(0)" onclick="getCode(\'' + row.project_id + '\')"><i class="fa fa-download"></i>下载</a> ');
+                        actions.push('<a class="btn btn-info btn-xs ' + menuFlag + '" href="javascript:void(0)" onclick="dataInit(\'' + row.project_id + '\')"><i class="fa fa fa-circle-o-notch"></i>初始化</a> ');
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.project_id + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
                     }
@@ -171,6 +172,11 @@
         $.modal.confirm("确认要提交选中的" + rows.length + "条数据吗?", function () {
             $.operate.get(prefix + "/submit?ids=" + rows);
         });
+    }
+
+    // 初始化
+    function dataInit(projectId) {
+        $.operate.get(prefix + "/dataInit?projectId=" + projectId);
     }
 
     // 批量下载
