@@ -442,8 +442,7 @@ class MenuController extends ProjectController
             $menus = $post['menus'];
             $childMenus = $post['childMenus'];
             $childKeys = $post['childKeys'];
-            $remarks = $post['remark'];
-            $childRemarks = $post['childRemark'];
+            $dataTypes = $post['dataType'];
 
             // 数据校验
             if (sizeof($menus) < 3) {
@@ -508,7 +507,6 @@ class MenuController extends ProjectController
                 $menuModel->url = '#';
                 $menuModel->class = '';
                 $menuModel->menu_type = 'M';
-                $menuModel->remark = isset($remarks[$sort]) ? $remarks[$sort] : '';
                 if ($menuModel->save()) {
                     for ($i = $sort * 2; $i < ($sort + 1) * 2; $i++) {
                         if (!isset($childMenus[$i]) || empty($childMenus[$i])) {
@@ -524,7 +522,9 @@ class MenuController extends ProjectController
                         $childMenu->create_by = auth()->user()->login_name;
                         $childMenu->class = 'menuItemShot';
                         $childMenu->menu_type = 'C';
-                        $childMenu->remark = isset($childRemarks[$i]) ? $childRemarks[$i] : '';
+                        if (isset($dataTypes[$i])) {
+                            $childMenu->data_type = $dataTypes[$i];
+                        }
 
                         if ($childMenu->save()) {
                             $childMenu->url = '/project/business/' . $childMenu->menu_id;
