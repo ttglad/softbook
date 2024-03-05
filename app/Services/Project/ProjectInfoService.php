@@ -23,8 +23,6 @@ class ProjectInfoService extends ProjectService
     {
         $project = ProjectInfo::findOrFail($projectId);
 
-        ProjectBusiness::where('project_id', $projectId)->delete();
-
         $menuService = new SysMenuService();
         $projectMenu = ProjectMenu::where('project_id', $project->project_id)
             ->where('visible', '0')
@@ -37,6 +35,14 @@ class ProjectInfoService extends ProjectService
         foreach ($menus as $menu) {
             if (isset($menu['children']) && !empty($menu['children'])) {
                 foreach ($menu['children'] as $child) {
+                    // 判断是否生成数据
+                    $count = ProjectBusiness::where('project_id', $projectId)
+                        ->where('menu_id', $child['menu_id'])
+                        ->count();
+                    if ($count >= 2) {
+                        continue;
+                    }
+
                     // 获取该菜单的列数
                     $businessColumnList = ProjectColumn::where('project_id', $project->project_id)
                         ->where('menu_id', $child['menu_id'])
@@ -95,7 +101,7 @@ class ProjectInfoService extends ProjectService
                                 $key = 'column_' . $columnNums;
                                 $value = 'value_' . $columnNums;
                                 $businessData->$key = $column->dict_value;
-                                $businessData->$value = isset($itemArr[$columnNums-1]) ? $itemArr[$columnNums-1] : ('测试' . $column->dict_name . $columnNums);
+                                $businessData->$value = isset($itemArr[$columnNums - 1]) ? $itemArr[$columnNums - 1] : ('测试' . $column->dict_name . $columnNums);
                             }
                             $businessData->save();
                         }
