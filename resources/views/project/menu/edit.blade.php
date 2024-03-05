@@ -51,7 +51,7 @@
                 <label class="col-sm-3 control-label is-required">数据类型：</label>
                 <div class="col-sm-8">
                     <select name="dataType" class="form-control">
-                        <option value="data" @if('data' == $menu->data_type) selected @endif>列表格式</option>
+                        <option value="list" @if('data' == $menu->data_type) selected @endif>列表格式</option>
                         <option value="chart-01" @if('chart-01' == $menu->data_type) selected @endif>图标 - 柱状图</option>
                         <option value="chart-02" @if('chart-02' == $menu->data_type) selected @endif>图标 - 曲线图</option>
                         <option value="chart-03" @if('chart-03' == $menu->data_type) selected @endif>图标 - 饼状图</option>

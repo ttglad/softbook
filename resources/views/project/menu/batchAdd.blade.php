@@ -37,7 +37,7 @@
                         <label class="col-sm-5 control-label is-required">二级目录 {{ $i }}.1 数据类型：</label>
                         <div class="col-sm-7">
                             <select name="dataType[]" class="form-control">
-                                <option value="data" selected>列表格式</option>
+                                <option value="list" selected>列表格式</option>
                                 <option value="chart-01">图标 - 柱状图</option>
                                 <option value="chart-02">图标 - 曲线图</option>
                                 <option value="chart-03">图标 - 饼状图</option>
@@ -74,7 +74,7 @@
                         <label class="col-sm-5 control-label is-required">二级目录 {{ $i }}.2 数据类型：</label>
                         <div class="col-sm-7">
                             <select name="dataType[]" class="form-control">
-                                <option value="data" selected>列表格式</option>
+                                <option value="list" selected>列表格式</option>
                                 <option value="chart-01">图标 - 柱状图</option>
                                 <option value="chart-02">图标 - 曲线图</option>
                                 <option value="chart-03">图标 - 饼状图</option>
