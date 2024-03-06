@@ -35,6 +35,9 @@ class ProjectInfoService extends ProjectService
         foreach ($menus as $menu) {
             if (isset($menu['children']) && !empty($menu['children'])) {
                 foreach ($menu['children'] as $child) {
+                    if ($child['data_type'] != 'list') {
+                        continue;
+                    }
                     // 判断是否生成数据
                     $count = ProjectBusiness::where('project_id', $projectId)
                         ->where('menu_id', $child['menu_id'])

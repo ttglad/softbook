@@ -41,7 +41,7 @@ class PreviewController extends ProjectController
             case 3:
             case 4:
             case 5:
-                $view = 'project.preview.login-tabler';
+                $view = Arr::random(['project.preview.login-tabler', 'project.preview.login-ace']);
                 break;
             default:
                 break;

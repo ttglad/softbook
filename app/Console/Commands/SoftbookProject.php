@@ -150,7 +150,7 @@ class SoftbookProject extends Command
                     }
                 }
 
-                $message = 'success';
+                $message = 'success, projectId: ' . $project->project_id;
 
                 // 加入队列
                 ProjectDataInit::dispatch($project->project_id);
