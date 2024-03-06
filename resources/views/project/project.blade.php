@@ -52,6 +52,9 @@
             <a class="btn btn-success" onclick="$.operate.add()">
                 <i class="fa fa-plus"></i> 新增
             </a>
+            <a class="btn btn-info" onclick="projectInit()">
+                <i class="fa fa-upload"></i> 一键录入
+            </a>
             <a class="btn btn-primary single disabled" onclick="$.operate.edit()">
                 <i class="fa fa-edit"></i> 修改
             </a>
@@ -190,6 +193,12 @@
             var url = prefix + "/batchDownload?ids=" + rows;
             window.open(url);
         });
+    }
+
+    // 一键录入
+    function projectInit() {
+        var url = prefix + "/projectInit";
+        $.modal.open("一键录入项目", url);
     }
 </script>
 </body>

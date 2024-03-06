@@ -185,6 +185,8 @@ Route::group(['namespace' => 'Project', 'middleware' => ['auth']], function () {
     Route::post('project/uploadImage', 'InfoController@uploadImage');
     Route::get('project/submit', 'InfoController@submit');
     Route::get('project/dataInit', 'InfoController@dataInit');
+    Route::get('project/projectInit', 'InfoController@projectInit');
+    Route::post('project/projectInit', 'InfoController@projectInitPost');
     Route::post('project/getProjectCode', 'InfoController@getProjectCode');
 
 
