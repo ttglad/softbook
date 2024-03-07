@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Project;
 
+use App\Jobs\ProjectDataInit;
 use App\Models\Project\ProjectColumn;
 use App\Models\Project\ProjectInfo;
 use App\Models\Project\ProjectMenu;
@@ -529,7 +530,7 @@ class InfoController extends ProjectController
             $projectInfo = json_decode($data, true);
 
             $project = new ProjectInfo();
-            foreach (['project_title', 'develop_purpose', 'project_author', 'project_feature'] as $item) {
+            foreach (['project_title', 'develop_purpose', 'project_skill', 'project_feature'] as $item) {
                 if (empty($projectInfo[$item])) {
                     throw new \Exception($item . '不能为空', 1000);
                 }
@@ -614,6 +615,10 @@ class InfoController extends ProjectController
                             $childMenu->remark = $item['remark'];
                             $childMenu->menu_type = 'C';
 
+                            if (isset($item['data_type']) && $item['data_type'] != 'list') {
+                                $childMenu->data_type = $item['data_type'];
+                            }
+
                             if ($childMenu->save()) {
                                 $childMenu->url = '/project/business/' . $childMenu->menu_id;
                                 $childMenu->save();
@@ -641,6 +646,11 @@ class InfoController extends ProjectController
                             }
                         }
                     }
+                }
+
+                if (isset($projectInfo['project_data']) && $projectInfo['project_data'] == 1) {
+                    // 加入队列
+                    ProjectDataInit::dispatch($project->project_id);
                 }
             }
         } catch (\Exception $e) {

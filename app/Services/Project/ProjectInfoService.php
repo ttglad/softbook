@@ -59,7 +59,7 @@ class ProjectInfoService extends ProjectService
                         $questionDesc .= '`' . $column->dict_name . '`,';
                     }
                     $questionDesc = substr($questionDesc, 0, -1);
-                    $questionDesc .= '),请枚举出10条此菜单的测试数据,测试数据用|分隔,10条数据分10行展示,去除数据前的序号,去除菜单的字段名.';
+                    $questionDesc .= '),请枚举出6条此菜单的测试数据,测试数据用|分隔,6条数据分6行展示,去除数据前的序号,去除菜单的字段名.';
                     $answer = $this->getMenuRemark($questionDesc);
                     Log::info('answer' . $answer);
                     $answerArray = explode("\n", $answer);
