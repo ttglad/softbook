@@ -32,7 +32,7 @@
                 </div>
             @endif
 
-            <form method="post" action="{{ route('admin_post_login', [], false) }}" accept-charset="utf-8">
+            <form method="get" action="/project/preview/{{ $project->project_id }}/index" accept-charset="utf-8">
                 {{ csrf_field() }}
                 <div class="form-group has-feedback">
                     <input type="text" class="form-control" maxlength="20" name="username" placeholder="用户名"/>

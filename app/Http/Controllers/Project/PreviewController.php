@@ -36,17 +36,14 @@ class PreviewController extends ProjectController
         $rememberMe = true;
         $captchaEnabled = false;
 
-        $view = 'project.preview.login';
-        switch ($project->menu_type) {
-            case 3:
-            case 4:
-            case 5:
-                $view = Arr::random(['project.preview.login-tabler', 'project.preview.login-ace', 'project.preview.login-dark']);
-//                $view = Arr::random(['project.preview.login-dark']);
-                break;
-            default:
-                break;
-        }
+        $view = Arr::random([
+//            'project.preview.login',
+            'project.preview.login-tabler',
+            'project.preview.login-ace',
+            'project.preview.login-dark',
+            'project.preview.login-urban-01',
+            'project.preview.login-urban-02',
+        ]);
 
         $backType = ['', 'bg-github-lt', 'bg-github'];
 
