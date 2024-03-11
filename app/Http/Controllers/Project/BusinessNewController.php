@@ -139,13 +139,16 @@ class BusinessNewController extends ProjectController
         $faker = Factory::create('zh_CN');
 
         // 概率横屏
-        $view = 'project.business.book-horizontal';
+        $view = 'project.business.book.tabler-horizontal';
         switch ($project->menu_type) {
             case 4:
-                $view = 'project.business.book-vertical';
+                $view = 'project.business.book.tabler-vertical';
                 break;
             case 5:
-                $view = 'project.business.book-overlap';
+                $view = 'project.business.book.tabler-overlap';
+                break;
+            case 6:
+                $view = 'project.business.book.connect-plus';
                 break;
             default:
                 break;

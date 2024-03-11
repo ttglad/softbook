@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Project;
 
 use App\Jobs\ProjectDataInit;
+use App\Jobs\ProjectMenuDescInit;
 use App\Models\Project\ProjectColumn;
 use App\Models\Project\ProjectInfo;
 use App\Models\Project\ProjectMenu;
@@ -62,7 +63,10 @@ class InfoController extends ProjectController
      */
     public function add()
     {
-        $projectMenuType = SysDictData::where('dict_type', 'project_menu_type')->orderBy('dict_sort')->get();
+        $projectMenuType = SysDictData::where('dict_type', 'project_menu_type')
+            ->where('status', 0)
+            ->orderBy('dict_sort')
+            ->get();
         return view('project.add', [
             'projectMenuType' => $projectMenuType,
             'codeLines' => rand(61000, 69000),
@@ -133,7 +137,10 @@ class InfoController extends ProjectController
             abort(404);
         }
 
-        $projectMenuType = SysDictData::where('dict_type', 'project_menu_type')->orderBy('dict_sort')->get();
+        $projectMenuType = SysDictData::where('dict_type', 'project_menu_type')
+            ->where('status', 0)
+            ->orderBy('dict_sort')
+            ->get();
 
         return view('project.edit', [
             'data' => $data,
@@ -551,7 +558,7 @@ class InfoController extends ProjectController
             $project->project_category = '应用软件';
             $project->code_line = rand(61000, 69000);
             $project->status = 0;
-            $project->menu_type = Arr::random([3, 4, 5]);
+            $project->menu_type = Arr::random([3, 4, 5, 6]);
             $project->login_image = '/static/back/login-back00.jpg';
             $project->create_by = auth()->user()->login_name;
 
@@ -598,7 +605,7 @@ class InfoController extends ProjectController
                     $menu->create_by = auth()->user()->login_name;
                     $menu->url = '#';
                     $menu->class = '';
-                    $menu->remark = $itemMenu['remark'];
+                    $menu->remark = (isset($itemMenu['remark']) && !empty($itemMenu['remark'])) ? $itemMenu['remark'] : '';
                     $menu->menu_type = 'M';
                     if ($menu->save()) {
                         // 创建子菜单
@@ -612,7 +619,7 @@ class InfoController extends ProjectController
                             $childMenu->visible = 0;
                             $childMenu->create_by = auth()->user()->login_name;
                             $childMenu->class = 'menuItemShot';
-                            $childMenu->remark = $item['remark'];
+                            $childMenu->remark = (isset($item['remark']) && !empty($item['remark'])) ? $item['remark'] : '';
                             $childMenu->menu_type = 'C';
 
                             if (isset($item['data_type']) && $item['data_type'] != 'list') {
@@ -651,6 +658,7 @@ class InfoController extends ProjectController
                 if (isset($projectInfo['project_data']) && $projectInfo['project_data'] == 1) {
                     // 加入队列
                     ProjectDataInit::dispatch($project->project_id);
+                    ProjectMenuDescInit::dispatch($project->project_id);
                 }
             }
         } catch (\Exception $e) {

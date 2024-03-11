@@ -271,6 +271,7 @@ class ProjectDocService extends ProjectService
             if (!empty($menu['remark'])) {
                 $remarkArr = explode("\n", $menu['remark']);
                 foreach ($remarkArr as $remark) {
+                    $remark = trim($remark);
                     if (empty($remark)) {
                         continue;
                     }
@@ -311,6 +312,7 @@ class ProjectDocService extends ProjectService
 //                    $section->addText($child['remark'], $fontStyle, $pageStyle);
                     $remarkArr = explode("\n", $child['remark']);
                     foreach ($remarkArr as $remark) {
+                        $remark = trim($remark);
                         if (empty($remark)) {
                             continue;
                         }

@@ -8,7 +8,7 @@
     <title>系统首页 - {{ $project->project_title }}</title>
     <link href="/tabler/css/tabler.min.css?1668287865" rel="stylesheet"/>
     <link href="/tabler/css/tabler-flags.min.css?1668287865" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
     <style>
         @import url('https://rsms.me/inter/inter.css');
 
@@ -126,19 +126,24 @@
 <!-- Tabler Core -->
 <script src="/tabler/js/tabler.min.js?1668287865" defer></script>
 
-<script src="/static/js/jquery.min.js?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}"></script>
-<script src="/static/js/bootstrap.min.js?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}"></script>
 <script
-    src="/static/js/plugins/metisMenu/jquery.metisMenu.js?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}"></script>
+    src="/static/js/jquery.min.js?v={{ rand(1,2) . 'laravel-dump-server' . rand(0, 20) . '.'.rand(0,20) }}"></script>
 <script
-    src="/static/js/plugins/slimscroll/jquery.slimscroll.min.js?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}"></script>
-<script src="/static/js/jquery.contextMenu.min.js?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}"></script>
+    src="/static/js/bootstrap.min.js?v={{ rand(1,2) . 'laravel-dump-server' . rand(0, 20) . '.'.rand(0,20) }}"></script>
 <script
-    src="/static/ajax/libs/blockUI/jquery.blockUI.js?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}"></script>
-<script src="/static/ajax/libs/layer/layer.min.js?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}"></script>
+    src="/static/js/plugins/metisMenu/jquery.metisMenu.js?v={{ rand(1,2) . 'laravel-dump-server' . rand(0, 20) . '.'.rand(0,20) }}"></script>
+<script
+    src="/static/js/plugins/slimscroll/jquery.slimscroll.min.js?v={{ rand(1,2) . 'laravel-dump-server' . rand(0, 20) . '.'.rand(0,20) }}"></script>
+<script
+    src="/static/js/jquery.contextMenu.min.js?v={{ rand(1,2) . 'laravel-dump-server' . rand(0, 20) . '.'.rand(0,20) }}"></script>
+<script
+    src="/static/ajax/libs/blockUI/jquery.blockUI.js?v={{ rand(1,2) . 'laravel-dump-server' . rand(0, 20) . '.'.rand(0,20) }}"></script>
+<script
+    src="/static/ajax/libs/layer/layer.min.js?v={{ rand(1,2) . 'laravel-dump-server' . rand(0, 20) . '.'.rand(0,20) }}"></script>
 
 <!-- softbook script -->
-<script src="/static/softbook/js/home.js?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}"></script>
+<script
+    src="/static/softbook/js/home.js?v={{ rand(1,2) . 'laravel-dump-server' . rand(0, 20) . '.'.rand(0,20) }}"></script>
 
 
 <!-- 新增弹框 开始 -->

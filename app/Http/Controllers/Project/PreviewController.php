@@ -157,12 +157,14 @@ class PreviewController extends ProjectController
         $faker = Factory::create('zh_CN');
 
         // 概率横屏
-        $view = 'project.preview.home';
         switch ($project->menu_type) {
             case 0:
                 if (rand(0, 9) % 2 == 0) {
                     $view = 'project.preview.home-topnav';
                 }
+                break;
+            case 1:
+                $view = 'project.preview.home';
                 break;
             case 2:
                 $view = 'project.preview.home-topnav';
@@ -170,9 +172,11 @@ class PreviewController extends ProjectController
             case 3:
             case 4:
             case 5:
+            case 6:
                 $view = 'project.preview.home-tabler';
                 break;
             default:
+                $view = 'project.preview.home-tabler';
                 break;
         }
 

@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="col-sm-6 px-0 d-none d-sm-block">
-                <img src="/urban/images/login-02.jpg" alt="login image" class="login-img">
+                <img src="/urban/images/login-02.png" alt="login image" class="login-img">
             </div>
         </div>
     </div>
