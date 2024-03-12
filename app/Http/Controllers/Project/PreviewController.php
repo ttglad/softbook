@@ -173,6 +173,7 @@ class PreviewController extends ProjectController
             case 4:
             case 5:
             case 6:
+            case 7:
                 $view = 'project.preview.home-tabler';
                 break;
             default:

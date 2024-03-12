@@ -150,6 +150,9 @@ class BusinessNewController extends ProjectController
             case 6:
                 $view = 'project.business.book.connect-plus';
                 break;
+            case 7:
+                $view = 'project.business.book.majestic';
+                break;
             default:
                 break;
         }
