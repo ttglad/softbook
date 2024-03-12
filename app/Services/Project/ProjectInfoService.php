@@ -191,19 +191,23 @@ class ProjectInfoService extends ProjectService
      */
     private function getMenuRemark($menuDesc)
     {
-        if (env('GOOGLE_GEMINI_KEY')) {
-            $gemini = new GeminiService();
-            $remark = $gemini->getMessage($menuDesc);
-            $remark = str_replace(['*'], '', $remark);
-            usleep(100);
-        } else {
-            $xf = new XfyunService();
-            $remark = $xf->getMessage($menuDesc);
-            sleep(1);
-        }
+        try {
+            if (env('GOOGLE_GEMINI_KEY')) {
+                $gemini = new GeminiService();
+                $remark = $gemini->getMessage($menuDesc);
+                $remark = str_replace(['*'], '', $remark);
+                usleep(100);
+            } else {
+                $xf = new XfyunService();
+                $remark = $xf->getMessage($menuDesc);
+                sleep(1);
+            }
 
-        if (mb_strlen($remark) > 500) {
-            $remark = mb_substr($remark, 0, 500);
+            if (mb_strlen($remark) > 500) {
+                $remark = mb_substr($remark, 0, 500);
+            }
+        } catch (\Exception $e) {
+            $remark = false;
         }
         return $remark;
     }

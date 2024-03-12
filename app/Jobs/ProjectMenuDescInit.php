@@ -16,7 +16,7 @@ class ProjectMenuDescInit implements ShouldQueue
 
     public $tries = 1;
 
-    public $timeout = 300;
+    public $timeout = 600;
     public $projectId;
 
     /**

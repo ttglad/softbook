@@ -23,6 +23,8 @@ class GeminiService extends Service
             ]
         ];
 
+        Log::info('gemini -- question: ' . $question);
+
         //post请求
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -36,7 +38,7 @@ class GeminiService extends Service
         }
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         $response = curl_exec($curl);
-        Log::info('gemini -- data: ' . $response);
+//        Log::info('gemini -- data: ' . $response);
         $res = json_decode($response, true);
         curl_close($curl);
 

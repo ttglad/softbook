@@ -497,7 +497,7 @@ class InfoController extends ProjectController
     }
 
     /**
-     * 截图上传保存
+     * 初始化数据
      * @param Request $request
      * @return array|mixed
      */
@@ -506,9 +506,16 @@ class InfoController extends ProjectController
         $return = $this->ajaxReturn;
         try {
             $projectId = $request->get('projectId');
-            $projectService = new ProjectInfoService();
-            $projectService->projectDataInit($projectId);
-            $projectService->projectMenuDescInit($projectId);
+//            $projectService = new ProjectInfoService();
+//            $projectService->projectDataInit($projectId);
+//            $projectService->projectMenuDescInit($projectId);
+
+            $project = ProjectInfo::findOrFail($projectId);
+
+            ProjectDataInit::dispatch($project->project_id);
+            ProjectMenuDescInit::dispatch($project->project_id);
+
+            sleep(5);
         } catch (\Exception $e) {
             $return['code'] = $e->getCode();
             $return['msg'] = $e->getMessage();
