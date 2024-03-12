@@ -206,13 +206,30 @@ class ProjectDocService extends ProjectService
             'alignment' => Jc::CENTER,
             'spaceAfter' => 30,
         ]);
-        $section->addText('使用说明', [
-            'name' => '宋体(正文)',  // 字体
-            'size' => $firstPageSize - 2,       // 字体大小
-        ], [
-            'alignment' => Jc::CENTER,
-            'spaceAfter' => 30,
-        ]);
+        $section->addTextBreak(rand(4, 6));
+
+        if (rand(1, 10) % 2 == 0) {
+            $section->addText('使用说明', [
+                'name' => '宋体(正文)',  // 字体
+                'size' => $firstPageSize - 2,       // 字体大小
+                'italic' => true,
+            ], [
+                'alignment' => Jc::CENTER,
+                'spaceAfter' => 30,
+            ]);
+        } else {
+            foreach (['使', '用', '说' , '明'] as $item) {
+                $section->addText($item, [
+                    'name' => '宋体(正文)',  // 字体
+                    'size' => $firstPageSize - 2,       // 字体大小
+                    'italic' => true,
+                ], [
+                    'alignment' => Jc::CENTER,
+                    'spaceAfter' => 30,
+                ]);
+            }
+        }
+
         $section->addPageBreak();
 
         // 添加目录
