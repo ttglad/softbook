@@ -90,7 +90,7 @@
                                 @if (!empty($firstMenu['icon']))
                                     <i class="mdi {{ $firstMenu['icon'] }} menu-icon"></i>
                                 @else
-                                    <i class="mdi mdi-tooltip-edit menu-icon"></i>
+                                    <i class="mdi mdi-menu menu-icon"></i>
                                 @endif
                             </span>
                             <span class="menu-title">{{ $firstMenu['menu_name'] }}</span>

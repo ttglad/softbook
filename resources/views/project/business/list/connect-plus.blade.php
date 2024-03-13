@@ -29,7 +29,7 @@
     <div class="card mb-0">
         <div class="card-body pt-0">
             <div class="table-responsive">
-                <table class="table mb-0 table-striped" id="business-table">
+                <table class="table mb-0 {{ ['table-striped', 'table-bordered', 'table-dark'][$project->id % 3] }}" id="business-table">
                     <thead>
                     <tr>
                         <th><input type="checkbox"></th>

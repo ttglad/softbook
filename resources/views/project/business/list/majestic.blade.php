@@ -25,7 +25,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="business-table" class="table {{ \Illuminate\Support\Arr::random(['table-striped', 'table-bordered', 'table-dark']) }}">
+                    <table id="business-table" class="table {{ ['table-striped', 'table-bordered', 'table-dark'][$project->id % 3] }}">
                         <thead>
                         <tr>
                             <th><input type="checkbox"></th>
