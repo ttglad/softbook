@@ -43,6 +43,9 @@ class PreviewController extends ProjectController
             'project.preview.login-dark',
             'project.preview.login-urban-01',
             'project.preview.login-urban-02',
+            'project.preview.login-majestic',
+            'project.preview.login-connect-plus',
+            'project.preview.login-purple',
         ]);
 
         $backType = ['', 'bg-github-lt', 'bg-github'];
@@ -168,13 +171,6 @@ class PreviewController extends ProjectController
                 break;
             case 2:
                 $view = 'project.preview.home-topnav';
-                break;
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-                $view = 'project.preview.home-tabler';
                 break;
             default:
                 $view = 'project.preview.home-tabler';

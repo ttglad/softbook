@@ -280,4 +280,10 @@ return [
             'value' => '/static/back/login-back29.jpg',
         ],
     ],
+    'data_type' => [
+        'list',
+        'chart-01',
+        'chart-02',
+        'chart-03',
+    ]
 ];

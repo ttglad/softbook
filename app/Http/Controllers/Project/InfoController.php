@@ -560,12 +560,23 @@ class InfoController extends ProjectController
             if (empty($code)) {
                 throw new \Exception('项目编码获取失败', 1002);
             }
+
+            // 获取菜单类型集合
+            $projectMenuTypes = SysDictData::where('dict_type', 'project_menu_type')
+                ->where('status', 0)
+                ->get();
+
+            $menuTypes = [];
+            foreach ($projectMenuTypes as $type) {
+                $menuTypes[] = $type->dict_value;
+            }
+
             $project->project_code = $code;
             $project->project_version = 'V1.0';
             $project->project_category = '应用软件';
             $project->code_line = rand(61000, 69000);
             $project->status = 0;
-            $project->menu_type = Arr::random([3, 4, 5, 6]);
+            $project->menu_type = Arr::random($menuTypes);
             $project->login_image = '/static/back/login-back00.jpg';
             $project->create_by = auth()->user()->login_name;
 
@@ -612,7 +623,9 @@ class InfoController extends ProjectController
                     $menu->create_by = auth()->user()->login_name;
                     $menu->url = '#';
                     $menu->class = '';
-                    $menu->remark = (isset($itemMenu['remark']) && !empty($itemMenu['remark'])) ? $itemMenu['remark'] : '';
+                    if (isset($itemMenu['remark']) && !empty(trim($itemMenu['remark']))) {
+                        $menu->remark = trim($itemMenu['remark']);
+                    }
                     $menu->menu_type = 'M';
                     if ($menu->save()) {
                         // 创建子菜单
@@ -626,10 +639,12 @@ class InfoController extends ProjectController
                             $childMenu->visible = 0;
                             $childMenu->create_by = auth()->user()->login_name;
                             $childMenu->class = 'menuItemShot';
-                            $childMenu->remark = (isset($item['remark']) && !empty($item['remark'])) ? $item['remark'] : '';
+                            if (isset($item['remark']) && !empty(trim($item['remark']))) {
+                                $childMenu->remark = trim($item['remark']);
+                            }
                             $childMenu->menu_type = 'C';
 
-                            if (isset($item['data_type']) && $item['data_type'] != 'list') {
+                            if (isset($item['data_type']) && in_array($item['data_type'], config('softbook.data_type'))) {
                                 $childMenu->data_type = $item['data_type'];
                             }
 

@@ -1,11 +1,9 @@
-<div class="content-wrapper">
-    <div class="row">
-        <div class="col-lg-12 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">{{ $business->menu_name }}</h4>
-                    <canvas id="doughnutChart" style="height:250px"></canvas>
-                </div>
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">{{ $business->menu_name }}</h4>
+                <canvas id="doughnutChart" style="height:250px"></canvas>
             </div>
         </div>
     </div>

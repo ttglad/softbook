@@ -7,6 +7,7 @@ use App\Models\Project\ProjectColumn;
 use App\Models\Project\ProjectInfo;
 use App\Models\Project\ProjectMenu;
 use App\Models\SysConfig;
+use App\Models\SysDictData;
 use App\Services\Project\ProjectBusinessService;
 use App\Services\SysMenuService;
 use Faker\Factory;
@@ -138,24 +139,12 @@ class BusinessNewController extends ProjectController
         // 随机用户
         $faker = Factory::create('zh_CN');
 
-        // 概率横屏
-        $view = 'project.business.book.tabler-horizontal';
-        switch ($project->menu_type) {
-            case 4:
-                $view = 'project.business.book.tabler-vertical';
-                break;
-            case 5:
-                $view = 'project.business.book.tabler-overlap';
-                break;
-            case 6:
-                $view = 'project.business.book.connect-plus';
-                break;
-            case 7:
-                $view = 'project.business.book.majestic';
-                break;
-            default:
-                break;
-        }
+        $projectMenuType = SysDictData::where('dict_type', 'project_menu_type')
+            ->where('dict_value', $project->menu_type)
+            ->first();
+
+        // 根据菜单类型选择
+        $view = 'project.business.book.' . $projectMenuType->dict_label;
 
         $businessColumnList = ProjectColumn::where('project_id', $business->project_id)
             ->where('menu_id', $business->menu_id)
