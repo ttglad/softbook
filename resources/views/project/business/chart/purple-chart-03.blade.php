@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-12 grid-margin stretch-card">
+    <div class="col-12 col-md-8 offset-md-2 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">{{ $business->menu_name }}</h4>

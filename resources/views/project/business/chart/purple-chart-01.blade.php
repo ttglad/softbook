@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-12 grid-margin stretch-card">
+    <div class="col-12 col-md-8 offset-md-2 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 <div class="clearfix">
@@ -53,11 +53,6 @@
             max = Math.floor(max);
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
-
-        console.log(monthsArray);
-        console.log(monthsData_1);
-        console.log(monthsData_2);
-        console.log(monthsData_3);
 
         if ($("#visit-sale-chart").length) {
             Chart.defaults.global.legend.labels.usePointStyle = true;
