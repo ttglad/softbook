@@ -51,6 +51,7 @@ class PreviewController extends ProjectController
             'project.preview.login-kapella-02',
             'project.preview.login-stellar',
             'project.preview.login-star',
+            'project.preview.login-miri',
         ]);
 
         $backType = ['', 'bg-github-lt', 'bg-github'];
