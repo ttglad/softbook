@@ -121,67 +121,74 @@ class ProjectInfoService extends ProjectService
      */
     public function projectMenuDescInit($projectId)
     {
-        $project = ProjectInfo::findOrFail($projectId);
+        try {
+            $project = ProjectInfo::findOrFail($projectId);
 
-        $menuService = new SysMenuService();
-        $projectMenu = ProjectMenu::where('project_id', $project->project_id)
-            ->where('visible', '0')
-            ->orderBy('order_num')
-            ->orderBy('menu_id')
-            ->get()
-            ->toArray();
-        $menus = $menuService->getChildPerms($projectMenu, 0);
+            $menuService = new SysMenuService();
+            $projectMenu = ProjectMenu::where('project_id', $project->project_id)
+                ->where('visible', '0')
+                ->orderBy('order_num')
+                ->orderBy('menu_id')
+                ->get()
+                ->toArray();
+            $menus = $menuService->getChildPerms($projectMenu, 0);
 
-        foreach ($menus as $menu) {
-            $firstMenu = '根据功能菜单名称为:`' . $menu['menu_name'] . '`,';
-            if (isset($menu['children']) && !empty($menu['children'])) {
-                $firstMenu .= '包含功能(';
-                foreach ($menu['children'] as $child) {
+            foreach ($menus as $menu) {
+                $firstMenu = '根据功能菜单名称为:`' . $menu['menu_name'] . '`,';
+                if (isset($menu['children']) && !empty($menu['children'])) {
+                    $firstMenu .= '包含功能(';
+                    foreach ($menu['children'] as $child) {
 
-                    // 获取该菜单的列数
-                    $businessColumnList = ProjectColumn::where('project_id', $project->project_id)
-                        ->where('menu_id', $child['menu_id'])
-                        ->orderBy('sort')
-                        ->get();
+                        // 获取该菜单的列数
+                        $businessColumnList = ProjectColumn::where('project_id', $project->project_id)
+                            ->where('menu_id', $child['menu_id'])
+                            ->orderBy('sort')
+                            ->get();
 
-                    $firstMenu .= '`' . $child['menu_name'] . '`,';
-                    $childMenu = '根据菜单名:' . $child['menu_name'];
+                        $firstMenu .= '`' . $child['menu_name'] . '`,';
+                        $childMenu = '根据菜单名:' . $child['menu_name'];
 
-                    if (!empty($businessColumnList)) {
+                        if (!empty($businessColumnList)) {
 //                        $firstMenu .= '包含字段(';
-                        $childMenu .= ',包含字段(';
-                        foreach ($businessColumnList as $column) {
+                            $childMenu .= ',包含字段(';
+                            foreach ($businessColumnList as $column) {
 //                            $firstMenu .= $column->dict_name . ',';
-                            $childMenu .= $column->dict_name . ',';
-                        }
+                                $childMenu .= $column->dict_name . ',';
+                            }
 //                        $firstMenu = substr($firstMenu, 0, -1);
-                        $childMenu = substr($childMenu, 0, -1);
+                            $childMenu = substr($childMenu, 0, -1);
 //                        $firstMenu .= ');';
-                        $childMenu .= ')';
-                    }
-                    if (empty($child['remark'])) {
-                        $childAnswer = $this->getMenuRemark($childMenu . ',生成200字数左右的菜单功能说明.内容贴合菜单及字段说明.');
-                        Log::info(sprintf('二级菜单:%s,返回的菜单说明为:%s', $child['menu_name'], $childAnswer));
-                        if ($childAnswer) {
-                            ProjectMenu::where('menu_id', $child['menu_id'])->update([
-                                'remark' => $childAnswer,
-                            ]);
+                            $childMenu .= ')';
                         }
+                        if (empty($child['remark'])) {
+                            $childAnswer = $this->getMenuRemark($childMenu . ',生成200字数左右的菜单功能说明.内容贴合菜单及字段说明.');
+                            Log::info(sprintf('二级菜单:%s,返回的菜单说明为:%s', $child['menu_name'], $childAnswer));
+                            if ($childAnswer) {
+                                ProjectMenu::where('menu_id', $child['menu_id'])->update([
+                                    'remark' => $childAnswer,
+                                ]);
+                            }
+                        }
+                    }
+                    $firstMenu = substr($firstMenu, 0, -1);
+                    $firstMenu .= ')';
+                }
+
+                if (empty($menu['remark'])) {
+                    $firstAnswer = $this->getMenuRemark($firstMenu . ',生成300字数左右的此菜单功能说明.无需按照模块分开展示,汇总功能模块展示一个段落的功能说明.');
+                    Log::info(sprintf('一级菜单:%s,返回的菜单说明为:%s', $child['menu_name'], $firstAnswer));
+                    if ($firstAnswer) {
+                        ProjectMenu::where('menu_id', $menu['menu_id'])->update([
+                            'remark' => $firstAnswer,
+                        ]);
                     }
                 }
-                $firstMenu = substr($firstMenu, 0, -1);
-                $firstMenu .= ')';
             }
 
-            if (empty($menu['remark'])) {
-                $firstAnswer = $this->getMenuRemark($firstMenu . ',生成300字数左右的此菜单功能说明.无需按照模块分开展示,汇总功能模块展示一个段落的功能说明.');
-                Log::info(sprintf('一级菜单:%s,返回的菜单说明为:%s', $child['menu_name'], $firstAnswer));
-                if ($firstAnswer) {
-                    ProjectMenu::where('menu_id', $menu['menu_id'])->update([
-                        'remark' => $firstAnswer,
-                    ]);
-                }
-            }
+            $project->status = 0;
+            $project->save();
+        } catch (\Exception $e) {
+
         }
     }
 

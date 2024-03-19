@@ -10,7 +10,6 @@ use App\Models\Project\ProjectMenu;
 use App\Models\SysDictData;
 use App\Services\Project\ProjectDictService;
 use App\Services\Project\ProjectDocService;
-use App\Services\Project\ProjectInfoService;
 use App\Services\SysMenuService;
 use Faker\Factory;
 use Illuminate\Http\Request;
@@ -575,7 +574,12 @@ class InfoController extends ProjectController
             $project->project_version = 'V1.0';
             $project->project_category = '应用软件';
             $project->code_line = rand(61000, 69000);
-            $project->status = 0;
+
+            // 需要初始化数据
+            if (isset($projectInfo['project_data']) && $projectInfo['project_data'] == 1) {
+                $project->status = 3;
+            }
+
             $project->menu_type = Arr::random($menuTypes);
             $project->login_image = '/static/back/login-back00.jpg';
             $project->create_by = auth()->user()->login_name;
