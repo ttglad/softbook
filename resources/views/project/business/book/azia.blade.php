@@ -114,17 +114,9 @@
 
 <script src="/bootstrap/5.3.0/js/bootstrap.min.js"></script>
 <script src="/azia/lib/jquery/jquery.min.js"></script>
-<script src="/azia/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="/azia/lib/ionicons/ionicons.js"></script>
-<script src="/azia/lib/jquery.flot/jquery.flot.js"></script>
-<script src="/azia/lib/jquery.flot/jquery.flot.resize.js"></script>
 <script src="/azia/lib/chart.js/Chart.bundle.min.js"></script>
-<script src="/azia/lib/peity/jquery.peity.min.js"></script>
 
 <script src="/azia/js/azia.js"></script>
-<script src="/azia/js/chart.flot.sampledata.js"></script>
-<script src="/azia/js/dashboard.sampledata.js"></script>
-<script src="/azia/js/cookie.js" type="text/javascript"></script>
 
 <script src="/static/softbook/js/home.js"></script>
 
