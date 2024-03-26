@@ -218,7 +218,7 @@ class ProjectDocService extends ProjectService
                 'spaceAfter' => 30,
             ]);
         } else {
-            foreach (['使', '用', '说' , '明'] as $item) {
+            foreach (['使', '用', '说', '明'] as $item) {
                 $section->addText($item, [
                     'name' => '宋体(正文)',  // 字体
                     'size' => $firstPageSize - 2,       // 字体大小
@@ -424,7 +424,8 @@ class ProjectDocService extends ProjectService
         $docName = $savePath . str_replace(['/'], '', $project->project_title) . '使用说明';
         $phpWord->save($docName . '.docx');
 
-        exec(env('SOFFICE_BIN', 'soffice') . ' --headless --print-to-file --convert-to pdf ' . $docName . '.docx' . ' --outdir ' . $savePath);
+        exec(env('SOFFICE_BIN',
+                'soffice') . ' --headless --print-to-file --convert-to pdf ' . $docName . '.docx' . ' --outdir ' . $savePath);
     }
 
 
@@ -485,7 +486,8 @@ class ProjectDocService extends ProjectService
         $docName = $savePath . str_replace(['/'], '', $project->project_title) . '代码';
         $phpWord->save($docName . '.docx');
 
-        exec('/Applications/LibreOffice.app/Contents/MacOS/soffice --headless --print-to-file --convert-to pdf ' . $docName . '.docx' . ' --outdir ' . $savePath);
+        exec(env('SOFFICE_BIN',
+                'soffice') . ' --headless --print-to-file --convert-to pdf ' . $docName . '.docx' . ' --outdir ' . $savePath);
     }
 
     /**
