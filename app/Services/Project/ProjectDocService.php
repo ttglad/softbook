@@ -421,7 +421,10 @@ class ProjectDocService extends ProjectService
 //        }
 //        $section->addText('图' . ++$imageNum . '  系统监控', $fontStyle, $pageImageStyle);
 
-        $phpWord->save($savePath . str_replace(['/'], '', $project->project_title) . '使用说明.docx');
+        $docName = $savePath . str_replace(['/'], '', $project->project_title) . '使用说明';
+        $phpWord->save($docName . '.docx');
+
+        exec(env('SOFFICE_BIN', 'soffice') . ' --headless --print-to-file --convert-to pdf ' . $docName . '.docx' . ' --outdir ' . $savePath);
     }
 
 
@@ -479,7 +482,10 @@ class ProjectDocService extends ProjectService
             $section->addText(htmlspecialchars($code), $fontStyle);
         }
 
-        $phpWord->save($savePath . str_replace(['/'], '', $project->project_title) . '代码.docx');
+        $docName = $savePath . str_replace(['/'], '', $project->project_title) . '代码';
+        $phpWord->save($docName . '.docx');
+
+        exec('/Applications/LibreOffice.app/Contents/MacOS/soffice --headless --print-to-file --convert-to pdf ' . $docName . '.docx' . ' --outdir ' . $savePath);
     }
 
     /**
