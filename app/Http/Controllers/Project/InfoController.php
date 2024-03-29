@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Project;
 
 use App\Jobs\ProjectDataInit;
+use App\Jobs\ProjectDocSave;
 use App\Jobs\ProjectMenuDescInit;
 use App\Models\Project\ProjectColumn;
 use App\Models\Project\ProjectInfo;
@@ -14,6 +15,7 @@ use App\Services\SysMenuService;
 use Faker\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 
 /**
  *
@@ -284,7 +286,7 @@ class InfoController extends ProjectController
                 throw new \Exception('没有下载权限');
             }
             $docService = new ProjectDocService();
-            if ($file = $docService->saveDocByProjectId($project, true)) {
+            if ($file = $docService->saveDocByProject($project, true)) {
                 return response()->download($file,
                     str_replace(['/'], '', $project->project_title) . '.zip')->deleteFileAfterSend();
             }
@@ -317,11 +319,11 @@ class InfoController extends ProjectController
                 throw new \Exception('目录为空', 1001);
             }
             $docService = new ProjectDocService();
-            if ($file = $docService->saveDocByProjectIds($downProjects, true)) {
+            if ($file = $docService->saveDocByProjects($downProjects, true)) {
                 return response()->download($file, date('Ymd') . '.zip')->deleteFileAfterSend();
             }
         } catch (\Exception $e) {
-            print_r($e->getMessage());
+            Log::info($e->getMessage());
             abort(404);
         }
     }
@@ -450,6 +452,11 @@ class InfoController extends ProjectController
                     $project->status = $status;
                     $project->update_by = auth()->user()->login_name;
                     $project->save();
+
+                    // 截图完成后，自动生成word pdf文档任务
+                    if ($request->get('type') == 'image') {
+                        ProjectDocSave::dispatch($id);
+                    }
                 }
             }
             if ($next && $maxId > 0) {

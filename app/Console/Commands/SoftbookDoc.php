@@ -42,7 +42,7 @@ class SoftbookDoc extends Command
 
         if (!is_null($project)) {
             $docService = new ProjectDocService();
-            $docService->saveDocByProjectId($project, false);
+            $docService->saveDocByProject($project, false);
         } else {
             $this->error('项目id未查询到数据');
         }

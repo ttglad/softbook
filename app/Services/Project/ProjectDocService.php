@@ -10,6 +10,7 @@ use App\Services\SysMenuService;
 use Faker\Factory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
 
@@ -44,7 +45,7 @@ class ProjectDocService extends ProjectService
      * @param $projectId
      * @return string
      */
-    public function saveDocByProjectId($project, $isZipFile = false): string
+    public function saveDocByProject($project, $isZipFile = false): string
     {
         $zipFile = '';
         try {
@@ -80,6 +81,7 @@ class ProjectDocService extends ProjectService
             }
 
         } catch (\Exception $e) {
+            Log::info($e->getMessage());
         }
         return $zipFile;
     }
@@ -90,7 +92,7 @@ class ProjectDocService extends ProjectService
      * @param $isZipFile
      * @return string
      */
-    public function saveDocByProjectIds($projects, $isZipFile = false): string
+    public function saveDocByProjects($projects, $isZipFile = false): string
     {
         $zipFile = '';
         try {
@@ -150,6 +152,12 @@ class ProjectDocService extends ProjectService
      */
     private function saveProjectInfo($project, $imagePath, $savePath, $basePath)
     {
+        // 判断文件是否存在
+        $docName = $savePath . str_replace(['/'], '', $project->project_title) . '使用说明';
+        if (file_exists($docName . '.docx')) {
+            return;
+        }
+
         $imageNum = 0;
         $titleNum = 0;
 
@@ -421,7 +429,6 @@ class ProjectDocService extends ProjectService
 //        }
 //        $section->addText('图' . ++$imageNum . '  系统监控', $fontStyle, $pageImageStyle);
 
-        $docName = $savePath . str_replace(['/'], '', $project->project_title) . '使用说明';
         $phpWord->save($docName . '.docx');
 
         exec(env('SOFFICE_BIN',
@@ -437,6 +444,12 @@ class ProjectDocService extends ProjectService
      */
     private function saveCodeInfo($project, $savePath)
     {
+        // 判断文件是否存在
+        $docName = $savePath . str_replace(['/'], '', $project->project_title) . '代码';
+        if (file_exists($docName . '.docx')) {
+            return;
+        }
+
         $phpWord = new PhpWord();
         $section = $phpWord->addSection([
             'headerHeight' => 850,
@@ -483,7 +496,6 @@ class ProjectDocService extends ProjectService
             $section->addText(htmlspecialchars($code), $fontStyle);
         }
 
-        $docName = $savePath . str_replace(['/'], '', $project->project_title) . '代码';
         $phpWord->save($docName . '.docx');
 
         exec(env('SOFFICE_BIN',
@@ -498,6 +510,12 @@ class ProjectDocService extends ProjectService
      */
     private function saveInfoTable($project, $savePath)
     {
+        // 判断文件是否存在
+        $docName = $savePath . str_replace(['/'], '', $project->project_title) . '信息采集表';
+        if (file_exists($docName . '.docx')) {
+            return;
+        }
+
         $config = config('softbook');
 
         $phpWord = new PhpWord();
@@ -732,7 +750,7 @@ class ProjectDocService extends ProjectService
         $cell = $table->addCell($tableRightWidth);
         $cell->addText($project->project_skill, $fontStyle, $pageStyle);
 
-        $phpWord->save($savePath . str_replace(['/'], '', $project->project_title) . '信息采集表.docx');
+        $phpWord->save($docName . '.docx');
     }
 
 
