@@ -425,7 +425,7 @@ class ProjectDocService extends ProjectService
         $phpWord->save($docName . '.docx');
 
         exec(env('SOFFICE_BIN',
-                'soffice') . ' --headless --print-to-file --convert-to pdf ' . $docName . '.docx' . ' --outdir ' . $savePath);
+                'soffice') . ' --headless --print-to-file --convert-to pdf:writer_pdf_Export ' . $docName . '.docx' . ' --outdir ' . $savePath);
     }
 
 
@@ -441,10 +441,10 @@ class ProjectDocService extends ProjectService
         $section = $phpWord->addSection([
             'headerHeight' => 850,
             'footerHeight' => 964,
-            'lineNumbering' => [
-                'start' => 1,
-                'restart' => 'newSection'
-            ]
+//            'lineNumbering' => [
+//                'start' => 1,
+//                'restart' => 'newSection'
+//            ]
         ]);
 
         $fontStyle = [
@@ -487,7 +487,7 @@ class ProjectDocService extends ProjectService
         $phpWord->save($docName . '.docx');
 
         exec(env('SOFFICE_BIN',
-                'soffice') . ' --headless --print-to-file --convert-to pdf ' . $docName . '.docx' . ' --outdir ' . $savePath);
+                'soffice') . ' --headless --print-to-file --convert-to pdf:writer_pdf_Export ' . $docName . '.docx' . ' --outdir ' . $savePath);
     }
 
     /**
