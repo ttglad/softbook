@@ -181,7 +181,7 @@ class PreviewController extends ProjectController
                 $view = 'project.preview.home-topnav';
                 break;
             default:
-                $view = 'project.preview.home-tabler';
+                $view = 'project.preview.home-azia';
                 break;
         }
 
