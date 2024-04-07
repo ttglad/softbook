@@ -93,7 +93,7 @@
                         <label>{{ $firstMenu['menu_name'] }}</label>
                         <nav class="nav flex-column">
                             @foreach($firstMenu['children'] as $secondMenu)
-                                <a href="/project/book/{{ $secondMenu['menu_id'] }}" class="nav-link @isset($secondMenu['check']) active @endif">
+                                <a href="/project/book/{{ $secondMenu['menu_id'] }}" class="nav-link {{ $secondMenu['class'] }} @isset($secondMenu['check']) active @endif">
                                     {{ $secondMenu['menu_name'] }}
                                 </a>
                             @endforeach
