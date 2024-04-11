@@ -37,7 +37,7 @@ class PreviewController extends ProjectController
         $captchaEnabled = false;
 
         $view = Arr::random([
-//            'project.preview.login',
+            'project.preview.login',
             'project.preview.login-tabler',
             'project.preview.login-ace',
             'project.preview.login-dark',
@@ -54,6 +54,7 @@ class PreviewController extends ProjectController
             'project.preview.login-miri',
             'project.preview.login-azia',
             'project.preview.login-celestial',
+            'project.preview.login-darkpan',
         ]);
 
         $backType = ['', 'bg-github-lt', 'bg-github'];

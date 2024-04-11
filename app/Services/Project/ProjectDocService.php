@@ -871,11 +871,17 @@ class ProjectDocService extends ProjectService
             $menus = $menuService->getChildPerms(array_merge($projectMenu, $defaultMenu), 0);
 
             // 获取页面代码 ######
+            $viewNum = 0;
             foreach ($menuArray as $menu) {
                 if (empty($menu['children'])) {
                     continue;
                 }
                 foreach ($menu['children'] as $child) {
+                    $viewNum++;
+                    // 菜单代码取8个菜单，避免菜单过多
+                    if ($viewNum > 8) {
+                        continue;
+                    }
 
                     $business = ProjectMenu::findOrFail($child['menu_id']);
 
