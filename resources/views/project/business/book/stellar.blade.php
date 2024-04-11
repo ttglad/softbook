@@ -7,7 +7,7 @@
     <title>系统首页 - {{ $project->project_title }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- plugins:css -->
-    <link rel="stylesheet" href="/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/vendors/bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="/stellar/vendors/simple-line-icons/css/simple-line-icons.css">
     <link rel="stylesheet" href="/stellar/vendors/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="/stellar/vendors/css/vendor.bundle.base.css">
@@ -158,7 +158,7 @@
 </div>
 <!-- container-scroller -->
 <!-- plugins:js -->
-<script src="/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+<script src="/vendors/bootstrap/5.3.0/js/bootstrap.min.js"></script>
 <script src="/stellar/vendors/js/vendor.bundle.base.js"></script>
 <script src="/stellar/vendors/chart.js/Chart.min.js"></script>
 <script src="/stellar/vendors/moment/moment.min.js"></script>

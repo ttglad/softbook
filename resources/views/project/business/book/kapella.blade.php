@@ -192,7 +192,7 @@
                     </li>
                     @foreach($menus as $firstMenu)
                         <li class="nav-item @isset($firstMenu['check']) active @endisset">
-                            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic-{{ $firstMenu['menu_id'] }}" @isset($firstMenu['check']) aria-expanded="true" @else aria-expanded="false" @endisset" aria-controls="ui-basic">
+                            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic-{{ $firstMenu['menu_id'] }}" @isset($firstMenu['check']) aria-expanded="true" @else aria-expanded="false" @endisset aria-controls="ui-basic">
                             @if (!empty($firstMenu['icon']))
                                 <i class="mdi {{ $firstMenu['icon'] }} menu-icon"></i>
                             @else

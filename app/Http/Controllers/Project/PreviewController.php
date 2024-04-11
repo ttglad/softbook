@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Project;
 use App\Models\Project\ProjectInfo;
 use App\Models\Project\ProjectMenu;
 use App\Models\SysConfig;
+use App\Models\SysDictData;
 use App\Services\SysMenuService;
 use Faker\Factory;
 use Illuminate\Http\Request;
@@ -31,12 +32,18 @@ class PreviewController extends ProjectController
         if (!auth()->user()->isAdmin() && auth()->user()->login_name != $project->create_by) {
             abort(404);
         }
+
+        // 获取项目类型
+        $projectMenuType = SysDictData::where('dict_type', 'project_menu_type')
+            ->where('dict_value', $project->menu_type)
+            ->first();
+
         $sysConfig = SysConfig::where('config_key', 'sys.account.registerUser')->first();
         $registerValue = is_null($sysConfig) ? false : ($sysConfig->config_value == 'false' ? false : true);
         $rememberMe = true;
         $captchaEnabled = false;
 
-        $view = Arr::random([
+        $viewAll = [
             'project.preview.login',
             'project.preview.login-tabler',
             'project.preview.login-ace',
@@ -55,7 +62,17 @@ class PreviewController extends ProjectController
             'project.preview.login-azia',
             'project.preview.login-celestial',
             'project.preview.login-darkpan',
-        ]);
+        ];
+        $view = '';
+        if (empty($view) && in_array('project.preview.login-' . $projectMenuType->dict_label, $viewAll)) {
+            $view = 'project.preview.login-' . $projectMenuType->dict_label;
+        }
+        if (empty($view) && in_array('project.preview.login-' . $projectMenuType->dict_label . '-01', $viewAll)) {
+            $view = 'project.preview.login-' . $projectMenuType->dict_label . '-01';
+        }
+        if (empty($view)) {
+            $view = Arr::random($viewAll);
+        }
 
         $backType = ['', 'bg-github-lt', 'bg-github'];
 

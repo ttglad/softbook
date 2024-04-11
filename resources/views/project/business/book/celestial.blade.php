@@ -8,7 +8,7 @@
     <title>系统首页 - {{ $project->project_title }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- base:css -->
-    <link rel="stylesheet" href="/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/vendors/bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="/celestial/vendors/typicons.font/font/typicons.css">
     <link rel="stylesheet" href="/celestial/vendors/css/vendor.bundle.base.css">
     <!-- endinject -->
@@ -195,7 +195,7 @@
     <!-- page-body-wrapper ends -->
 </div>
 <!-- container-scroller -->
-<script src="/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+<script src="/vendors/bootstrap/5.3.0/js/bootstrap.min.js"></script>
 <!-- base:js -->
 <script src="/celestial/vendors/js/vendor.bundle.base.js"></script>
 <!-- endinject -->

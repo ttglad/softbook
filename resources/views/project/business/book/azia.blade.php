@@ -5,15 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Meta -->
-    <meta name="description" content="Responsive Bootstrap 4 Dashboard Template">
-    <meta name="author" content="BootstrapDash">
-
     <title>系统首页 - {{ $project->project_title }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- vendor css -->
-    <link rel="stylesheet" href="/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/vendors/bootstrap/5.3.0/css/bootstrap.min.css">
     <link href="/azia/lib/fontawesome-free/css/all.min.css" rel="stylesheet">
     <link href="/azia/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
     <link href="/azia/lib/typicons.font/typicons.css" rel="stylesheet">
@@ -112,7 +108,7 @@
 </div><!-- az-content -->
 
 
-<script src="/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+<script src="/vendors/bootstrap/5.3.0/js/bootstrap.min.js"></script>
 <script src="/azia/lib/jquery/jquery.min.js"></script>
 <script src="/azia/lib/chart.js/Chart.bundle.min.js"></script>
 
