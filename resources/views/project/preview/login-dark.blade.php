@@ -6,13 +6,10 @@
     <title>登录 - {{ $project->project_title }}@if(!empty($project->project_author)) - {{ $project->project_author  }}@endif</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex">
-    <link rel="stylesheet" href="/dark/lib/choices.js/public/assets/styles/choices.min.css">
-    <!-- Google fonts - Muli-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,700">
     <!-- theme stylesheet-->
-    <link rel="stylesheet" href="/dark/css/style.{{ \Illuminate\Support\Arr::random(['default', 'red', 'green', 'violet', 'sea', 'blue']) }}.premium.css" id="theme-stylesheet">
+    <link rel="stylesheet" href="/theme/dark/css/style.{{ \Illuminate\Support\Arr::random(['default', 'red', 'green', 'violet', 'sea', 'blue']) }}.premium.css" id="theme-stylesheet">
     <!-- Custom stylesheet - for your changes-->
-    <link rel="stylesheet" href="/dark/css/custom.css">
+    <link rel="stylesheet" href="/theme/dark/css/custom.css">
 </head>
 <body>
 <div class="login-page">
@@ -49,11 +46,5 @@
         </div>
     </div>
 </div>
-<!-- JavaScript files-->
-<script src="/dark/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="/dark/lib/just-validate/js/just-validate.min.js"></script>
-<script src="/dark/lib/chart.js/Chart.min.js"></script>
-<script src="/dark/lib/choices.js/public/assets/scripts/choices.min.js"></script>
-<script src="/dark/js/js-cookie.js"> </script>
 </body>
 </html>

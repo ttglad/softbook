@@ -7,13 +7,13 @@
     <title>系统首页 - {{ $project->project_title }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- base:css -->
-    <link rel="stylesheet" href="/kapella/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="/kapella/vendors/base/vendor.bundle.base.css">
+    <link rel="stylesheet" href="/vendors/mdi/4.5.95/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/theme/kapella/css/vendor.bundle.base.css">
     <!-- endinject -->
     <!-- plugin css for this page -->
     <!-- End plugin css for this page -->
     <!-- inject:css -->
-    <link rel="stylesheet" href="/kapella/css/style.css">
+    <link rel="stylesheet" href="/theme/kapella/css/style.css">
     <!-- endinject -->
 </head>
 <body>
@@ -84,7 +84,7 @@
                                 <p class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
                                 <a class="dropdown-item preview-item">
                                     <div class="preview-thumbnail">
-                                        <img src="images/faces/face4.jpg" alt="image" class="profile-pic">
+                                        <img src="{{ $headerImage }}" alt="image" class="profile-pic">
                                     </div>
                                     <div class="preview-item-content flex-grow">
                                         <h6 class="preview-subject ellipsis font-weight-normal">David Grey
@@ -96,7 +96,7 @@
                                 </a>
                                 <a class="dropdown-item preview-item">
                                     <div class="preview-thumbnail">
-                                        <img src="images/faces/face2.jpg" alt="image" class="profile-pic">
+                                        <img src="{{ $headerImage }}" alt="image" class="profile-pic">
                                     </div>
                                     <div class="preview-item-content flex-grow">
                                         <h6 class="preview-subject ellipsis font-weight-normal">Tim Cook
@@ -108,7 +108,7 @@
                                 </a>
                                 <a class="dropdown-item preview-item">
                                     <div class="preview-thumbnail">
-                                        <img src="images/faces/face3.jpg" alt="image" class="profile-pic">
+                                        <img src="{{ $headerImage }}" alt="image" class="profile-pic">
                                     </div>
                                     <div class="preview-item-content flex-grow">
                                         <h6 class="preview-subject ellipsis font-weight-normal"> Johnson
@@ -253,25 +253,13 @@
 </div>
 <!-- container-scroller -->
 <!-- base:js -->
-<script src="/kapella/vendors/base/vendor.bundle.base.js"></script>
+<script src="/theme/kapella/js/vendor.bundle.base.js"></script>
 <!-- endinject -->
 <!-- Plugin js for this page-->
-<!-- End plugin js for this page-->
 <!-- inject:js -->
-<script src="/kapella/js/template.js"></script>
-<!-- endinject -->
-<!-- plugin js for this page -->
-<!-- End plugin js for this page -->
-<script src="/kapella/vendors/chart.js/Chart.min.js"></script>
-<script src="/kapella/vendors/progressbar.js/progressbar.min.js"></script>
-<script src="/kapella/vendors/chartjs-plugin-datalabels/chartjs-plugin-datalabels.js"></script>
-<script src="/kapella/vendors/justgage/raphael-2.1.4.min.js"></script>
-<script src="/kapella/vendors/justgage/justgage.js"></script>
-<script src="/kapella/js/jquery.cookie.js" type="text/javascript"></script>
 <!-- Custom js for this page-->
-<script src="/kapella/js/dashboard.js"></script>
 
-<script src="/static/softbook/js/home.js?v={{ rand(1,2) . 'laravel-dump-server' . rand(0, 20) . '.'.rand(0,20) }}"></script>
+<script src="/static/softbook/js/home.js"></script>
 
 <!-- endinject -->
 <!-- Custom js for this page -->

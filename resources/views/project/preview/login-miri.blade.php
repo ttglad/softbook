@@ -11,7 +11,7 @@
     <!-- Vendor css -->
 
     <!-- Base css with customised bootstrap included -->
-    <link rel="stylesheet" href="/miri/css/miri-ui-kit-free.css">
+    <link rel="stylesheet" href="/theme/miri/css/miri-ui-kit-free.css">
 
     <!-- Stylesheet for demo page specific css -->
 </head>

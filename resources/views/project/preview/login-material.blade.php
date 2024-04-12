@@ -6,18 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>登录 - {{ $project->project_title }}@if(!empty($project->project_author)) - {{ $project->project_author  }}@endif</title>
     <!-- plugins:css -->
-    <link rel="stylesheet" href="/material/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="/material/vendors/css/vendor.bundle.base.css">
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <!-- End plugin css for this page -->
     <!-- Layout styles -->
-    <link rel="stylesheet" href="/material/css/demo/style.css">
+    <link rel="stylesheet" href="/theme/material/css/style.css">
     <!-- End layout styles -->
-    <link rel="shortcut icon" href="/material/images/favicon.png" />
 </head>
 <body>
-<script src="../assets/js/preloader.js"></script>
 <div class="body-wrapper">
     <div class="main-wrapper">
         <div class="page-wrapper full-page-wrapper d-flex align-items-center justify-content-center">
@@ -88,16 +84,5 @@
         </div>
     </div>
 </div>
-<!-- plugins:js -->
-<script src="/material/vendors/js/vendor.bundle.base.js"></script>
-<!-- endinject -->
-<!-- Plugin js for this page-->
-<!-- End plugin js for this page-->
-<!-- inject:js -->
-<script src="/material/js/material.js"></script>
-<script src="/material/js/misc.js"></script>
-<!-- endinject -->
-<!-- Custom js for this page-->
-<!-- End custom js for this page-->
 </body>
 </html>

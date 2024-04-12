@@ -7,19 +7,15 @@
     <title>系统首页 - {{ $project->project_title }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- plugins:css -->
-    <link rel="stylesheet" href="/star/vendors/feather/feather.css">
-    <link rel="stylesheet" href="/star/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="/star/vendors/ti-icons/css/themify-icons.css">
-    <link rel="stylesheet" href="/star/vendors/typicons/typicons.css">
-    <link rel="stylesheet" href="/star/vendors/simple-line-icons/css/simple-line-icons.css">
-    <link rel="stylesheet" href="/star/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="/vendors/feather/feather.css">
+    <link rel="stylesheet" href="/vendors/mdi/4.5.95/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="/vendors/typicons/typicons.css">
+    <link rel="stylesheet" href="/vendors/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/theme/star/css/vendor.bundle.base.css">
     <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="/star/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-    <link rel="stylesheet" type="text/css" href="/star/js/select.dataTables.min.css">
-    <!-- End plugin css for this page -->
     <!-- inject:css -->
-    <link rel="stylesheet" href="/star/css/vertical-layout-light/style.css">
+    <link rel="stylesheet" href="/theme/star/css/style.css">
     <!-- endinject -->
 </head>
 
@@ -40,8 +36,7 @@
                 </button>
             </div>
             <div>
-                <a class="navbar-brand brand-logo">
-                </a>
+                <a class="navbar-brand brand-logo">后台管理</a>
                 <a class="navbar-brand brand-logo-mini">
                 </a>
             </div>
@@ -183,24 +178,16 @@
 <!-- container-scroller -->
 
 <!-- plugins:js -->
-<script src="/star/vendors/js/vendor.bundle.base.js"></script>
-<script src="/star/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+<script src="/theme/star/js/vendor.bundle.base.js"></script>
+<script src="/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 <!-- endinject -->
 <!-- Plugin js for this page -->
-<script src="/star/vendors/chart.js/Chart.min.js"></script>
-<script src="/star/vendors/progressbar.js/progressbar.min.js"></script>
 <!-- End plugin js for this page -->
 <!-- inject:js -->
-<script src="/star/js/off-canvas.js"></script>
-<script src="/star/js/hoverable-collapse.js"></script>
-<script src="/star/js/template.js"></script>
-<script src="/star/js/settings.js"></script>
-<script src="/star/js/todolist.js"></script>
+<script src="/theme/star/js/template.js"></script>
+<script src="/theme/star/js/settings.js"></script>
 <!-- endinject -->
 <!-- Custom js for this page-->
-<script src="/star/js/jquery.cookie.js" type="text/javascript"></script>
-<script src="/star/js/dashboard.js"></script>
-<script src="/star/js/proBanner.js"></script>
 <!-- <script src="../../assets/js/Chart.roundedBarCharts.js"></script> -->
 <!-- End custom js for this page-->
 <script src="/static/softbook/js/home.js"></script>

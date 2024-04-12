@@ -6,16 +6,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>登录 - {{ $project->project_title }}@if(!empty($project->project_author)) - {{ $project->project_author  }}@endif</title>
-    <!-- plugins:css -->
-    <link rel="stylesheet" href="/majestic/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="/majestic/vendors/base/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- plugin css for this page -->
-    <!-- End plugin css for this page -->
     <!-- inject:css -->
-    <link rel="stylesheet" href="/majestic/css/style.css">
+    <link rel="stylesheet" href="/theme/majestic/css/style.css">
     <!-- endinject -->
-    <link rel="shortcut icon" href="/majestic/images/favicon.png" />
 </head>
 
 <body>
@@ -61,14 +54,6 @@
     <!-- page-body-wrapper ends -->
 </div>
 <!-- container-scroller -->
-<!-- plugins:js -->
-<script src="/majestic/vendors/base/vendor.bundle.base.js"></script>
-<!-- endinject -->
-<!-- inject:js -->
-<script src="/majestic/js/off-canvas.js"></script>
-<script src="/majestic/js/hoverable-collapse.js"></script>
-<script src="/majestic/js/template.js"></script>
-<!-- endinject -->
 </body>
 
 </html>

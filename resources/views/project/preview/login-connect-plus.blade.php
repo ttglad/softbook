@@ -6,18 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>登录 - {{ $project->project_title }}@if(!empty($project->project_author)) - {{ $project->project_author  }}@endif</title>
     <!-- plugins:css -->
-    <link rel="stylesheet" href="/connectPlus/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="/connectPlus/vendors/flag-icon-css/css/flag-icon.min.css">
-    <link rel="stylesheet" href="/connectPlus/vendors/css/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
+    <link rel="stylesheet" href="/vendors/mdi/4.5.95/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/theme/connect-plus/css/vendor.bundle.base.css">
     <!-- endinject -->
     <!-- Layout styles -->
-    <link rel="stylesheet" href="/connectPlus/css/style.css">
+    <link rel="stylesheet" href="/theme/connect-plus/css/style.css">
     <!-- End layout styles -->
-    <link rel="shortcut icon" href="/connectPlus/images/favicon.png" />
 </head>
 <body>
 <div class="container-scroller">
@@ -58,14 +52,10 @@
 </div>
 <!-- container-scroller -->
 <!-- plugins:js -->
-<script src="/connectPlus/vendors/js/vendor.bundle.base.js"></script>
+<script src="/theme/connect-plus/js/vendor.bundle.base.js"></script>
 <!-- endinject -->
-<!-- Plugin js for this page -->
-<!-- End plugin js for this page -->
 <!-- inject:js -->
-<script src="/connectPlus/js/off-canvas.js"></script>
-<script src="/connectPlus/js/hoverable-collapse.js"></script>
-<script src="/connectPlus/js/misc.js"></script>
+<script src="/theme/connect-plus/js/misc.js"></script>
 <!-- endinject -->
 </body>
 </html>

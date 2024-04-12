@@ -10,7 +10,7 @@
     <!-- plugin css for this page -->
     <!-- End plugin css for this page -->
     <!-- inject:css -->
-    <link rel="stylesheet" href="/celestial/css/vertical-layout-light/style.css">
+    <link rel="stylesheet" href="/theme/celestial/css/vertical-layout-light/style.css">
     <!-- endinject -->
 </head>
 

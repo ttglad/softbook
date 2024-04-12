@@ -6,15 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>系统首页 - {{ $project->project_title }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <!-- plugins:css -->
-    <link rel="stylesheet" href="/majestic/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="/majestic/vendors/base/vendor.bundle.base.css">
+    <link rel="stylesheet" href="/vendors/mdi/4.5.95/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/theme/majestic/css/vendor.bundle.base.css">
     <!-- endinject -->
-    <!-- plugin css for this page -->
-    <link rel="stylesheet" href="/majestic/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-    <!-- End plugin css for this page -->
     <!-- inject:css -->
-    <link rel="stylesheet" href="/majestic/css/style.css">
+    <link rel="stylesheet" href="/theme/majestic/css/style.css">
 </head>
 <body>
 <div class="container-scroller">
@@ -139,28 +135,16 @@
 <!-- container-scroller -->
 
 <!-- plugins:js -->
-<script src="/majestic/vendors/base/vendor.bundle.base.js"></script>
+<script src="/theme/majestic/js/vendor.bundle.base.js"></script>
 <!-- endinject -->
 <!-- Plugin js for this page-->
-<script src="/majestic/vendors/chart.js/Chart.min.js"></script>
-<script src="/majestic/vendors/datatables.net/jquery.dataTables.js"></script>
-<script src="/majestic/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
 <!-- End plugin js for this page-->
 <!-- inject:js -->
-<script src="/majestic/js/off-canvas.js"></script>
-<script src="/majestic/js/hoverable-collapse.js"></script>
-<script src="/majestic/js/template.js"></script>
+<script src="/theme/majestic/js/template.js"></script>
 <!-- endinject -->
-<!-- Custom js for this page-->
-<script src="/majestic/js/dashboard.js"></script>
-<script src="/majestic/js/data-table.js"></script>
-<script src="/majestic/js/jquery.dataTables.js"></script>
-<script src="/majestic/js/dataTables.bootstrap4.js"></script>
 <!-- End custom js for this page-->
 
-<!-- endinject -->
-<!-- Custom js for this page -->
-<!-- End custom js for this page -->
+<script src="/static/softbook/js/home.js"></script>
 
 </body>
 

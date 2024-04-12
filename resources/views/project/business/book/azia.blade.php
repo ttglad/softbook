@@ -9,14 +9,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- vendor css -->
-    <link rel="stylesheet" href="/vendors/bootstrap/5.3.0/css/bootstrap.min.css">
-    <link href="/azia/lib/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link href="/azia/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
-    <link href="/azia/lib/typicons.font/typicons.css" rel="stylesheet">
-    <link href="/azia/lib/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
+    <link href="/vendors/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/vendors/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="/vendors/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <link href="/vendors/typicons/typicons.css" rel="stylesheet">
 
     <!-- azia CSS -->
-    <link rel="stylesheet" href="/azia/css/azia.css">
+    <link rel="stylesheet" href="/theme/azia/css/azia.css">
 
 </head>
 <body>
@@ -109,10 +108,9 @@
 
 
 <script src="/vendors/bootstrap/5.3.0/js/bootstrap.min.js"></script>
-<script src="/azia/lib/jquery/jquery.min.js"></script>
-<script src="/azia/lib/chart.js/Chart.bundle.min.js"></script>
+<script src="/vendors/jquery/3.4.1/jquery.min.js"></script>
 
-<script src="/azia/js/azia.js"></script>
+<script src="/theme/azia/js/azia.js"></script>
 
 <script src="/static/softbook/js/home.js"></script>
 

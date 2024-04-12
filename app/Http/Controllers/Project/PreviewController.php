@@ -44,12 +44,12 @@ class PreviewController extends ProjectController
         $captchaEnabled = false;
 
         $viewAll = [
-            'project.preview.login',
-            'project.preview.login-tabler',
+//            'project.preview.login',
+            'project.preview.login-tabler-horizontal',
+            'project.preview.login-tabler-overlap',
+            'project.preview.login-tabler-vertical',
             'project.preview.login-ace',
             'project.preview.login-dark',
-            'project.preview.login-urban-01',
-            'project.preview.login-urban-02',
             'project.preview.login-majestic',
             'project.preview.login-connect-plus',
             'project.preview.login-purple',

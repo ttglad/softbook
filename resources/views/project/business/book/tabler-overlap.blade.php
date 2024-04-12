@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>系统首页 - {{ $project->project_title }}</title>
-    <link href="/tabler/css/tabler.min.css?1668287865" rel="stylesheet"/>
-    <link href="/tabler/css/tabler-flags.min.css?1668287865" rel="stylesheet"/>
+    <link href="/theme/tabler/css/tabler.min.css" rel="stylesheet"/>
+    <link href="/theme/tabler/css/tabler-flags.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
     <style>
         @import url('https://rsms.me/inter/inter.css');
@@ -135,12 +135,12 @@
 </div>
 <!-- Libs JS -->
 <!-- Tabler Core -->
-<script src="/tabler/js/tabler.min.js?1668287865" defer></script>
+<script src="/theme/tabler/js/tabler.min.js" defer></script>
 
-<script src="/static/js/jquery.min.js?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}"></script>
+<script src="/vendors/jquery/3.4.1/jquery.min.js"></script>
 
 <!-- softbook script -->
-<script src="/static/softbook/js/home.js?v={{ rand(1,2) . '.' . rand(0, 20) . '.'.rand(0,20) }}"></script>
+<script src="/static/softbook/js/home.js"></script>
 
 @include('project.business.include.modal', compact('business', 'businessColumn'))
 

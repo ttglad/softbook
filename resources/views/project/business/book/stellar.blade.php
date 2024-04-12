@@ -8,18 +8,15 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- plugins:css -->
     <link rel="stylesheet" href="/vendors/bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/stellar/vendors/simple-line-icons/css/simple-line-icons.css">
-    <link rel="stylesheet" href="/stellar/vendors/flag-icon-css/css/flag-icon.min.css">
-    <link rel="stylesheet" href="/stellar/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="/vendors/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="/theme/stellar/css/vendor.bundle.base.css">
     <!-- endinject -->
     <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="/stellar/vendors/daterangepicker/daterangepicker.css">
-    <link rel="stylesheet" href="/stellar/vendors/chartist/chartist.min.css">
-    <!-- End plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
-    <link rel="stylesheet" href="/stellar/css/style.css"> <!-- End layout styles -->
+    <link rel="stylesheet" href="/theme/stellar/css/style.css"> <!-- End layout styles -->
 </head>
 <body>
 <div class="container-scroller">
@@ -45,16 +42,14 @@
                 <li class="nav-item dropdown language-dropdown d-none d-sm-flex align-items-center">
                     <a class="nav-link d-flex align-items-center dropdown-toggle" id="LanguageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
                         <div class="d-inline-flex mr-3">
-                            <i class="flag-icon flag-icon-us"></i>
+                            <i class="flag-icon flag-icon-cn"></i>
                         </div>
                         <span class="profile-text font-weight-normal">简体中文</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-left navbar-dropdown py-2"
                          aria-labelledby="LanguageDropdown">
                         <a class="dropdown-item">
-                            <i class="flag-icon flag-icon-us"></i> 简体中文 </a>
-                        <a class="dropdown-item">
-                            <i class="flag-icon flag-icon-fr"></i> 繁体中文 </a>
+                            <i class="flag-icon flag-icon-cn"></i> 简体中文 </a>
                         <a class="dropdown-item">
                             <i class="flag-icon flag-icon-ae"></i> English </a>
                     </div>
@@ -159,17 +154,11 @@
 <!-- container-scroller -->
 <!-- plugins:js -->
 <script src="/vendors/bootstrap/5.3.0/js/bootstrap.min.js"></script>
-<script src="/stellar/vendors/js/vendor.bundle.base.js"></script>
-<script src="/stellar/vendors/chart.js/Chart.min.js"></script>
-<script src="/stellar/vendors/moment/moment.min.js"></script>
-<script src="/stellar/vendors/daterangepicker/daterangepicker.js"></script>
-<script src="/stellar/vendors/chartist/chartist.min.js"></script>
+<script src="/theme/stellar/js/vendor.bundle.base.js"></script>
 <!-- endinject -->
 <!-- Plugin js for this page -->
 <!-- End plugin js for this page -->
 <!-- inject:js -->
-<script src="/stellar/js/off-canvas.js"></script>
-<script src="/stellar/js/misc.js"></script>
 
 <script src="/static/softbook/js/home.js"></script>
 

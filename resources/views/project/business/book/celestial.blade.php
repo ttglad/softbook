@@ -9,13 +9,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- base:css -->
     <link rel="stylesheet" href="/vendors/bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/celestial/vendors/typicons.font/font/typicons.css">
-    <link rel="stylesheet" href="/celestial/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="/vendors/typicons/typicons.css">
     <!-- endinject -->
     <!-- plugin css for this page -->
     <!-- End plugin css for this page -->
     <!-- inject:css -->
-    <link rel="stylesheet" href="/celestial/css/vertical-layout-light/style.css">
+    <link rel="stylesheet" href="/theme/celestial/css/vertical-layout-light/style.css">
     <!-- endinject -->
 </head>
 <body class="@if($project->id % 2 == 0) sidebar-light @endif">
@@ -24,7 +23,7 @@
     <nav
         class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row {{ 'navbar-' . ['success', 'warning', 'danger', 'info', 'primary', 'dark', 'default'][$project->id % 7] }}">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-            <a class="navbar-brand brand-logo" href="#"></a>
+            <a class="navbar-brand brand-logo" href="#">后台管理</a>
             <a class="navbar-brand brand-logo-mini" href="#"></a>
             <button class="navbar-toggler navbar-toggler align-self-center d-none d-lg-flex" type="button"
                     data-toggle="minimize">
@@ -197,16 +196,13 @@
 <!-- container-scroller -->
 <script src="/vendors/bootstrap/5.3.0/js/bootstrap.min.js"></script>
 <!-- base:js -->
-<script src="/celestial/vendors/js/vendor.bundle.base.js"></script>
+<script src="/theme/celestial/js/vendor.bundle.base.js"></script>
 <!-- endinject -->
 <!-- Plugin js for this page-->
 <!-- End plugin js for this page-->
 <!-- inject:js -->
-<script src="/celestial/js/off-canvas.js"></script>
-<script src="/celestial/js/hoverable-collapse.js"></script>
-<script src="/celestial/js/template.js"></script>
-<script src="/celestial/js/settings.js"></script>
-<script src="/celestial/js/todolist.js"></script>
+<script src="/theme/celestial/js/template.js"></script>
+<script src="/theme/celestial/js/settings.js"></script>
 <!-- endinject -->
 <!-- plugin js for this page -->
 <!-- End custom js for this page-->

@@ -6,14 +6,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>登录 - {{ $project->project_title }}@if(!empty($project->project_author)) - {{ $project->project_author  }}@endif</title>
-    <!-- base:css -->
-    <link rel="stylesheet" href="/kapella/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="/kapella/vendors/base/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- plugin css for this page -->
-    <!-- End plugin css for this page -->
     <!-- inject:css -->
-    <link rel="stylesheet" href="/kapella/css/style.css">
+    <link rel="stylesheet" href="/theme/kapella/css/style.css">
     <!-- endinject -->
 </head>
 
@@ -69,7 +63,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="col-lg-6 login-half-bg d-flex flex-row" style="background: url(/kapella/images/login-bg.jpg)")>
+                <div class="col-lg-6 login-half-bg d-flex flex-row" style="background: url(/theme/kapella/images/login-bg.jpg)")>
                     <p class="text-white font-weight-medium text-center flex-grow align-self-end">Copyright &copy; {{ date('Y') }}  All rights reserved.</p>
                 </div>
             </div>
@@ -78,12 +72,6 @@
     </div>
     <!-- page-body-wrapper ends -->
 </div>
-<!-- container-scroller -->
-<!-- base:js -->
-<script src="/kapella/vendors/base/vendor.bundle.base.js"></script>
-<!-- endinject -->
-<!-- inject:js -->
-<script src="/kapella/js/template.js"></script>
 <!-- endinject -->
 </body>
 

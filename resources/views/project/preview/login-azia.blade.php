@@ -12,12 +12,9 @@
     <meta name="author" content="BootstrapDash">
 
     <!-- vendor css -->
-    <link href="/azia/lib/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link href="/azia/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
-    <link href="/azia/lib/typicons.font/typicons.css" rel="stylesheet">
 
     <!-- azia CSS -->
-    <link rel="stylesheet" href="/azia/css/azia.css">
+    <link rel="stylesheet" href="/theme/azia/css/azia.css">
 
 </head>
 <body class="az-body">
@@ -47,12 +44,6 @@
     </div><!-- az-card-signin -->
 </div><!-- az-signin-wrapper -->
 
-<script src="/azia/lib/jquery/jquery.min.js"></script>
-<script src="/azia/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="/azia/lib/ionicons/ionicons.js"></script>
-<script src="/azia/js/jquery.cookie.js" type="text/javascript"></script>
-<script src="/azia/js/jquery.cookie.js" type="text/javascript"></script>
-
-<script src="/azia/js/azia.js"></script>
+<script src="/theme/azia/js/azia.js"></script>
 </body>
 </html>

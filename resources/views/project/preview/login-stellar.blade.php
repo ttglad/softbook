@@ -6,16 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>登录 - {{ $project->project_title }}@if(!empty($project->project_author)) - {{ $project->project_author  }}@endif</title>
     <!-- plugins:css -->
-    <link rel="stylesheet" href="/stellar/vendors/simple-line-icons/css/simple-line-icons.css">
-    <link rel="stylesheet" href="/stellar/vendors/flag-icon-css/css/flag-icon.min.css">
-    <link rel="stylesheet" href="/stellar/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="/theme/stellar/css/vendor.bundle.base.css">
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
-    <link rel="stylesheet" href="/stellar/css/style.css">
+    <link rel="stylesheet" href="/theme/stellar/css/style.css">
     <!-- End layout styles -->
 </head>
 <body>
@@ -58,14 +56,5 @@
     <!-- page-body-wrapper ends -->
 </div>
 <!-- container-scroller -->
-<!-- plugins:js -->
-<script src="/stellar/vendors/js/vendor.bundle.base.js"></script>
-<!-- endinject -->
-<!-- Plugin js for this page -->
-<!-- End plugin js for this page -->
-<!-- inject:js -->
-<script src="/stellar/js/off-canvas.js"></script>
-<script src="/stellar/js/misc.js"></script>
-<!-- endinject -->
 </body>
 </html>
