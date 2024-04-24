@@ -9,8 +9,8 @@
         </div>
     </div>
 </div>
-<script src="/static/js/jquery.min.js"></script>
-<script src="/connectPlus/vendors/chart.js/Chart.min.js"></script>
+<script src="/vendors/jquery/3.4.1/jquery.min.js"></script>
+<script src="/vendors/chart/Chart.min.js"></script>
 <script>
     $(function () {
         var length = 3;

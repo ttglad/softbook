@@ -10,7 +10,7 @@
         </div>
     </div>
 </div>
-<script src="/tabler/libs/apexcharts/dist/apexcharts.min.js" defer></script>
+<script src="/vendors/apexcharts/apexcharts.min.js" defer></script>
 <script>
     var length = 18;
     var colorArray = [
