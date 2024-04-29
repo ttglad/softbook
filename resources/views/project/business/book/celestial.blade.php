@@ -17,11 +17,11 @@
     <link rel="stylesheet" href="/theme/celestial/css/vertical-layout-light/style.css">
     <!-- endinject -->
 </head>
-<body class="@if($project->id % 2 == 0) sidebar-light @endif">
+<body class="@if($project->project_id % 2 == 0) sidebar-light @endif">
 <div class="container-scroller">
     <!-- partial:partials/_navbar.html -->
     <nav
-        class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row {{ 'navbar-' . ['success', 'warning', 'danger', 'info', 'primary', 'dark', 'default'][$project->id % 7] }}">
+        class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row {{ 'navbar-' . ['success', 'warning', 'danger', 'info', 'primary', 'dark', 'default'][$project->project_id % 7] }}">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
             <a class="navbar-brand brand-logo" href="#">后台管理</a>
             <a class="navbar-brand brand-logo-mini" href="#"></a>

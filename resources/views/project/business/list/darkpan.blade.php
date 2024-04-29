@@ -13,7 +13,7 @@
 
         <div class="bg-secondary rounded h-100 p-4" id="business-table">
 
-            <table class="table {{ ['table-striped', 'table-bordered', 'table-dark'][$project->id % 3] }}">
+            <table class="table {{ ['table-striped', 'table-bordered', 'table-dark'][$project->project_id % 3] }}">
                 <thead>
                 <tr>
                     <th><input type="checkbox"></th>

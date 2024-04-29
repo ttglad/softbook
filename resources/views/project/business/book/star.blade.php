@@ -19,7 +19,7 @@
     <!-- endinject -->
 </head>
 
-<body class="with-welcome-text @if($project->id % 2 == 0) sidebar-dark @endif">
+<body class="with-welcome-text @if($project->project_id % 2 == 0) sidebar-dark @endif">
 <div class="container-scroller">
     <div class="tiles success"></div>
     <div class="tiles warning"></div>
@@ -28,7 +28,7 @@
     <div class="tiles dark"></div>
     <div class="tiles default"></div>
     <!-- partial:partials/_navbar.html -->
-    <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row {{ 'navbar-' . ['success', 'warning', 'danger', 'info', 'dark', 'default'][$project->id % 6] }}">
+    <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row {{ 'navbar-' . ['success', 'warning', 'danger', 'info', 'dark', 'default'][$project->project_id % 6] }}">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
             <div class="me-3">
                 <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-bs-toggle="minimize">
