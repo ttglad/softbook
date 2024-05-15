@@ -5,6 +5,10 @@
 - 自动补充初始化列表数据、生成菜单描述
 - 自动生成软件著作权材料（申请表、项目说明文档、代码文档）
 
+## 体验地址
+- https://softbook.ttglad.com
+- 账号可以联系邮箱（tonneylon.gmail.com)
+
 ## License
 
 The Ttglad Softbook is open-source software licensed under the [MIT license](https://www.apache.org/licenses/LICENSE-2.0).
