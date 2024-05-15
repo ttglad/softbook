@@ -490,7 +490,7 @@ class ProjectDocService extends ProjectService
                 continue;
             }
             // 3300行代码自动截断
-            if ($i++ > 3150 && strpos($code, '<?php') !== false) {
+            if ($i++ > Arr::random([3010, 3050, 3100]) && strpos($code, '<?php') !== false) {
                 break;
             }
             $section->addText(htmlspecialchars($code), $fontStyle);
@@ -879,8 +879,8 @@ class ProjectDocService extends ProjectService
                 foreach ($menu['children'] as $child) {
                     $viewNum++;
                     // 菜单代码取8个菜单，避免菜单过多
-                    if ($viewNum > 8) {
-                        continue;
+                    if ($viewNum > Arr::random([7, 8])) {
+                        break;
                     }
 
                     $business = ProjectMenu::findOrFail($child['menu_id']);
