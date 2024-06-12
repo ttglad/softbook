@@ -286,10 +286,21 @@ class InfoController extends ProjectController
                 throw new \Exception('没有下载权限');
             }
             $docService = new ProjectDocService();
-            if ($file = $docService->saveDocByProject($project, true)) {
-                return response()->download($file,
-                    str_replace(['/'], '', $project->project_title) . '.zip')->deleteFileAfterSend();
+
+            $savePath = rtrim(env('SOFTBOOK_SAVE_DIR', resource_path('softbook/project')), '/') . '/';
+            $docPath = $savePath . str_replace(['/'], '', $project->project_title) . '/';
+            if (!is_dir($docPath)) {
+                throw new \Exception('该项目暂时未生成文档');
             }
+
+            $zipFile = rtrim($docPath, '/') . '.zip';
+            if (file_exists($zipFile)) {
+                unlink($zipFile);
+            }
+
+            $docService->zipDirectory($zipFile, $docPath);
+            return response()->download($zipFile,
+                str_replace(['/'], '', $project->project_title) . '.zip')->deleteFileAfterSend();
         } catch (\Exception $e) {
             abort(404);
         }
@@ -318,10 +329,27 @@ class InfoController extends ProjectController
             if (empty($downProjects)) {
                 throw new \Exception('目录为空', 1001);
             }
+            $savePath = rtrim(env('SOFTBOOK_SAVE_DIR', resource_path('softbook/project')), '/') . '/';
             $docService = new ProjectDocService();
-            if ($file = $docService->saveDocByProjects($downProjects, true)) {
-                return response()->download($file, date('Ymd') . '.zip')->deleteFileAfterSend();
+            foreach ($downProjects as $project) {
+                $docPath = $savePath . str_replace(['/'], '', $project->project_title) . '/';
+                if (!is_dir($docPath)) {
+                    continue;
+                }
+
+                $docPaths[str_replace(['/'], '', $project->project_title)] = $docPath;
             }
+            if (empty($docPaths)) {
+                throw new \Exception('文档内容为空', 1002);
+            }
+
+            $zipFile = rtrim($savePath, '/') . '/' . date('Ymd') . '.zip';
+            if (file_exists($zipFile)) {
+                unlink($zipFile);
+            }
+            $docService->zipDirectories($zipFile, $docPaths);
+
+            return response()->download($zipFile, date('Ymd') . '.zip')->deleteFileAfterSend();
         } catch (\Exception $e) {
             Log::info($e->getMessage());
             abort(404);
@@ -655,7 +683,8 @@ class InfoController extends ProjectController
                             }
                             $childMenu->menu_type = 'C';
 
-                            if (isset($item['data_type']) && in_array($item['data_type'], config('softbook.data_type'))) {
+                            if (isset($item['data_type']) && in_array($item['data_type'],
+                                    config('softbook.data_type'))) {
                                 $childMenu->data_type = $item['data_type'];
                             }
 

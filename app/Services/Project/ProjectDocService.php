@@ -946,7 +946,7 @@ class ProjectDocService extends ProjectService
      * @param $folderPath
      * @return void
      */
-    private function zipDirectory($zipPath, $folderPath)
+    public function zipDirectory($zipPath, $folderPath)
     {
         // Initialize archive object
         $zip = new \ZipArchive();
@@ -984,7 +984,7 @@ class ProjectDocService extends ProjectService
      * @param $directories
      * @return void
      */
-    private function zipDirectories($zipFilePath, $directories)
+    public function zipDirectories($zipFilePath, $directories)
     {
         $zip = new \ZipArchive();
 
