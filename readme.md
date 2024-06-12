@@ -6,7 +6,6 @@
 - 自动生成软件著作权材料（申请表、项目说明文档、代码文档）
 
 ## 体验地址
-- https://softbook.ttglad.com
 - 账号可以联系邮箱（tonneylon@gmail.com)
 
 ## License
