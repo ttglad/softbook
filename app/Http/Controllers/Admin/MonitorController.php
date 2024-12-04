@@ -47,6 +47,15 @@ class MonitorController extends AdminController
     }
 
     /**
+     * 列表页
+     */
+    public function operLog(Request $request)
+    {
+        return view('admin.monitor.operLog', [
+        ]);
+    }
+
+    /**
      * 获取文件大小
      * @param $filesize
      * @return string

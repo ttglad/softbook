@@ -160,6 +160,7 @@ Route::group(['namespace' => 'Admin'], function () {
 
         // 系统监控
         Route::get('monitor/server', 'MonitorController@server');
+        Route::get('monitor/operlog', 'MonitorController@operLog');
 
         // 日志列表
         Route::get('log/login', 'LogController@login');
@@ -264,5 +265,10 @@ Route::group(['namespace' => 'Business', 'middleware' => ['auth']], function () 
 //    Route::post('business/{table}/list', 'SoftBookController@lists');
 //    Route::post('business/{table}/export', 'SoftBookController@export');
 //    Route::post('business/{table}/remove', 'SoftBookController@remove');
+});
+
+// 测试代码
+Route::group(['namespace' => 'Amis'], function () {
+    Route::get('amis/index', 'AmisController@index');
 });
 
