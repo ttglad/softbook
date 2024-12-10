@@ -51,6 +51,8 @@ class MonitorController extends AdminController
      */
     public function operLog(Request $request)
     {
+        // todo 获取日志列表数据
+
         return view('admin.monitor.operLog', [
         ]);
     }
