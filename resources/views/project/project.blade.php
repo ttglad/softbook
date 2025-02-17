@@ -58,9 +58,11 @@
             <a class="btn btn-primary single disabled" onclick="$.operate.edit()">
                 <i class="fa fa-edit"></i> 修改
             </a>
+            @if (auth()->user()->isAdmin())
             <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()">
                 <i class="fa fa-remove"></i> 删除
             </a>
+            @endif
         </div>
 
         <div class="col-sm-12 select-table table-striped">
@@ -139,7 +141,9 @@
                         actions.push('<a class="btn btn-info btn-xs ' + menuFlag + '" href="javascript:void(0)" onclick="menu(\'' + row.project_id + '\')"><i class="fa fa-list-ul"></i>菜单</a> ');
                         actions.push('<a class="btn btn-info btn-xs ' + menuFlag + '" href="javascript:void(0)" onclick="getCode(\'' + row.project_id + '\')"><i class="fa fa-download"></i>下载</a> ');
                         actions.push('<a class="btn btn-info btn-xs ' + menuFlag + '" href="javascript:void(0)" onclick="dataInit(\'' + row.project_id + '\')"><i class="fa fa fa-circle-o-notch"></i>初始化</a> ');
+                        @if (auth()->user()->isAdmin())
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.project_id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        @endif
                         return actions.join('');
                     }
                 }]

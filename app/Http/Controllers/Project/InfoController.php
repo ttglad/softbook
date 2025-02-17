@@ -214,7 +214,7 @@ class InfoController extends ProjectController
             if (!empty($ids)) {
                 foreach ($ids as $id) {
                     $model = ProjectInfo::findOrFail($id);
-                    if (auth()->user()->isAdmin() || auth()->user()->login_name == $model->create_by) {
+                    if (auth()->user()->isAdmin()) {
                         $model->delete();
                     }
                 }
