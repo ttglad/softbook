@@ -299,7 +299,8 @@ class GenController extends AdminController
                         mkdir($controllerPath, 0777, true);
                     }
                     $controllerContent = $resourceService->getControllerContentForGen($business, $businessColumn);
-                    file_put_contents($controllerPath . '/' . ucfirst($business->business_name) . 'Controller.php', $controllerContent);
+                    file_put_contents($controllerPath . '/' . ucfirst($business->business_name) . 'Controller.php',
+                        $controllerContent);
 
                     $modelPath = app_path('Models/Business');
                     if (!is_dir($modelPath)) {
@@ -313,7 +314,8 @@ class GenController extends AdminController
                         mkdir($servicePath, 0777, true);
                     }
                     $serviceContent = $resourceService->getServiceContentForGen($business, $businessColumn);
-                    file_put_contents($servicePath . '/' . ucfirst($business->business_name) . 'Service.php', $serviceContent);
+                    file_put_contents($servicePath . '/' . ucfirst($business->business_name) . 'Service.php',
+                        $serviceContent);
                 }
             } catch (\Exception $e) {
                 abort(404);
