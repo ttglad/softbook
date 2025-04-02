@@ -106,7 +106,7 @@ class BusinessController extends ProjectController
 
             $businessService = new ProjectBusinessService();
 
-            $return['html'] = view('project.business.add-row-tabler',  [
+            $return['html'] = view('project.business.add-row-tabler', [
                 'business' => $business,
                 'businessColumn' => $businessColumnArray,
                 'businessData' => $businessService->businessDataFormatSingle($businessData, $businessColumn),
