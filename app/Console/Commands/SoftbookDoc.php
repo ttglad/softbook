@@ -25,6 +25,7 @@ class SoftbookDoc extends Command
 
     /**
      * Execute the console command.
+     *
      * https://phpword-zh.readthedocs.io/zh-cn/latest/intro.html
      * 文档：https://phpword.readthedocs.io/en/latest/intro.html
      *
