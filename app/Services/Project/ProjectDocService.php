@@ -57,7 +57,7 @@ class ProjectDocService extends ProjectService
             $docPath = $savePath . str_replace(['/'], '', $project->project_title) . '/';
             if (!is_dir($docPath)) {
                 // 创建目录
-                mkdir($docPath, 0777, true);
+                mkdir($docPath, 0755, true);
             }
 
             // 生成说明文档
