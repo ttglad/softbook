@@ -45,7 +45,7 @@ class SoftbookClear extends Command
             $files = File::allFiles(resource_path('softbook/image'));
             // 遍历并删除所有文件
             foreach ($files as $file) {
-                if ($file->getCTime() >= strtotime("-6 month")) {
+                if ($file->getCTime() >= strtotime("-12 month")) {
                     continue;
                 }
                 File::delete($file);
