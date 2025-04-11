@@ -283,6 +283,7 @@ class SoftbookProject extends Command
             ]
         ];
 
+        // 目录2
         $menu_2 = $info[20];
         if (empty($menu_2)) {
             throw new \Exception('一级目录2不能为空', 1001);
@@ -320,6 +321,7 @@ class SoftbookProject extends Command
             ]
         ];
 
+        // 目录3
         $menu_3 = $info[25];
         if (empty($menu_3)) {
             throw new \Exception('一级目录3不能为空', 1001);
